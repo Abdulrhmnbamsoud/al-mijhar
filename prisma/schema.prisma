@@ -50,6 +50,8 @@ model ResearchProject {
   appearances    InterviewAppearance[]
   topics         ConversationTopic[]
   questions      InterviewQuestion[]
+  networkNodes   NetworkNode[]
+  anomalies      Anomaly[]
 }
 
 model PersonCandidate {
@@ -73,7 +75,31 @@ model PersonProfile {
   location       String?
   confidence     String?          // Executive overview confidence
 
+  behavioralProfile String?
+  evasionScore      Int?
+
   projectId      String           @unique
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model NetworkNode {
+  id             String           @id @default(uuid())
+  name           String
+  relationType   String           // "حليف", "خصم", "ارتباط مالي", "داعم"
+  description    String
+  riskLevel      String           // "مرتفع", "متوسط", "منخفض"
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Anomaly {
+  id             String           @id @default(uuid())
+  title          String
+  description    String
+  severity       String           // "عالي", "متوسط", "منخفض"
+
+  projectId      String
   project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 

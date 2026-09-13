@@ -21,6 +21,8 @@ export async function GET(
             appearances: true,
             topics: true,
             questions: true,
+            networkNodes: true,
+            anomalies: true,
           }
         }
       }

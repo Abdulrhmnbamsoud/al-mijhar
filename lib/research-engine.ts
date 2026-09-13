@@ -232,9 +232,38 @@ export async function startResearchJob(jobId: string) {
                 required: ["category", "question"],
                 additionalProperties: false
               }
-            }
+            },
+            networkNodes: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  name: { type: "string" },
+                  relationType: { type: "string" },
+                  description: { type: "string" },
+                  riskLevel: { type: "string" }
+                },
+                required: ["name", "relationType", "description", "riskLevel"],
+                additionalProperties: false
+              }
+            },
+            anomalies: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  title: { type: "string" },
+                  description: { type: "string" },
+                  severity: { type: "string" }
+                },
+                required: ["title", "description", "severity"],
+                additionalProperties: false
+              }
+            },
+            behavioralProfile: { type: "string" },
+            evasionScore: { type: "number" }
           },
-          required: ["identityMatch", "executiveBriefing", "confidenceScore", "quickMetrics", "timeline", "strengths", "verifications", "contradictions", "appearances", "topics", "questions"],
+          required: ["identityMatch", "executiveBriefing", "confidenceScore", "quickMetrics", "timeline", "strengths", "verifications", "contradictions", "appearances", "topics", "questions", "networkNodes", "anomalies", "behavioralProfile", "evasionScore"],
           additionalProperties: false
         },
         strict: true
@@ -244,7 +273,7 @@ export async function startResearchJob(jobId: string) {
     const fullAnalysisCompletion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
-        { role: "system", content: "You are a ruthless, elite OSINT intelligence analyst and psychological profiler preparing a highly classified dossier on a target. Read the context and output a detailed JSON containing all requested fields. CRITICAL REQUIREMENT: You MUST write the ENTIRE output exclusively in the ARABIC language.\n\nEXHAUSTIVE INTELLIGENCE ANALYSIS REQUIREMENT:\n- 'executiveBriefing': Write a deep, critical intelligence summary of the target's true influence, hidden motivations, and operational footprint.\n- 'strengths': Generate at least 5 deep psychological and strategic strengths (e.g., manipulation, networking, specific technical leverage).\n- 'verifications': Generate at least 5 deep vulnerabilities, blind spots, pressure points, and undeclared affiliations that need probing.\n- 'contradictions': Generate at least 3-5 major ideological shifts, financial discrepancies, or hypocritical statements over time.\n- 'topics': Generate at least 6-8 high-risk 'Interrogation Vectors' (topics that will put the target under pressure).\n- 'questions': Generate at least 10-15 deep, penetrating, and psychologically challenging questions designed to break the target's PR facade." },
+        { role: "system", content: "You are a ruthless, elite OSINT intelligence analyst and psychological profiler preparing a highly classified dossier on a target. Read the context and output a detailed JSON containing all requested fields. CRITICAL REQUIREMENT: You MUST write the ENTIRE output exclusively in the ARABIC language.\n\nEXHAUSTIVE INTELLIGENCE ANALYSIS REQUIREMENT:\n- 'executiveBriefing': Write a deep, critical intelligence summary of the target's true influence, hidden motivations, and operational footprint.\n- 'strengths': Generate at least 5 deep psychological and strategic strengths (e.g., manipulation, networking, specific technical leverage).\n- 'verifications': Generate at least 5 deep vulnerabilities, blind spots, pressure points, and undeclared affiliations that need probing.\n- 'contradictions': Generate at least 3-5 major ideological shifts, financial discrepancies, or hypocritical statements over time.\n- 'topics': Generate at least 6-8 high-risk 'Interrogation Vectors' (topics that will put the target under pressure).\n- 'questions': Generate at least 10-15 deep, penetrating, and psychologically challenging questions designed to break the target's PR facade.\n- 'networkNodes': Map out at least 4-6 key associates (allies, rivals, financial backers).\n- 'anomalies': Flag at least 2-3 behavioral or timeline anomalies (unexplained wealth, deleted history, gap in resume).\n- 'behavioralProfile': A 2-sentence psychological archetype summary of the target.\n- 'evasionScore': An integer 0-100 indicating how evasive/defensive the target is based on their quotes." },
         { role: "user", content: `Target: ${job.guestName}\n\nRaw OSINT Intel:\n${allContext.substring(0, 60000)}` }
       ],
       response_format: responseFormat
@@ -311,6 +340,43 @@ export async function startResearchJob(jobId: string) {
           data: { projectId, category: q.category || "exploratory", question: q.question || "" }
         });
       }
+    }
+
+    if (analysis.networkNodes) {
+      for (const node of analysis.networkNodes) {
+        await prisma.networkNode.create({
+          data: {
+            projectId,
+            name: node.name || "",
+            relationType: node.relationType || "",
+            description: node.description || "",
+            riskLevel: node.riskLevel || ""
+          }
+        });
+      }
+    }
+
+    if (analysis.anomalies) {
+      for (const anomaly of analysis.anomalies) {
+        await prisma.anomaly.create({
+          data: {
+            projectId,
+            title: anomaly.title || "",
+            description: anomaly.description || "",
+            severity: anomaly.severity || ""
+          }
+        });
+      }
+    }
+
+    if (analysis.behavioralProfile || analysis.evasionScore) {
+      await prisma.personProfile.update({
+        where: { projectId },
+        data: {
+          behavioralProfile: analysis.behavioralProfile,
+          evasionScore: analysis.evasionScore
+        }
+      });
     }
 
     await updateJob(jobId, "completed", 100);

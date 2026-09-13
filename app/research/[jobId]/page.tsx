@@ -291,6 +291,27 @@ export default function ResearchDashboard() {
               </section>
               
               <aside className="lg:col-span-4 space-y-space-md">
+                {/* Behavioral Profile */}
+                <div className="bg-surface-card border border-border-subtle rounded-lg p-space-md space-y-space-sm relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-r from-badge-gap-risk to-accent-acid"></div>
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-accent-acid">psychology</span>
+                    <span className="font-label-md text-label-md text-text-ivory font-bold">النمط السلوكي</span>
+                  </div>
+                  <p className="font-body-dense text-body-dense text-text-muted mt-2">
+                    {profile?.behavioralProfile || 'قيد التحليل الاستخباراتي...'}
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-border-subtle">
+                    <div className="flex justify-between font-caption-code text-caption-code mb-2">
+                      <span className="text-text-muted">مؤشر المراوغة (Evasion Score)</span>
+                      <span className="text-badge-gap-risk font-bold">{profile?.evasionScore || 0}%</span>
+                    </div>
+                    <div className="w-full bg-surface-elevated h-2 rounded-full overflow-hidden">
+                      <div className="bg-badge-gap-risk h-full rounded-full transition-all duration-1000" style={{ width: `${profile?.evasionScore || 0}%` }}></div>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="bg-surface-card border border-border-subtle rounded-lg p-space-md space-y-space-sm">
                   <div className="flex items-center justify-between">
                     <span className="font-label-md text-label-md text-text-ivory font-bold">توزيع مصادر الثقة ({sources.length} مصدراً)</span>
@@ -347,6 +368,68 @@ export default function ResearchDashboard() {
                 ))}
               </div>
             </section>
+
+            {/* Network & Anomalies (OSINT Insane Mode) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-lg items-stretch">
+              {/* Network Nodes */}
+              {project?.networkNodes && project.networkNodes.length > 0 && (
+                <section className="bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md">
+                  <div className="flex items-center justify-between border-b border-border-subtle pb-space-sm mb-space-md">
+                    <div className="flex items-center gap-space-xs">
+                      <span className="material-symbols-outlined text-accent-acid text-lg">share</span>
+                      <h2 className="font-headline-sm text-headline-sm text-text-ivory">شبكة الارتباطات الاستخباراتية</h2>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 gap-space-sm">
+                    {project.networkNodes.map((node: any) => (
+                      <div key={node.id} className="bg-surface-elevated border border-border-subtle rounded p-space-sm flex items-start gap-space-sm relative overflow-hidden group">
+                        <div className={`absolute top-0 bottom-0 right-0 w-1 ${node.relationType.includes('حليف') || node.relationType.includes('داعم') ? 'bg-badge-fact-text' : node.relationType.includes('خصم') ? 'bg-badge-gap-risk' : 'bg-badge-inference'}`}></div>
+                        <span className="material-symbols-outlined text-text-dim mt-1">person</span>
+                        <div className="space-y-1 w-full pr-1">
+                          <div className="flex justify-between items-start w-full">
+                            <h3 className="font-label-md text-label-md text-text-ivory font-bold">{node.name}</h3>
+                            <span className="font-caption-code text-caption-code text-text-muted bg-surface-container-highest px-2 py-0.5 rounded">{node.relationType}</span>
+                          </div>
+                          <p className="font-body-dense text-body-dense text-text-muted leading-relaxed">{node.description}</p>
+                          <div className="mt-2 text-right">
+                            <span className={`font-caption-code text-caption-code px-2 py-0.5 rounded border ${node.riskLevel === 'مرتفع' ? 'bg-badge-gap-risk/20 text-badge-gap-risk border-badge-gap-risk/30' : node.riskLevel === 'متوسط' ? 'bg-badge-inference/20 text-badge-inference border-badge-inference/30' : 'bg-badge-fact-bg/40 text-badge-fact-text border-badge-fact-text/30'}`}>
+                              تهديد: {node.riskLevel}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Anomalies */}
+              {project?.anomalies && project.anomalies.length > 0 && (
+                <section className="bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md">
+                  <div className="flex items-center justify-between border-b border-border-subtle pb-space-sm mb-space-md">
+                    <div className="flex items-center gap-space-xs">
+                      <span className="material-symbols-outlined text-badge-gap-risk text-lg">warning</span>
+                      <h2 className="font-headline-sm text-headline-sm text-text-ivory">شذوذ السيرة والبصمة المخفية</h2>
+                    </div>
+                  </div>
+                  <div className="space-y-space-md">
+                    {project.anomalies.map((anomaly: any) => (
+                      <div key={anomaly.id} className="border border-badge-gap-risk/30 bg-badge-gap-risk/5 rounded p-space-md relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-full h-0.5 bg-badge-gap-risk"></div>
+                        <div className="flex justify-between items-start mb-2">
+                          <h3 className="font-label-md text-label-md text-badge-gap-risk font-bold flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">priority_high</span>
+                            {anomaly.title}
+                          </h3>
+                          <span className="font-caption-code text-caption-code text-badge-gap-risk bg-badge-gap-risk/20 px-2 py-0.5 rounded border border-badge-gap-risk/30">{anomaly.severity}</span>
+                        </div>
+                        <p className="font-body-dense text-body-dense text-text-muted mt-1 leading-relaxed">{anomaly.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </div>
 
             {/* Strengths & Gaps */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-lg items-stretch">
