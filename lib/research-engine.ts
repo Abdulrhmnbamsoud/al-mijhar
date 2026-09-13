@@ -50,7 +50,7 @@ export async function startResearchJob(jobId: string) {
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: "You are an expert Arabic researcher. Your task is to confirm the identity of the person from the search results. Return a JSON with 'name', 'role', 'organization', 'location', 'confidence' (High, Medium, Low)." },
+        { role: "system", content: "You are an expert Arabic researcher. Your task is to confirm the identity of the person from the search results. Return a JSON with 'name', 'role', 'organization', 'location', 'confidence' (High, Medium, Low). IMPORTANT: All string values MUST be in Arabic language only. Translate if necessary." },
         { role: "user", content: `Identify this person: ${job.guestName}. Search Context: ${JSON.stringify(searchResponse.results.map(r => ({title: r.title, content: r.content})))}` }
       ],
       response_format: { type: "json_object" }
@@ -247,7 +247,7 @@ export async function startResearchJob(jobId: string) {
     const fullAnalysisCompletion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
-        { role: "system", content: "You are a professional investigative journalist preparing an Arabic research dossier for a high-profile interview. Read the context and output a detailed JSON containing all requested fields." },
+        { role: "system", content: "You are a professional investigative journalist preparing an Arabic research dossier for a high-profile interview. Read the context and output a detailed JSON containing all requested fields. CRITICAL REQUIREMENT: You MUST write the ENTIRE output (all fields, summaries, quotes, explanations, timelines) exclusively in the ARABIC language. If source context is in English, translate it to high-quality Arabic." },
         { role: "user", content: `Person: ${job.guestName}\n\nContext:\n${allContext.substring(0, 30000)}` }
       ],
       response_format: responseFormat
