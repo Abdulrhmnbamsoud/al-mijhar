@@ -101,7 +101,7 @@ export default function ResearchDashboard() {
         <div className="h-16 w-full px-space-lg flex items-center justify-between gap-space-md">
           <div className="flex items-center gap-space-md">
             <div className="flex items-center gap-space-sm pl-space-md border-l border-border-subtle">
-              <img alt="Profile" className="w-8 h-8 rounded-full object-cover" src={`https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.name || 'G')}&background=181C24&color=D4FF00&size=128`}/>
+              <img alt="Profile" className="w-8 h-8 rounded-full object-cover" src={profile?.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.name || 'G')}&background=181C24&color=D4FF00&size=128`}/>
               <div className="flex flex-col">
                 <span className="font-headline-sm text-headline-sm text-text-ivory leading-none tracking-tight">المِجهر</span>
                 <span className="font-caption-code text-caption-code text-accent-acid mt-space-xs">ذكاء استقصائي مهني</span>
@@ -185,7 +185,7 @@ export default function ResearchDashboard() {
               <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg relative z-10">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-space-lg">
                   <div className="relative shrink-0">
-                    <img className="w-28 h-28 sm:w-32 sm:h-32 rounded-lg object-cover border border-border-subtle bg-surface-elevated" src={`https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.name || 'G')}&background=181C24&color=D4FF00&size=256`} alt="Profile" />
+                    <img className="w-28 h-28 sm:w-32 sm:h-32 rounded-lg object-cover border border-border-subtle bg-surface-elevated" src={profile?.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.name || 'G')}&background=181C24&color=D4FF00&size=256`} alt="Profile" />
                     <div className="absolute -bottom-2 -left-2 bg-canvas-base border border-border-subtle px-1.5 py-0.5 rounded text-accent-acid font-caption-code text-caption-code flex items-center gap-1 shadow-sm">
                       <span className="material-symbols-outlined text-xs">shield_lock</span>
                       <span>مُطابَق</span>

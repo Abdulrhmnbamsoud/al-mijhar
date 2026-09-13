@@ -74,6 +74,7 @@ model PersonProfile {
   organization   String?
   location       String?
   confidence     String?          // Executive overview confidence
+  imageUrl       String?
 
   behavioralProfile String?
   evasionScore      Int?

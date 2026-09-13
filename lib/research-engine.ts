@@ -42,7 +42,7 @@ export async function startResearchJob(jobId: string) {
     const allQueries = [...coreQueries, ...deepQueries];
 
     const searchResults = await Promise.all(
-      allQueries.map(q => tvlyClient.search(q, { searchDepth: "advanced", maxResults: 15 }))
+      allQueries.map(q => tvlyClient.search(q, { searchDepth: "advanced", maxResults: 15, includeImages: true }))
     );
 
     const uniqueResults = Array.from(
@@ -50,6 +50,10 @@ export async function startResearchJob(jobId: string) {
         searchResults.flatMap(res => res.results).map(item => [item.url, item])
       ).values()
     );
+    
+    // Gather all images returned by Tavily
+    const allImages = searchResults.flatMap(res => res.images || []);
+    const candidateImageUrl = allImages.length > 0 ? (typeof allImages[0] === 'string' ? allImages[0] : (allImages[0] as any).url) : null;
 
     const searchResponse = { results: uniqueResults };
 
@@ -82,6 +86,7 @@ export async function startResearchJob(jobId: string) {
         organization: profileData.organization,
         location: profileData.location,
         confidence: profileData.confidence,
+        imageUrl: candidateImageUrl,
       }
     });
 
