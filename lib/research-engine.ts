@@ -20,38 +20,54 @@ export async function startResearchJob(jobId: string) {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   try {
-    // Stage 1
-    await updateJob(jobId, "التحقق من هوية الضيف", 10);
-    const queries = [
+    // Stage 1 - Massive OSINT Gathering
+    await updateJob(jobId, "جمع المعلومات الاستخباراتية الشاملة (OSINT)", 10);
+    
+    const coreQueries = [
       `${job.guestName} ${job.role || ""} ${job.organization || ""}`,
       `${job.guestName} ${job.country || ""}`,
       job.url ? `site:${new URL(job.url).hostname} ${job.guestName}` : null,
-      job.twitterUrl ? `site:x.com OR site:twitter.com ${job.guestName} ${job.twitterUrl}` : null,
-      job.linkedinUrl ? `site:linkedin.com/in ${job.guestName} ${job.linkedinUrl}` : null,
+      job.twitterUrl ? `site:x.com OR site:twitter.com ${job.guestName}` : null,
+      job.linkedinUrl ? `site:linkedin.com/in ${job.guestName}` : null,
     ].filter(Boolean) as string[];
 
+    const deepQueries = [
+      `"${job.guestName}" ("مجلس إدارة" OR "مؤسس" OR "مدير" OR "شريك" OR "استثمار" OR "ثروة")`,
+      `"${job.guestName}" (PDF OR "ورقة عمل" OR "بحث" OR "جامعة" OR "أكاديمي")`,
+      `"${job.guestName}" ("انتقادات" OR "فضيحة" OR "خلاف" OR "تحقيق" OR "قضية" OR "محكمة" OR "تسريب")`,
+      `"${job.guestName}" ("لقاء" OR "بودكاست" OR "حوار" OR "تصريح" OR "تلفزيون")`,
+      `"${job.guestName}" (site:instagram.com OR site:facebook.com OR site:tiktok.com OR site:youtube.com)`
+    ];
+
+    const allQueries = [...coreQueries, ...deepQueries];
+
     const searchResults = await Promise.all(
-      queries.map(q => tvlyClient.search(q, { searchDepth: "advanced", maxResults: 10 }))
+      allQueries.map(q => tvlyClient.search(q, { searchDepth: "advanced", maxResults: 15 }))
     );
 
-    const searchResponse = {
-      results: Array.from(
-        new Map(
-          searchResults.flatMap(res => res.results).map(item => [item.url, item])
-        ).values()
-      )
-    };
-    
+    const uniqueResults = Array.from(
+      new Map(
+        searchResults.flatMap(res => res.results).map(item => [item.url, item])
+      ).values()
+    );
+
+    const searchResponse = { results: uniqueResults };
+
     if (searchResponse.results.length === 0) {
       await updateJob(jobId, "failed", 100, "لم يتم العثور على أية نتائج لهذا الشخص.");
       return;
     }
 
+    await updateJob(jobId, "تحليل الهوية والتحقق من البصمة الرقمية", 30);
+    
+    // Check identity using top 10 results to save time/tokens for the basic profile step
+    const topContext = searchResponse.results.slice(0, 10).map(r => ({title: r.title, content: r.content}));
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         { role: "system", content: "You are an expert Arabic researcher. Your task is to confirm the identity of the person from the search results. Return a JSON with 'name', 'role', 'organization', 'location', 'confidence' (High, Medium, Low). IMPORTANT: All string values MUST be in Arabic language only. Translate if necessary." },
-        { role: "user", content: `Identify this person: ${job.guestName}. Search Context: ${JSON.stringify(searchResponse.results.map(r => ({title: r.title, content: r.content})))}` }
+        { role: "user", content: `Identify this person: ${job.guestName}. Search Context: ${JSON.stringify(topContext)}` }
       ],
       response_format: { type: "json_object" }
     });
@@ -75,32 +91,13 @@ export async function startResearchJob(jobId: string) {
           projectId,
           title: result.title || "بدون عنوان",
           url: result.url,
-          type: "Primary",
-          reliability: "High",
+          type: "OSINT Search",
+          reliability: "Medium",
         }
       });
     }
 
-    // Stage 2 & 3
-    await updateJob(jobId, "البحث في المصادر المفتوحة وقراءة المقابلات", 30);
-    const specificSearch = await tvlyClient.search(`"مقابلة" OR "تصريح" OR "انتقادات" OR "فضيحة" OR "خلاف" OR "تحقيق" ${job.guestName} ${job.organization || ""}`, { searchDepth: "advanced", maxResults: 20 });
-    
-    const allContext = [...searchResponse.results, ...specificSearch.results].map(r => r.content).join("\n\n---\n\n");
-
-    for (const result of specificSearch.results) {
-      const existing = await prisma.source.findFirst({ where: { projectId, url: result.url } });
-      if (!existing) {
-        await prisma.source.create({
-          data: {
-            projectId,
-            title: result.title || "بدون عنوان",
-            url: result.url,
-            type: "News/Interview",
-            reliability: "Medium",
-          }
-        });
-      }
-    }
+    const allContext = searchResponse.results.map(r => r.content).join("\n\n---\n\n");
 
     // Stage 4-7
     await updateJob(jobId, "مقارنة المعلومات وبناء الخط الزمني", 50);
@@ -248,7 +245,7 @@ export async function startResearchJob(jobId: string) {
       model: "gpt-4o",
       messages: [
         { role: "system", content: "You are a ruthless, elite OSINT intelligence analyst and psychological profiler preparing a highly classified dossier on a target. Read the context and output a detailed JSON containing all requested fields. CRITICAL REQUIREMENT: You MUST write the ENTIRE output exclusively in the ARABIC language.\n\nEXHAUSTIVE INTELLIGENCE ANALYSIS REQUIREMENT:\n- 'executiveBriefing': Write a deep, critical intelligence summary of the target's true influence, hidden motivations, and operational footprint.\n- 'strengths': Generate at least 5 deep psychological and strategic strengths (e.g., manipulation, networking, specific technical leverage).\n- 'verifications': Generate at least 5 deep vulnerabilities, blind spots, pressure points, and undeclared affiliations that need probing.\n- 'contradictions': Generate at least 3-5 major ideological shifts, financial discrepancies, or hypocritical statements over time.\n- 'topics': Generate at least 6-8 high-risk 'Interrogation Vectors' (topics that will put the target under pressure).\n- 'questions': Generate at least 10-15 deep, penetrating, and psychologically challenging questions designed to break the target's PR facade." },
-        { role: "user", content: `Target: ${job.guestName}\n\nRaw OSINT Intel:\n${allContext.substring(0, 100000)}` }
+        { role: "user", content: `Target: ${job.guestName}\n\nRaw OSINT Intel:\n${allContext.substring(0, 250000)}` }
       ],
       response_format: responseFormat
     });
