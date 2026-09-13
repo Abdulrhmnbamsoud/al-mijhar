@@ -83,7 +83,7 @@ export async function startResearchJob(jobId: string) {
 
     // Stage 2 & 3
     await updateJob(jobId, "البحث في المصادر المفتوحة وقراءة المقابلات", 30);
-    const specificSearch = await tvlyClient.search(`مقابلة OR إنجازات OR تصريح ${job.guestName} ${job.organization || ""}`, { searchDepth: "advanced", maxResults: 15 });
+    const specificSearch = await tvlyClient.search(`"مقابلة" OR "تصريح" OR "انتقادات" OR "فضيحة" OR "خلاف" OR "تحقيق" ${job.guestName} ${job.organization || ""}`, { searchDepth: "advanced", maxResults: 20 });
     
     const allContext = [...searchResponse.results, ...specificSearch.results].map(r => r.content).join("\n\n---\n\n");
 
@@ -247,8 +247,8 @@ export async function startResearchJob(jobId: string) {
     const fullAnalysisCompletion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
-        { role: "system", content: "You are a professional investigative journalist preparing an Arabic research dossier for a high-profile interview. Read the context and output a detailed JSON containing all requested fields. CRITICAL REQUIREMENT: You MUST write the ENTIRE output (all fields, summaries, quotes, explanations, timelines) exclusively in the ARABIC language. If source context is in English, translate it to high-quality Arabic.\n\nEXHAUSTIVE ANALYSIS REQUIREMENT:\n- Generate at least 5 deep 'strengths'.\n- Generate at least 5 'verifications' (critical gaps).\n- Generate at least 3-5 'contradictions' (if none explicit, deduce analytical shifts in their tone over time).\n- Generate at least 6-8 'topics' for the Tactical Interview Radar, covering different risk levels.\n- Generate at least 10-15 'questions' (deep investigative questions), categorized by themes." },
-        { role: "user", content: `Person: ${job.guestName}\n\nContext:\n${allContext.substring(0, 100000)}` }
+        { role: "system", content: "You are a ruthless, elite OSINT intelligence analyst and psychological profiler preparing a highly classified dossier on a target. Read the context and output a detailed JSON containing all requested fields. CRITICAL REQUIREMENT: You MUST write the ENTIRE output exclusively in the ARABIC language.\n\nEXHAUSTIVE INTELLIGENCE ANALYSIS REQUIREMENT:\n- 'executiveBriefing': Write a deep, critical intelligence summary of the target's true influence, hidden motivations, and operational footprint.\n- 'strengths': Generate at least 5 deep psychological and strategic strengths (e.g., manipulation, networking, specific technical leverage).\n- 'verifications': Generate at least 5 deep vulnerabilities, blind spots, pressure points, and undeclared affiliations that need probing.\n- 'contradictions': Generate at least 3-5 major ideological shifts, financial discrepancies, or hypocritical statements over time.\n- 'topics': Generate at least 6-8 high-risk 'Interrogation Vectors' (topics that will put the target under pressure).\n- 'questions': Generate at least 10-15 deep, penetrating, and psychologically challenging questions designed to break the target's PR facade." },
+        { role: "user", content: `Target: ${job.guestName}\n\nRaw OSINT Intel:\n${allContext.substring(0, 100000)}` }
       ],
       response_format: responseFormat
     });
