@@ -64,6 +64,19 @@
   --color-on-secondary-container: #b4b8c7;
   --color-inverse-surface: #e2e2e6;
 
+  --spacing-space-xl: 2.5rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-xs: 0.25rem;
+  --spacing-margin: 1.5rem;
+  --spacing-gutter: 1.25rem;
+
+  --radius-DEFAULT: 0.125rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+  --radius-full: 0.75rem;
+
   --font-label-md: "IBM Plex Sans", sans-serif;
   --font-body-default: "IBM Plex Sans", sans-serif;
   --font-headline-md: "IBM Plex Sans", sans-serif;
@@ -75,6 +88,51 @@
   --font-headline-sm: "IBM Plex Sans", sans-serif;
   --font-body-lead: "IBM Plex Sans", sans-serif;
   --font-caption-code: "IBM Plex Sans", sans-serif;
+
+  --text-label-md: 14px;
+  --text-label-md--line-height: 20px;
+  --font-weight-label-md: 500;
+
+  --text-body-default: 16px;
+  --text-body-default--line-height: 26px;
+  --font-weight-body-default: 400;
+
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 34px;
+  --font-weight-headline-md: 600;
+
+  --text-display-hero-mobile: 26px;
+  --text-display-hero-mobile--line-height: 36px;
+  --font-weight-display-hero-mobile: 700;
+
+  --text-headline-lg: 28px;
+  --text-headline-lg--line-height: 38px;
+  --font-weight-headline-lg: 700;
+
+  --text-display-hero: 32px;
+  --text-display-hero--line-height: 44px;
+  --font-weight-display-hero: 700;
+
+  --text-body-dense: 15px;
+  --text-body-dense--line-height: 24px;
+  --font-weight-body-dense: 400;
+
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 16px;
+  --text-label-sm--letter-spacing: 0.02em;
+  --font-weight-label-sm: 600;
+
+  --text-headline-sm: 20px;
+  --text-headline-sm--line-height: 30px;
+  --font-weight-headline-sm: 600;
+
+  --text-body-lead: 18px;
+  --text-body-lead--line-height: 28px;
+  --font-weight-body-lead: 400;
+
+  --text-caption-code: 11px;
+  --text-caption-code--line-height: 14px;
+  --font-weight-caption-code: 500;
 }
 
 @layer base {
