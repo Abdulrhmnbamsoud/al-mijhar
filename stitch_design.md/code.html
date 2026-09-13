@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed-variant":"#424753","on-primary-fixed":"#161e00","tertiary-fixed-dim":"#adc6ff","inverse-on-surface":"#2f3034","surface-container-highest":"#333538","surface-tint":"#abd600","border-subtle":"#283040","on-tertiary-fixed":"#001a42","secondary-fixed":"#dee2f1","outline":"#8e9379","on-primary-container":"#556d00","secondary":"#c2c6d5","badge-fact-text":"#10B981","on-surface":"#e2e2e6","text-dim":"#6B7280","background":"#111317","on-primary":"#283500","error":"#ffb4ab","badge-fact-bg":"#064E3B","secondary-container":"#444955","surface-bright":"#37393d","primary":"#ffffff","badge-gap-risk":"#EF4444","secondary-fixed-dim":"#c2c6d5","badge-inference":"#F59E0B","on-surface-variant":"#c4c9ac","tertiary-fixed":"#d8e2ff","on-secondary-fixed":"#171c26","outline-variant":"#444933","error-container":"#93000a","primary-container":"#c3f400","on-tertiary":"#002e6a","on-error-container":"#ffdad6","badge-claim-text":"#3B82F6","accent-acid":"#CCFF00","primary-fixed":"#c3f400","surface-container":"#1e2023","surface":"#111317","text-ivory":"#F9FAFB","surface-card":"#181C24","surface-dim":"#111317","badge-claim-bg":"#1E3A8A","tertiary":"#ffffff","surface-variant":"#333538","surface-container-lowest":"#0c0e11","on-tertiary-fixed-variant":"#004395","surface-elevated":"#1E232E","badge-reporting":"#8B5CF6","tertiary-container":"#d8e2ff","on-tertiary-container":"#0060ce","surface-container-high":"#282a2d","on-error":"#690005","on-secondary":"#2b303c","text-muted":"#9CA3AF","primary-fixed-dim":"#abd600","on-primary-fixed-variant":"#3c4d00","surface-container-low":"#1a1c1f","on-background":"#e2e2e6","inverse-primary":"#506600","canvas-base":"#0D0F12","on-secondary-container":"#b4b8c7","inverse-surface":"#e2e2e6"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{"space-xl":"2.5rem","space-sm":"0.5rem","space-xs":"0.25rem","space-md":"1rem",margin:"1.5rem","space-lg":"1.5rem",gutter:"1.25rem"},fontFamily:{"label-md":["IBM Plex Sans"],"body-default":["IBM Plex Sans"],"headline-md":["IBM Plex Sans"],"display-hero-mobile":["IBM Plex Sans"],"headline-lg":["IBM Plex Sans"],"display-hero":["IBM Plex Sans"],"body-dense":["IBM Plex Sans"],"label-sm":["IBM Plex Sans"],"headline-sm":["IBM Plex Sans"],"body-lead":["IBM Plex Sans"],"caption-code":["IBM Plex Sans"]},fontSize:{"label-md":["14px",{lineHeight:"20px",fontWeight:"500"}],"body-default":["16px",{lineHeight:"26px",fontWeight:"400"}],"headline-md":["24px",{lineHeight:"34px",fontWeight:"600"}],"display-hero-mobile":["26px",{lineHeight:"36px",fontWeight:"700"}],"headline-lg":["28px",{lineHeight:"38px",fontWeight:"700"}],"display-hero":["32px",{lineHeight:"44px",fontWeight:"700"}],"body-dense":["15px",{lineHeight:"24px",fontWeight:"400"}],"label-sm":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"headline-sm":["20px",{lineHeight:"30px",fontWeight:"600"}],"body-lead":["18px",{lineHeight:"28px",fontWeight:"400"}],"caption-code":["11px",{lineHeight:"14px",fontWeight:"500"}]}}}};</script></head><body class="bg-canvas-base font-body-default text-on-surface antialiased"><header class="fixed top-0 w-full z-50 bg-surface-card border-b border-border-subtle"><div class="h-16 w-full px-space-lg flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm pl-space-md border-l border-border-subtle"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-kHthZYsuhjgueDpoBz_vkfN1ld5qKDTRiCl3pyRt33_pE1QExuZGFIe8mGmxBXNfmgb-5diQKC9AI_VJjAgiqYO9xkufLYHbd4viRp4z1JjMuoKFD4i6zrTT_HThLAkTb4XvDBK1wkiIWGJtNinec4n2l3GWOZLVTR4v-cp6WWvhkd5-_aWiDzSmqLIOg6YSJpA9pFMypW8CWuWbSKkxCYxYhLTE5y2xfRGOFc9QUoAPxYogrijA"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-text-ivory leading-none tracking-tight">المِجهر</span><span class="font-caption-code text-caption-code text-accent-acid mt-space-xs">ذكاء استقصائي مهني</span></div></div><div class="hidden xl:flex items-center gap-space-xs bg-badge-fact-bg/40 border border-badge-fact-text/30 px-space-sm py-space-xs rounded"><span class="w-1.5 h-1.5 rounded-full bg-badge-fact-text animate-pulse"></span><span class="font-label-sm text-label-sm text-badge-fact-text">محرك Tavily + OpenAI متصل</span></div></div><nav class="hidden lg:flex items-center gap-space-xs" data-active-classes="bg-surface-elevated text-accent-acid border border-border-subtle"><a aria-current="page" class="px-space-md py-space-xs rounded font-label-md transition-colors bg-surface-elevated text-accent-acid border border-border-subtle" data-path="investigative-dossier" href="#">الملف الاستقصائي</a><a class="px-space-md py-space-xs rounded font-label-md text-label-md text-text-muted hover:text-text-ivory hover:bg-surface-elevated transition-colors" data-path="new-investigation" href="#">بحث جديد</a><a class="px-space-md py-space-xs rounded font-label-md text-label-md text-text-muted hover:text-text-ivory hover:bg-surface-elevated transition-colors" data-path="dossier-registry" href="#">سجل الملفات</a><a class="px-space-md py-space-xs rounded font-label-md text-label-md text-text-muted hover:text-text-ivory hover:bg-surface-elevated transition-colors" data-path="settings-integrations" href="#">الإعدادات والربط</a></nav><div class="flex items-center gap-space-sm"><div class="hidden sm:flex items-center gap-space-sm bg-surface-elevated border border-border-subtle px-space-sm py-space-xs rounded text-text-muted"><span class="material-symbols-outlined text-sm">search</span><span class="font-label-sm text-label-sm text-text-dim">بحث سريع...</span><kbd class="font-caption-code text-caption-code bg-surface-container px-1 py-0.5 rounded text-text-dim border border-border-subtle">⌘K</kbd></div><div class="flex items-center gap-space-xs"><button class="hidden md:inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-elevated border border-border-subtle font-label-sm text-label-sm text-text-ivory hover:border-text-muted transition-colors" type="button"><span class="material-symbols-outlined text-base">picture_as_pdf</span>تصدير PDF</button><button class="hidden md:inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-elevated border border-border-subtle font-label-sm text-label-sm text-text-ivory hover:border-text-muted transition-colors" type="button"><span class="material-symbols-outlined text-base">quiz</span>ورقة الأسئلة</button><button class="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-accent-acid font-label-sm text-label-sm font-bold text-canvas-base hover:bg-primary-fixed-dim transition-colors" type="button"><span class="material-symbols-outlined text-base">content_copy</span>نسخ التقرير</button></div></div></div></header><main class="w-full pt-16 bg-canvas-base"><div class="flex flex-col w-full">
+<!-- Sub-Header Status & Dossier Header Ledger Strip -->
+<section class="w-full bg-surface-card border-b border-border-subtle px-space-lg py-space-sm flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-accent-acid animate-pulse"></span>
+<span class="font-caption-code text-caption-code text-accent-acid tracking-wider font-semibold">ملف استقصائي مُفهرس // DOS-8921-SA</span>
+</div>
+<span class="text-border-subtle">|</span>
+<div class="flex items-center gap-space-xs text-text-muted">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="font-caption-code text-caption-code">تاريخ التوثيق: 24 أكتوبر 2024</span>
+</div>
+<span class="hidden md:inline text-border-subtle">|</span>
+<div class="hidden md:flex items-center gap-space-xs text-text-muted">
+<span class="material-symbols-outlined text-sm">database</span>
+<span class="font-caption-code text-caption-code">28 مصدراً تم فحصها آلياً وبشرياً</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-caption-code text-caption-code text-text-dim">مستوى دقة التثبت:</span>
+<div class="flex items-center gap-1 bg-badge-fact-bg/50 border border-badge-fact-text/40 px-space-sm py-0.5 rounded">
+<span class="material-symbols-outlined text-badge-fact-text text-sm">verified_user</span>
+<span class="font-label-sm text-label-sm text-badge-fact-text font-bold">91% موثوقية استقصائية</span>
+</div>
+</div>
+</section>
+<!-- Mandatory Compliance Disclaimer Banner -->
+<section class="w-full bg-surface-container-low border-b border-border-subtle px-space-lg py-space-xs">
+<div class="max-w-7xl mx-auto flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-badge-inference text-base shrink-0">info</span>
+<p class="font-label-sm text-label-sm text-text-muted">
+<strong class="text-text-ivory font-semibold">إشعار قانوني وتحريري:</strong>
+          هذا التقرير مبني على مصادر مفتوحة ومتاحة للعامة. الاستنتاجات التحليلية ليست حقائق قطعية، ويجب التحقق منها أثناء الحوار لضمان النزاهة الصحفية.
+        </p>
+</div>
+<span class="font-caption-code text-caption-code text-text-dim shrink-0 hidden lg:inline">PROTO-OSINT-V4</span>
+</div>
+</section>
+<!-- Main Dossier Viewport -->
+<div class="w-full px-space-lg py-space-lg max-w-7xl mx-auto space-y-space-lg">
+<!-- Guest Profile Ledger Card (Hero Unit) -->
+<section class="w-full bg-surface-card border border-border-subtle rounded-lg p-space-lg relative overflow-hidden">
+<div class="absolute -top-24 -left-24 w-80 h-80 bg-accent-acid/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg relative z-10">
+<!-- Guest Identity Core -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-space-lg">
+<div class="relative shrink-0">
+<img class="w-28 h-28 sm:w-32 sm:h-32 rounded-lg object-cover border border-border-subtle bg-surface-elevated" data-alt="Editorial close-up corporate portrait of an Arab tech executive in his early forties, wearing modern navy business attire without tie, subtle rim lighting, high-contrast dark architectural workspace background, confident and thoughtful demeanor, ultra-sharp lens photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrD-69IpMRLUrr2W_v1xi18pC4ugmv2j5SoCEAJ6w9vfho7PHF3csKYlKlxS1-FqWnykKmCdM-7wagk4zOp2RVWqSmS-qkz3aSYvORRxC6DLfMVQB2zJPzM82orSVBgocZ8CCybUrXd91zTkej-OkrA5hyqQNowx6wI8I7h-F9lgdkkdxo81iEsaQlB47ZafuXi7Vvgvjk-4x32b_4iTlc02TC__c1JwHccVrjdHssXN-a6VwKvQvc"/>
+<div class="absolute -bottom-2 -left-2 bg-canvas-base border border-border-subtle px-1.5 py-0.5 rounded text-accent-acid font-caption-code text-caption-code flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-xs">shield_lock</span>
+<span>مُطابَق</span>
+</div>
+</div>
+<div class="space-y-space-xs">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="px-space-xs py-0.5 rounded bg-surface-elevated border border-border-subtle font-caption-code text-caption-code text-text-dim">شخصية عامة / ريادة أعمال</span>
+<span class="px-space-xs py-0.5 rounded bg-badge-fact-bg/40 border border-badge-fact-text/30 font-caption-code text-caption-code text-badge-fact-text">سجل تجاري موثق [1]</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-elevated border border-border-subtle font-caption-code text-caption-code text-text-muted">ID: SA-MOAJIL-810</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-text-ivory tracking-tight">م. طارق بن فهد المعجل</h1>
+<p class="font-body-dense text-body-dense text-text-muted">
+              الشريك المؤسس والرئيس التنفيذي | <span class="text-text-ivory font-medium">منصات التحول اللوجستي «سير كابيتال»</span>
+</p>
+<div class="flex flex-wrap items-center gap-space-md text-text-dim pt-space-xs font-label-sm text-label-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                الرياض، المملكة العربية السعودية
+              </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">domain</span>
+                سابقاً: أرامكو السعودية (6 أعوام)
+              </span>
+<span class="flex items-center gap-1 text-accent-acid">
+<span class="material-symbols-outlined text-sm">campaign</span>
+                بودكاست مستهدف: جلسة حوارية متعمقة
+              </span>
+</div>
+</div>
+</div>
+<!-- Quick Telemetry Dial & Quick Stats -->
+<div class="w-full lg:w-auto flex flex-row lg:flex-col items-center lg:items-end justify-between border-t lg:border-t-0 lg:border-r border-border-subtle pt-space-md lg:pt-0 lg:pr-space-lg gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="text-right">
+<div class="font-caption-code text-caption-code text-text-dim">مؤشر موثوقية البيانات</div>
+<div class="font-display-hero text-display-hero text-accent-acid leading-none font-bold tracking-tight">91%</div>
+<div class="font-caption-code text-caption-code text-badge-fact-text mt-1 flex items-center gap-0.5 justify-end">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+<span>فحص متقاطع مستقل</span>
+</div>
+</div>
+<!-- Inline Radial Chart -->
+<div class="w-16 h-16 shrink-0 relative flex items-center justify-center">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-elevated" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-accent-acid" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="91, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="material-symbols-outlined text-accent-acid text-base absolute">hub</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1 rounded bg-surface-elevated border border-border-subtle font-caption-code text-caption-code text-text-ivory hover:border-accent-acid transition-colors flex items-center gap-1" onclick="document.getElementById('confidence-methodology-modal').classList.toggle('hidden')">
+<span class="material-symbols-outlined text-xs">analytics</span>
+<span>منهجية الفحص والمطابقة</span>
+</button>
+<button class="px-space-sm py-1 rounded bg-surface-elevated border border-border-subtle font-caption-code text-caption-code text-text-muted hover:text-text-ivory transition-colors">
+              تحديث التلقيم
+            </button>
+</div>
+</div>
+</div>
+<!-- Quick Metrics Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm mt-space-lg pt-space-md border-t border-border-subtle">
+<div class="bg-surface-elevated/70 border border-border-subtle p-space-sm rounded">
+<span class="font-caption-code text-caption-code text-text-dim block">سنوات الخبرة التنفيذية</span>
+<span class="font-headline-md text-headline-md text-text-ivory font-bold">18 عاماً</span>
+<span class="font-caption-code text-caption-code text-text-muted block mt-0.5">بين أرامكو والقطاع الخاص [2]</span>
+</div>
+<div class="bg-surface-elevated/70 border border-border-subtle p-space-sm rounded">
+<span class="font-caption-code text-caption-code text-text-dim block">الجولات الاستثمارية المغلقة</span>
+<span class="font-headline-md text-headline-md text-accent-acid font-bold">3 جولات</span>
+<span class="font-caption-code text-caption-code text-text-muted block mt-0.5">إجمالي 68.5M$ موثقة [3]</span>
+</div>
+<div class="bg-surface-elevated/70 border border-border-subtle p-space-sm rounded">
+<span class="font-caption-code text-caption-code text-text-dim block">الأرشيف الإعلامي المقروء</span>
+<span class="font-headline-md text-headline-md text-text-ivory font-bold">42 ندوة ومقابلة</span>
+<span class="font-caption-code text-caption-code text-badge-fact-text block mt-0.5">تم تحليل نبرة الخطاب [4]</span>
+</div>
+<div class="bg-surface-elevated/70 border border-border-subtle p-space-sm rounded">
+<span class="font-caption-code text-caption-code text-text-dim block">القضايا الإشكالية المحورية</span>
+<span class="font-headline-md text-headline-md text-badge-gap-risk font-bold">3 فجوات</span>
+<span class="font-caption-code text-caption-code text-text-muted block mt-0.5">تتطلب استيضاحاً بالحوار</span>
+</div>
+</div>
+</section>
+<!-- SECTION 1: 5-Minute Executive Briefing & Confidence Methodology Expandable -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Briefing Text (8 cols) -->
+<section class="lg:col-span-8 bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md">
+<div class="flex items-center justify-between border-b border-border-subtle pb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-accent-acid text-lg">timer</span>
+<h2 class="font-headline-sm text-headline-sm text-text-ivory">موجز الدقائق الخمس (Executive Briefing)</h2>
+</div>
+<span class="font-caption-code text-caption-code px-2 py-0.5 bg-surface-elevated border border-border-subtle text-text-muted rounded">قراءة تمهيدية قبل اللقاء</span>
+</div>
+<div class="font-body-default text-body-default text-on-surface space-y-space-sm leading-relaxed text-justify">
+<p>
+            يُمثّل <strong class="text-text-ivory">م. طارق بن فهد المعجل</strong> أحد أبرز النماذج القيادية التكنوقراطية في قطاع اللوجستيات الذكية وسلاسل الإمداد بالمملكة العربية السعودية. يرتكز خطابه العام على منهجية تجمع بين الانضباط الهندسي الصارم الذي اكتسبه خلال فترة عمله في إدارة التحول الرقمي بـ <span class="text-text-ivory font-medium">أرامكو السعودية (2012-2018)</span> وبين الطموح التوسعي للشركات الناشئة المدعومة برأس المال الجريء منذ تأسيسه «سير كابيتال» عام 2018 <span class="text-accent-acid font-caption-code">[1]</span>.
+          </p>
+<p>
+            يكشف التحليل التراكمي لـ <strong class="text-text-ivory">42 ظهوراً إعلامياً ومحاضرة تخصصية</strong> عن شخصية حوارية متزنة ودقيقة جداً في استخدام الأرقام، وتتجنب الوعود الشعبوية. ومع ذلك، يرصد التحقيق وجود ثلاث قضايا تكررت محاولات تجاوزها دون تفصيل في لقاءاته الأخيرة: <span class="text-badge-inference font-medium">كلفة الاحتفاظ بالعملاء في نموذج العمل B2B</span>، <span class="text-badge-gap-risk font-medium">أسباب إبطاء خطة التوسع في السوق المصري بعد إعلان عام 2022</span>، و<span class="text-badge-claim-text font-medium">حقيقة معدل حرق السيولة بعد جولة (Series B) الحكومية الأخيرة</span>.
+          </p>
+</div>
+<!-- Identity Match Confirmation Ledger Box (Embedded) -->
+<div class="bg-surface-elevated border border-border-subtle rounded p-space-md mt-space-md">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-badge-fact-text text-base">fingerprint</span>
+<h3 class="font-label-md text-label-md text-text-ivory font-bold">تأكيد الهوية ومطابقة الشخصية (Zero Ambiguity Resolution)</h3>
+</div>
+<span class="px-2 py-0.5 bg-badge-fact-bg/60 text-badge-fact-text font-caption-code text-caption-code rounded border border-badge-fact-text/30">تطابق قطعي 100%</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm font-caption-code text-caption-code text-text-muted mt-space-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-badge-fact-text text-sm">check</span>
+<span>السجل التجاري لوزارة التجارة: شركة سير كابيتال لتقنية النظم</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-badge-fact-text text-sm">check</span>
+<span>الملف المهني الموثق (LinkedIn): طارق المعجل - الرياض</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-badge-fact-text text-sm">check</span>
+<span>أرشيف عضوية اللجنة الوطنية لتقنية المعلومات (مجلس الغرف)</span>
+</div>
+<div class="flex items-center gap-1.5 text-accent-acid">
+<span class="material-symbols-outlined text-accent-acid text-sm">rule</span>
+<span>إشعار استبعاد: تم نفي تشابه الأسماء مع د. طارق المعجل (أكاديمي KFUPM)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar: Tactical Preparation & Evidence Breakdown (4 cols) -->
+<aside class="lg:col-span-4 space-y-space-md">
+<!-- Confidence Score Breakdown Card -->
+<div class="bg-surface-card border border-border-subtle rounded-lg p-space-md space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-text-ivory font-bold">توزيع مصادر الثقة (28 مصدراً)</span>
+<span class="material-symbols-outlined text-text-dim text-sm">pie_chart</span>
+</div>
+<div class="space-y-space-xs pt-space-xs">
+<div>
+<div class="flex justify-between font-caption-code text-caption-code mb-1">
+<span class="text-text-muted">مصادر أولية ومستندات رسمية (14)</span>
+<span class="text-badge-fact-text font-bold">50%</span>
+</div>
+<div class="w-full bg-surface-elevated h-1.5 rounded-full overflow-hidden">
+<div class="bg-badge-fact-text h-full rounded-full" style="width: 50%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-caption-code text-caption-code mb-1">
+<span class="text-text-muted">تقارير إعلامية مستقلة (10)</span>
+<span class="text-badge-claim-text font-bold">35%</span>
+</div>
+<div class="w-full bg-surface-elevated h-1.5 rounded-full overflow-hidden">
+<div class="bg-badge-claim-text h-full rounded-full" style="width: 35%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-caption-code text-caption-code mb-1">
+<span class="text-text-muted">تصريحات مسجلة ومقابلات سابقة (4)</span>
+<span class="text-badge-inference font-bold">15%</span>
+</div>
+<div class="w-full bg-surface-elevated h-1.5 rounded-full overflow-hidden">
+<div class="bg-badge-inference h-full rounded-full" style="width: 15%"></div>
+</div>
+</div>
+</div>
+<div class="pt-space-xs border-t border-border-subtle">
+<div class="flex items-center gap-1 font-caption-code text-caption-code text-text-dim">
+<span class="material-symbols-outlined text-xs text-badge-fact-text">chevron_forward</span>
+<span>آخر تحقق آلي من عناكب الزحف: منذ 3 ساعات</span>
+</div>
+</div>
+</div>
+<!-- Interviewer Tactical Note -->
+<div class="bg-surface-elevated border border-accent-acid/30 rounded-lg p-space-md space-y-space-xs">
+<div class="flex items-center gap-space-xs text-accent-acid">
+<span class="material-symbols-outlined text-base">psychology</span>
+<span class="font-label-sm text-label-sm font-bold">نصيحة تكتيكية لإدارة الحوار</span>
+</div>
+<p class="font-caption-code text-caption-code text-text-muted leading-relaxed">
+            الضيف يميل إلى تقديم إجابات تقنية مسهبة وموثقة بهندسة العمليات لتشتيت الأسئلة المتعلقة بالربحية المباشرة وحصص المساهمين. حافظ على نبرة هادئة وركز على إعادة توجيه السؤال بالأرقام المعلنة رسمياً من شركته دون مقاطعة حادة.
+          </p>
+</div>
+</aside>
+</div>
+<!-- Hidden by default: Expandable Methodology Detail Panel -->
+<div class="hidden bg-surface-elevated border border-accent-acid/40 rounded-lg p-space-md transition-all" id="confidence-methodology-modal">
+<div class="flex items-center justify-between border-b border-border-subtle pb-space-xs mb-space-sm">
+<span class="font-label-md text-label-md text-accent-acid font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">settings_suggest</span>
+          معايير احتساب مؤشر الثقة الاستقصائية (Scoring Index Matrix)
+        </span>
+<button class="text-text-dim hover:text-text-ivory" onclick="document.getElementById('confidence-methodology-modal').classList.add('hidden')">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md font-caption-code text-caption-code text-text-muted">
+<div class="space-y-1">
+<strong class="text-text-ivory block">1. المصادر الأولية الرسمية (+40%)</strong>
+<span>فحص السجلات التجارية، الإعلانات الصادرة عبر هيئة السوق المالية، وبيانات الغرفة التجارية المؤكدة.</span>
+</div>
+<div class="space-y-1">
+<strong class="text-text-ivory block">2. المطابقة الثنائية المستقلة (+35%)</strong>
+<span>وجود مصدرين إعلاميين معتبرين على الأقل يوثقان نفس الحدث أو التصريح المالي بشكل غير منقول.</span>
+</div>
+<div class="space-y-1">
+<strong class="text-text-ivory block">3. حداثة البيانات ونفي التعارض (+16%)</strong>
+<span>عدم وجود طعون قضائية أو نفي رسمي صادر من ممثلي الشركة خلال الـ 180 يوماً المنصرمة.</span>
+</div>
+</div>
+</div>
+<!-- SECTION 2: Professional Timeline with Evidence Tags -->
+<section class="w-full bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-sm border-b border-border-subtle gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-accent-acid text-lg">timeline</span>
+<h2 class="font-headline-sm text-headline-sm text-text-ivory">الخط الزمني المهني ومحطات التحقق</h2>
+</div>
+<span class="font-caption-code text-caption-code text-text-dim">ترتيب زمني عكسي مدعوم بالوثائق الرسمية</span>
+</div>
+<div class="relative pr-6 border-r-2 border-border-subtle space-y-space-lg my-space-md">
+<!-- Node 1: 2024 -->
+<div class="relative group">
+<div class="absolute -right-[31px] top-1.5 w-3 h-3 rounded-full bg-accent-acid ring-4 ring-canvas-base"></div>
+<div class="bg-surface-elevated border border-border-subtle rounded p-space-md space-y-space-xs hover:border-accent-acid/50 transition-colors">
+<div class="flex flex-wrap items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-caption-code text-caption-code font-bold text-accent-acid bg-accent-acid/10 px-2 py-0.5 rounded">2024</span>
+<h3 class="font-label-md text-label-md text-text-ivory font-bold">إغلاق الجولة الاستثمارية (Series B) بقيمة 45 مليون دولار</h3>
+<a class="text-accent-acid font-caption-code hover:underline" href="#source-1">[1]</a>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-badge-fact-bg/40 border border-badge-fact-text/30 font-caption-code text-caption-code text-badge-fact-text">حقيقة موثقة ومؤكدة</span>
+</div>
+<p class="font-body-dense text-body-dense text-text-muted">
+              قيادة صندوق استثماري سيادي للجولة بمشاركة 3 صناديق رأس مال جريء إقليمية لتمويل توسع البنية التحتية للحوسبة السحابية اللوجستية. تم الإفصاح عبر وكالة رويترز ومؤتمر LEAP 2024.
+            </p>
+</div>
+</div>
+<!-- Node 2: 2021 -->
+<div class="relative group">
+<div class="absolute -right-[31px] top-1.5 w-3 h-3 rounded-full bg-border-subtle ring-4 ring-canvas-base group-hover:bg-badge-claim-text transition-colors"></div>
+<div class="bg-surface-elevated border border-border-subtle rounded p-space-md space-y-space-xs hover:border-border-subtle transition-colors">
+<div class="flex flex-wrap items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-caption-code text-caption-code font-bold text-text-ivory bg-surface-container px-2 py-0.5 rounded">2021</span>
+<h3 class="font-label-md text-label-md text-text-ivory font-bold">عضوية اللجنة الوطنية لتقنية المعلومات وسلاسل الإمداد</h3>
+<a class="text-accent-acid font-caption-code hover:underline" href="#source-2">[2]</a>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest font-caption-code text-caption-code text-text-muted">مرسوم وتعيين قطاعي</span>
+</div>
+<p class="font-body-dense text-body-dense text-text-muted">
+              المساهمة في صياغة الأطر التوجيهية للائحة منصات النقل الذكي وتكامل الربط الجمركي المشترك في الموانئ الجافة.
+            </p>
+</div>
+</div>
+<!-- Node 3: 2018 -->
+<div class="relative group">
+<div class="absolute -right-[31px] top-1.5 w-3 h-3 rounded-full bg-border-subtle ring-4 ring-canvas-base group-hover:bg-badge-fact-text transition-colors"></div>
+<div class="bg-surface-elevated border border-border-subtle rounded p-space-md space-y-space-xs hover:border-border-subtle transition-colors">
+<div class="flex flex-wrap items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-caption-code text-caption-code font-bold text-text-ivory bg-surface-container px-2 py-0.5 rounded">2018</span>
+<h3 class="font-label-md text-label-md text-text-ivory font-bold">تأسيس «سير كابيتال» بعد الخروج المهني من أرامكو</h3>
+<a class="text-accent-acid font-caption-code hover:underline" href="#source-3">[3]</a>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-badge-fact-bg/40 border border-badge-fact-text/30 font-caption-code text-caption-code text-badge-fact-text">إفصاح رسمي مسجل</span>
+</div>
+<p class="font-body-dense text-body-dense text-text-muted">
+              الانتقال الكامل لريادة الأعمال بالتعاون مع شريكين تقنيين سابقين من وادي الظهران للتقنية، وحصد أول جولة بذرة بقيمة 3.5 مليون دولار.
+            </p>
+</div>
+</div>
+<!-- Node 4: 2012 - 2018 -->
+<div class="relative group">
+<div class="absolute -right-[31px] top-1.5 w-3 h-3 rounded-full bg-border-subtle ring-4 ring-canvas-base"></div>
+<div class="bg-surface-elevated border border-border-subtle rounded p-space-md space-y-space-xs">
+<div class="flex flex-wrap items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-caption-code text-caption-code font-bold text-text-dim bg-surface-container px-2 py-0.5 rounded">2012 - 2018</span>
+<h3 class="font-label-md text-label-md text-text-ivory font-bold">مدير برامج التحول الرقمي وإدارة سلاسل الإمداد - أرامكو السعودية</h3>
+<a class="text-accent-acid font-caption-code hover:underline" href="#source-4">[4]</a>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest font-caption-code text-caption-code text-text-dim">سجل وظيفي محقق</span>
+</div>
+<p class="font-body-dense text-body-dense text-text-muted">
+              إشراف مباشر على رقمنة منظومة التوريد الميداني لمشاريع التنقيب وتكامل أنظمة SAP عبر 14 محطة تشغيل رئيسية.
+            </p>
+</div>
+</div>
+<!-- Node 5: 2010 -->
+<div class="relative group">
+<div class="absolute -right-[31px] top-1.5 w-3 h-3 rounded-full bg-border-subtle ring-4 ring-canvas-base"></div>
+<div class="bg-surface-elevated border border-border-subtle rounded p-space-md space-y-space-xs">
+<div class="flex flex-wrap items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-caption-code text-caption-code font-bold text-text-dim bg-surface-container px-2 py-0.5 rounded">2010</span>
+<h3 class="font-label-md text-label-md text-text-ivory font-bold">ماجستير هندسة النظم واللوجستيات - Imperial College London</h3>
+<a class="text-accent-acid font-caption-code hover:underline" href="#source-5">[5]</a>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-badge-fact-bg/40 border border-badge-fact-text/30 font-caption-code text-caption-code text-badge-fact-text">شهادة أكاديمية موثقة</span>
+</div>
+<p class="font-body-dense text-body-dense text-text-muted">
+              أطروحة متخصصة في خوارزميات التنبؤ باختناقات النقل البحري للبضائع السائبة في موانئ الشرق الأوسط.
+            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3 & 4: Strengths vs Verification Areas (Bento Split) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg items-stretch">
+<!-- Strengths (Green Pinstripe Ledger) -->
+<section class="bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-space-xs border-b border-border-subtle pb-space-sm mb-space-md">
+<span class="material-symbols-outlined text-badge-fact-text text-lg">verified</span>
+<h2 class="font-headline-sm text-headline-sm text-text-ivory">نقاط القوة المدعومة بالأدلة القطعية</h2>
+</div>
+<div class="space-y-space-md">
+<!-- Strength 1 -->
+<div class="border-r-2 border-badge-fact-text pr-space-md py-0.5">
+<div class="flex items-center justify-between">
+<h3 class="font-label-md text-label-md text-text-ivory font-bold">عمق تقني استثنائي وقدرة إقناع استثمارية عالية</h3>
+<a class="text-accent-acid font-caption-code hover:underline" href="#source-6">[6]</a>
+</div>
+<p class="font-body-dense text-body-dense text-text-muted mt-1">
+                ينفرد بين رؤساء الشركات الناشئة بفهمه الدقيق للبنية الهندسية المعقدة (API Architecture) والأنظمة التشغيلية الجمركية، مما مكّنه من الفوز بعقود توريد حكومية كبرى تتطلب توافقاً سيبرانياً مشدداً.
+              </p>
+</div>
+<!-- Strength 2 -->
+<div class="border-r-2 border-badge-fact-text pr-space-md py-0.5">
+<div class="flex items-center justify-between">
+<h3 class="font-label-md text-label-md text-text-ivory font-bold">سجل مثبت في جذب الكفاءات من العمالقة التقنيين</h3>
+<a class="text-accent-acid font-caption-code hover:underline" href="#source-7">[7]</a>
+</div>
+<p class="font-body-dense text-body-dense text-text-muted mt-1">
+                استقطب في الـ 24 شهراً الماضية 4 قيادات عليا من شركات (Amazon MENA, Careem, DHL)، وأسس مختبر نمذجة لوجستية متطور في وادي التقنية بمدينة الرياض.
+              </p>
+</div>
+<!-- Strength 3 -->
+<div class="border-r-2 border-badge-fact-text pr-space-md py-0.5">
+<div class="flex items-center justify-between">
+<h3 class="font-label-md text-label-md text-text-ivory font-bold">انضباط والتزام صارم بمواعيد إطلاق المنتجات البرمجية</h3>
+<a class="text-accent-acid font-caption-code hover:underline" href="#source-8">[8]</a>
+</div>
+<p class="font-body-dense text-body-dense text-text-muted mt-1">
+                وفقاً لتقارير مجتمع رواد الأعمال (MAGNiTT)، أوفت «سير كابيتال» بجميع مواعيد تسليم التحديثات للمنصات الحكومية المتعاقدة دون أي انقطاع تشغيلي مسجل.
+              </p>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm border-t border-border-subtle flex items-center justify-between font-caption-code text-caption-code text-badge-fact-text">
+<span>تمت المطابقة مع 12 شهادة موثقة وبيان مالي</span>
+<span class="material-symbols-outlined text-sm">task_alt</span>
+</div>
+</section>
+<!-- Verification Areas & Gaps (Amber / Red Pinstripe Ledger) -->
+<section class="bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-border-subtle pb-space-sm mb-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-badge-gap-risk text-lg">search_check</span>
+<h2 class="font-headline-sm text-headline-sm text-text-ivory">مواطن التحقق والفجوات غير المحسومة</h2>
+</div>
+<span class="font-caption-code text-caption-code text-text-dim">مواضيع للاستيضاح المهني المحترم</span>
+</div>
+<div class="space-y-space-md">
+<!-- Gap 1 -->
+<div class="border-r-2 border-badge-gap-risk pr-space-md py-0.5">
+<div class="flex items-center justify-between">
+<h3 class="font-label-md text-label-md text-text-ivory font-bold">الفجوة في تراخيص التوسع بشمال أفريقيا ومصر</h3>
+<a class="text-accent-acid font-caption-code hover:underline" href="#source-9">[9]</a>
+</div>
+<p class="font-body-dense text-body-dense text-text-muted mt-1">
+                أعلن في مؤتمر «عرب نت 2022» افتتاح مركز تشغيلي بالقاهرة يضم 150 شاحنة مبردة بحلول Q3 2023. التحقق الميداني من السجل التجاري المصري أظهر أن الشركة لا تزال مسجلة كمكتب تمثيل فقط دون رخصة نقل تجاري.
+              </p>
+<div class="mt-space-xs bg-surface-elevated p-2 rounded text-text-dim font-caption-code text-caption-code flex items-start gap-1">
+<span class="text-accent-acid font-bold shrink-0">سؤال مقترح:</span>
+<span>«أين تقف خطتكم لربط مسارات التوزيع مع القاهرة اليوم في ظل تذبذب أسعار الصرف وإجراءات الترخيص؟»</span>
+</div>
+</div>
+<!-- Gap 2 -->
+<div class="border-r-2 border-badge-inference pr-space-md py-0.5">
+<div class="flex items-center justify-between">
+<h3 class="font-label-md text-label-md text-text-ivory font-bold">تأثير ارتفاع أسعار إيجارات المستودعات على هوامش الربح</h3>
+<a class="text-accent-acid font-caption-code hover:underline" href="#source-10">[10]</a>
+</div>
+<p class="font-body-dense text-body-dense text-text-muted mt-1">
+                ارتفعت أسعار تأجير المساحات التخزينية جنوب الرياض بنسبة 38% خلال 2023. لم يتطرق الضيف في أي حوار سابق لمدى قدرة المنصة على امتصاص هذه التكلفة دون تحميلها للمتاجر المتوسطة والصغيرة.
+              </p>
+<div class="mt-space-xs bg-surface-elevated p-2 rounded text-text-dim font-caption-code text-caption-code flex items-start gap-1">
+<span class="text-accent-acid font-bold shrink-0">سؤال مقترح:</span>
+<span>«مع صعود أسعار الأراضي اللوجستية بالرياض، كيف تحافظون على هامش مجدٍ لقطاع الشركات الناشئة؟»</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm border-t border-border-subtle flex items-center justify-between font-caption-code text-caption-code text-badge-inference">
+<span>التصنيف: استيضاحات مهنية حوارية لا طعون في الذمة المالية</span>
+<span class="material-symbols-outlined text-sm">shield</span>
+</div>
+</section>
+</div>
+<!-- SECTION 5: Contradictions & Open Questions (Direct Juxtaposition Matrix) -->
+<section class="w-full bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md">
+<div class="flex items-center justify-between border-b border-border-subtle pb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-badge-inference text-lg">balance</span>
+<h2 class="font-headline-sm text-headline-sm text-text-ivory">خريطة التناقضات وتتبع تصريحات الأرشيف</h2>
+</div>
+<span class="font-caption-code text-caption-code bg-badge-inference/10 text-badge-inference border border-badge-inference/30 px-2 py-0.5 rounded">مقارنة تحليلية مدققة</span>
+</div>
+<!-- Juxtaposition Container -->
+<div class="bg-surface-elevated border border-border-subtle rounded-lg p-space-md space-y-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-badge-gap-risk"></span>
+<span class="font-label-md text-label-md text-text-ivory font-bold">ملف: معدل حرق السيولة ومسار الربحية التشغيلية</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md relative">
+<!-- Statement A -->
+<div class="bg-surface-card border border-border-subtle p-space-md rounded space-y-space-xs">
+<div class="flex items-center justify-between text-badge-claim-text font-caption-code text-caption-code">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">mic</span>
+                تصريح مسجل (بودكاست سقراط - نوفمبر 2022)
+              </span>
+<a class="text-accent-acid hover:underline" href="#source-11">[11]</a>
+</div>
+<blockquote class="font-body-dense text-body-dense text-text-ivory italic pr-2 border-r border-badge-claim-text">
+              «أوقفنا حرق الكاش منذ الربع الثاني لعام 2022، ونحن اليوم نولد تدفقات نقدية موجبة تغطي كافة رواتب موظفينا البالغين 210 موظفين.»
+            </blockquote>
+</div>
+<!-- Statement B -->
+<div class="bg-surface-card border border-border-subtle p-space-md rounded space-y-space-xs">
+<div class="flex items-center justify-between text-badge-gap-risk font-caption-code text-caption-code">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">description</span>
+                نشرة إفصاح تمويل Series B (مايو 2024)
+              </span>
+<a class="text-accent-acid hover:underline" href="#source-12">[12]</a>
+</div>
+<blockquote class="font-body-dense text-body-dense text-text-ivory italic pr-2 border-r border-badge-gap-risk">
+              «تُخصص 40% من أموال الجولة لسد العجز التشغيلي وإعادة جدولة التزامات استئجار أسطول التبريد حتى الربع الأول من 2025.»
+            </blockquote>
+</div>
+</div>
+<!-- Analytical Resolution & Suggested Prompt -->
+<div class="bg-surface-card/90 border border-accent-acid/30 rounded p-space-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm">
+<div class="space-y-0.5">
+<span class="font-caption-code text-caption-code text-accent-acid font-bold block">السؤال الاحترافي المقترح للمحاور (بدون اتهام):</span>
+<p class="font-body-dense text-body-dense text-text-muted">
+              «في حديثك مع عمر الجريسي عام 2022 ذكرت وصولكم لنقطة التعادل المالي، بينما أظهر إفصاح الجولة الأخيرة استمرار الدعم التشغيلي.. هل تغيرت حسابات السوق أم أن التوسع فرض إعادة الاستثمار في البنية التحتية؟»
+            </p>
+</div>
+<button class="shrink-0 px-space-sm py-1 rounded bg-surface-elevated border border-border-subtle font-caption-code text-caption-code text-text-ivory hover:text-accent-acid hover:border-accent-acid transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">content_copy</span>
+<span>نسخ الصياغة</span>
+</button>
+</div>
+</div>
+</section>
+<!-- SECTION 6: Hot Conversation Map (4 Zones) -->
+<section class="w-full bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md">
+<div class="flex items-center justify-between border-b border-border-subtle pb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-accent-acid text-lg">radar</span>
+<h2 class="font-headline-sm text-headline-sm text-text-ivory">خريطة الحوار الساخن (Tactical Interview Radar)</h2>
+</div>
+<span class="font-caption-code text-caption-code text-text-muted">4 مناطق لتوجيه بوصلة المقابلة</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Zone 1: Comfort Zone (Green) -->
+<div class="bg-surface-elevated border-t-4 border-t-badge-fact-text border border-border-subtle rounded p-space-md space-y-space-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-caption-code text-caption-code font-bold text-badge-fact-text uppercase tracking-wider">المنطقة المريحة</span>
+<span class="material-symbols-outlined text-badge-fact-text text-sm">sentiment_satisfied</span>
+</div>
+<h3 class="font-label-md text-label-md text-text-ivory font-bold mb-1">الابتكار التقني في أرامكو والنشأة اللوجستية</h3>
+<p class="font-caption-code text-caption-code text-text-muted leading-relaxed">
+              محور حديث شغوف ومحبب له. يستفيض في سرد بدايات الثورة الرقمية وتطوير خوارزميات التنبؤ. مدخل مثالي لبناء الألفة وتخفيف التوتر في أول 10 دقائق من الحلقة.
+            </p>
+</div>
+<div class="pt-space-xs border-t border-border-subtle text-text-dim font-caption-code text-caption-code">
+            مستوى الطاقة: مرتفع ومسترسل
+          </div>
+</div>
+<!-- Zone 2: Promising Zone (Lime) -->
+<div class="bg-surface-elevated border-t-4 border-t-accent-acid border border-border-subtle rounded p-space-md space-y-space-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-caption-code text-caption-code font-bold text-accent-acid uppercase tracking-wider">المنطقة الواعدة</span>
+<span class="material-symbols-outlined text-accent-acid text-sm">trending_up</span>
+</div>
+<h3 class="font-label-md text-label-md text-text-ivory font-bold mb-1">طريق الحرير وسلاسل الإمداد الخليجية</h3>
+<p class="font-caption-code text-caption-code text-text-muted leading-relaxed">
+              يحمل رؤية استراتيجية واضحة تجعل السعودية منصة ربط قارية. منطقة حوار ممتازة لإبراز القيمة المضافة للمملكة في خطط 2030 وتوليد عناوين رئيسية إيجابية للبودكاست.
+            </p>
+</div>
+<div class="pt-space-xs border-t border-border-subtle text-text-dim font-caption-code text-caption-code">
+            مستوى الطاقة: استراتيجي ورؤيوي
+          </div>
+</div>
+<!-- Zone 3: Sensitive Zone (Amber) -->
+<div class="bg-surface-elevated border-t-4 border-t-badge-inference border border-border-subtle rounded p-space-md space-y-space-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-caption-code text-caption-code font-bold text-badge-inference uppercase tracking-wider">المنطقة الحساسة</span>
+<span class="material-symbols-outlined text-badge-inference text-sm">warning</span>
+</div>
+<h3 class="font-label-md text-label-md text-text-ivory font-bold mb-1">إعادة هيكلة العمليات الميدانية وتسريح 12%</h3>
+<p class="font-caption-code text-caption-code text-text-muted leading-relaxed">
+              إجراء صامت مطلع عام 2024 طال نحو 45 موظفاً ميدانياً وسائقاً. غالباً ما يعزو الأمر إلى «أتمتة الفرز»، لكن المصادر تشير إلى ضغوط من مستثمري الجولة الأخيرة لتقليص الأجور.
+            </p>
+</div>
+<div class="pt-space-xs border-t border-border-subtle text-text-dim font-caption-code text-caption-code">
+            مستوى الطاقة: حذر ومقتضب
+          </div>
+</div>
+<!-- Zone 4: Critical Climax Question (Acid Lime Border) -->
+<div class="bg-surface-elevated border-2 border-accent-acid rounded p-space-md space-y-space-xs flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-8 -bottom-8 w-24 h-24 bg-accent-acid/10 rounded-full blur-xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-caption-code text-caption-code font-bold text-accent-acid uppercase tracking-wider">السؤال الحاسم (The Pivot)</span>
+<span class="material-symbols-outlined text-accent-acid text-sm">emergency</span>
+</div>
+<h3 class="font-label-md text-label-md text-text-ivory font-bold mb-1">التحول من التوسع السريع إلى الانكماش في التجزئة</h3>
+<p class="font-caption-code text-caption-code text-text-muted leading-relaxed">
+              «كيف تبرر للمستثمرين الانسحاب الجزئي من توصيل التجزئة السريع (B2C) والتركيز فقط على التخزين الثقيل (B2B) بعد صرف ملايين الدولارات على الحملات التسويقية؟»
+            </p>
+</div>
+<div class="pt-space-xs border-t border-border-subtle text-accent-acid font-caption-code text-caption-code font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">local_fire_department</span>
+<span>نقطة التحول الصحفية للّقاء</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 7: Curated Interview Questions Ledger -->
+<section class="w-full bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-sm border-b border-border-subtle gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-accent-acid text-lg">quiz</span>
+<h2 class="font-headline-sm text-headline-sm text-text-ivory">قائمة الأسئلة الاستقصائية المصنفة للّقاء</h2>
+</div>
+<p class="font-caption-code text-caption-code text-text-dim mt-0.5">23 سؤالاً صممت لتفكيك الخطاب الدبلوماسي والوصول للحقائق</p>
+</div>
+<!-- Filter Tabs for Questions -->
+<div class="flex flex-wrap items-center gap-1 bg-surface-elevated p-1 rounded border border-border-subtle">
+<button class="px-space-xs py-1 rounded bg-accent-acid text-canvas-base font-caption-code text-caption-code font-bold">الكل (23)</button>
+<button class="px-space-xs py-1 rounded text-text-muted hover:text-text-ivory font-caption-code text-caption-code">افتتاحية (3)</button>
+<button class="px-space-xs py-1 rounded text-text-muted hover:text-text-ivory font-caption-code text-caption-code">استكشافية (5)</button>
+<button class="px-space-xs py-1 rounded text-text-muted hover:text-text-ivory font-caption-code text-caption-code">مدعومة بأدلة (5)</button>
+<button class="px-space-xs py-1 rounded text-text-muted hover:text-text-ivory font-caption-code text-caption-code">مشروطة بالمتابعة (5)</button>
+<button class="px-space-xs py-1 rounded text-text-muted hover:text-text-ivory font-caption-code text-caption-code">صعبة ومحايدة (3)</button>
+<button class="px-space-xs py-1 rounded text-text-muted hover:text-text-ivory font-caption-code text-caption-code">استشراف وختام (2)</button>
+</div>
+</div>
+<!-- Questions List -->
+<div class="space-y-space-xs divide-y divide-border-subtle">
+<!-- Question Item 1: Evidence Based -->
+<div class="pt-space-sm pb-space-xs flex items-start justify-between gap-space-md group">
+<div class="space-y-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-caption-code text-caption-code px-1.5 py-0.5 rounded bg-badge-fact-bg/40 text-badge-fact-text border border-badge-fact-text/30">مدعوم بأدلة</span>
+<span class="font-caption-code text-caption-code text-text-dim">المسار: استثمار وحوكمة</span>
+<a class="text-accent-acid font-caption-code hover:underline" href="#source-13">[13]</a>
+</div>
+<p class="font-body-dense text-body-dense text-text-ivory">
+              «أغلقتم جولة (Series B) بـ 45 مليون دولار في وقت تشهد فيه شركات اللوجستيات العالمية انكماشاً في التقييمات بنسبة 30%.. ما التعهدات الصعبة التي قدمتها «سير كابيتال» للمستثمرين لتأمين هذا الرقم؟»
+            </p>
+</div>
+<button class="shrink-0 p-1.5 rounded bg-surface-elevated text-text-muted hover:text-accent-acid hover:border-accent-acid border border-border-subtle transition-colors" title="نسخ السؤال">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+<!-- Question Item 2: Conditional Follow Up -->
+<div class="pt-space-sm pb-space-xs flex items-start justify-between gap-space-md group">
+<div class="space-y-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-caption-code text-caption-code px-1.5 py-0.5 rounded bg-badge-inference/20 text-badge-inference border border-badge-inference/40">سؤال متابعة مشروط</span>
+<span class="font-caption-code text-caption-code text-text-dim">يُطرح إذا قال: "الطلب في السوق كان المحرك الرئيسي"</span>
+</div>
+<p class="font-body-dense text-body-dense text-text-ivory">
+              «إذا كان الطلب مدفوعاً بنمو السوق وحده، لماذا انخفضت حصة إيرادات المنصة من قطاع التجزئة المتوسط بنسبة 14% وفقاً لبيانات جمعية التجارة الإلكترونية لعام 2023؟»
+              <a class="text-accent-acid font-caption-code hover:underline" href="#source-14">[14]</a>
+</p>
+</div>
+<button class="shrink-0 p-1.5 rounded bg-surface-elevated text-text-muted hover:text-accent-acid hover:border-accent-acid border border-border-subtle transition-colors" title="نسخ السؤال">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+<!-- Question Item 3: Neutral & Hard -->
+<div class="pt-space-sm pb-space-xs flex items-start justify-between gap-space-md group">
+<div class="space-y-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-caption-code text-caption-code px-1.5 py-0.5 rounded bg-badge-gap-risk/20 text-badge-gap-risk border border-badge-gap-risk/30">محايد وصعب</span>
+<span class="font-caption-code text-caption-code text-text-dim">المسار: أداء الكفاءات والأتمتة</span>
+</div>
+<p class="font-body-dense text-body-dense text-text-ivory">
+              «يتم الترويج للأتمتة والذكاء الاصطناعي دائماً كحل نهائي لسلاسل التوريد.. بصراحة مهندس: كم وظيفة تم الاستغناء عنها فعلياً في مستودعاتكم لتحقيق وفر مالي بعد ربط روبوتات الفرز الآلي؟»
+            </p>
+</div>
+<button class="shrink-0 p-1.5 rounded bg-surface-elevated text-text-muted hover:text-accent-acid hover:border-accent-acid border border-border-subtle transition-colors" title="نسخ السؤال">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+<!-- Question Item 4: Opening Question -->
+<div class="pt-space-sm pb-space-xs flex items-start justify-between gap-space-md group">
+<div class="space-y-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-caption-code text-caption-code px-1.5 py-0.5 rounded bg-surface-elevated text-text-muted border border-border-subtle">سؤال افتتاحي</span>
+<span class="font-caption-code text-caption-code text-text-dim">المسار: كسر الجليد والانطلاقة</span>
+</div>
+<p class="font-body-dense text-body-dense text-text-ivory">
+              «مهندس طارق، قضيت 6 سنوات في أرامكو تفكر بأنابيب النفط والمعدات الثقيلة.. ما اللحظة الدقيقة التي جعلتك تقرر أن كرتون التوصيل وشاحنات التبريد هي مستقبلك القادم؟»
+            </p>
+</div>
+<button class="shrink-0 p-1.5 rounded bg-surface-elevated text-text-muted hover:text-accent-acid hover:border-accent-acid border border-border-subtle transition-colors" title="نسخ السؤال">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+<!-- Question Item 5: Future & Closing -->
+<div class="pt-space-sm pb-space-xs flex items-start justify-between gap-space-md group">
+<div class="space-y-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-caption-code text-caption-code px-1.5 py-0.5 rounded bg-accent-acid/10 text-accent-acid border border-accent-acid/20">استشراف المستقبل</span>
+<span class="font-caption-code text-caption-code text-text-dim">المسار: ما وراء 2030</span>
+</div>
+<p class="font-body-dense text-body-dense text-text-ivory">
+              «لو جلسنا بعد 5 سنوات من الآن في نفس هذا المكان.. هل ستكون «سير كابيتال» شركة مدرجة في تاسي، أم جزءاً تم الاستحواذ عليه من عملاق عالمي مثل أمازون أو دي إتش إل؟»
+            </p>
+</div>
+<button class="shrink-0 p-1.5 rounded bg-surface-elevated text-text-muted hover:text-accent-acid hover:border-accent-acid border border-border-subtle transition-colors" title="نسخ السؤال">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Action Footer for Questions -->
+<div class="pt-space-sm border-t border-border-subtle flex flex-wrap items-center justify-between gap-space-xs">
+<span class="font-caption-code text-caption-code text-text-dim">يمكن طباعة بطاقات الأسئلة أو تصديرها مباشرة لتطبيق المحاور</span>
+<button class="px-space-sm py-1 bg-surface-elevated border border-border-subtle hover:border-accent-acid text-accent-acid font-label-sm text-label-sm rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">download</span>
+<span>تصدير ورقة الأسئلة المنقحة (Print-Ready)</span>
+</button>
+</div>
+</section>
+<!-- SECTION 8: Comprehensive Source Ledger (Dense Evidence Table) -->
+<section class="w-full bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md" id="source-ledger">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-sm border-b border-border-subtle gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-accent-acid text-lg">folder_shared</span>
+<h2 class="font-headline-sm text-headline-sm text-text-ivory">سجل المصادر المفهرس (Evidence Master Index)</h2>
+</div>
+<p class="font-caption-code text-caption-code text-text-dim mt-0.5">28 مصدراً تم تدقيقها برمجياً وتوثيق توقيعها الرقمي</p>
+</div>
+<!-- Ledger Filter Controls -->
+<div class="flex items-center gap-1 bg-surface-elevated p-1 rounded border border-border-subtle">
+<button class="px-2 py-0.5 rounded bg-accent-acid text-canvas-base font-caption-code text-caption-code font-bold">الكل (28)</button>
+<button class="px-2 py-0.5 rounded text-text-muted hover:text-text-ivory font-caption-code text-caption-code">أولية (14)</button>
+<button class="px-2 py-0.5 rounded text-text-muted hover:text-text-ivory font-caption-code text-caption-code">إعلام مستقل (8)</button>
+<button class="px-2 py-0.5 rounded text-text-muted hover:text-text-ivory font-caption-code text-caption-code">مقابلات (4)</button>
+<button class="px-2 py-0.5 rounded text-text-muted hover:text-text-ivory font-caption-code text-caption-code">سجلات رسمية (2)</button>
+</div>
+</div>
+<!-- Ledger Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-right font-caption-code text-caption-code border-collapse">
+<thead>
+<tr class="border-b border-border-subtle text-text-dim">
+<th class="py-space-xs px-space-sm font-semibold">م</th>
+<th class="py-space-xs px-space-sm font-semibold">المصدر / المستند</th>
+<th class="py-space-xs px-space-sm font-semibold">الناشر / الجهة</th>
+<th class="py-space-xs px-space-sm font-semibold">التاريخ</th>
+<th class="py-space-xs px-space-sm font-semibold">النوع</th>
+<th class="py-space-xs px-space-sm font-semibold">الموثوقية</th>
+<th class="py-space-xs px-space-sm font-semibold">الادعاء المعتمد</th>
+<th class="py-space-xs px-space-sm font-semibold">الرابط</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle text-text-muted">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-elevated/60 transition-colors" id="source-1">
+<td class="py-space-sm px-space-sm text-accent-acid font-bold">[1]</td>
+<td class="py-space-sm px-space-sm text-text-ivory font-medium">بيان جولة التمويل الاستثماري Series B لشركة سير كابيتال</td>
+<td class="py-space-sm px-space-sm">رويترز الشرق الأوسط + LEAP</td>
+<td class="py-space-sm px-space-sm">مارس 2024</td>
+<td class="py-space-sm px-space-sm"><span class="px-1.5 py-0.5 rounded bg-surface-elevated text-badge-claim-text border border-border-subtle">بيان صحفي رسمي</span></td>
+<td class="py-space-sm px-space-sm"><span class="text-badge-fact-text font-bold">عالية جداً (98%)</span></td>
+<td class="py-space-sm px-space-sm">قيمة الجولة 45M$ بمشاركة صناديق حكومية</td>
+<td class="py-space-sm px-space-sm"><a class="text-accent-acid hover:underline flex items-center gap-0.5" href="#"><span class="material-symbols-outlined text-xs">open_in_new</span> فتح</a></td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-elevated/60 transition-colors" id="source-2">
+<td class="py-space-sm px-space-sm text-accent-acid font-bold">[2]</td>
+<td class="py-space-sm px-space-sm text-text-ivory font-medium">قرار تشكيل أعضاء اللجنة الوطنية لتقنية المعلومات واللوجستيات</td>
+<td class="py-space-sm px-space-sm">اتحاد الغرف السعودية</td>
+<td class="py-space-sm px-space-sm">أكتوبر 2021</td>
+<td class="py-space-sm px-space-sm"><span class="px-1.5 py-0.5 rounded bg-badge-fact-bg/30 text-badge-fact-text border border-badge-fact-text/30">سجل حكومي قطاعي</span></td>
+<td class="py-space-sm px-space-sm"><span class="text-badge-fact-text font-bold">قطعية (100%)</span></td>
+<td class="py-space-sm px-space-sm">عضوية استشارية حتى نهاية دورة 2024</td>
+<td class="py-space-sm px-space-sm"><a class="text-accent-acid hover:underline flex items-center gap-0.5" href="#"><span class="material-symbols-outlined text-xs">open_in_new</span> فتح</a></td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-elevated/60 transition-colors" id="source-3">
+<td class="py-space-sm px-space-sm text-accent-acid font-bold">[3]</td>
+<td class="py-space-sm px-space-sm text-text-ivory font-medium">سجل تأسيس الشركة والنظام الأساسي لشركة مساهمة مبسطة</td>
+<td class="py-space-sm px-space-sm">وزارة التجارة - منصة أعمال</td>
+<td class="py-space-sm px-space-sm">نوفمبر 2018</td>
+<td class="py-space-sm px-space-sm"><span class="px-1.5 py-0.5 rounded bg-badge-fact-bg/30 text-badge-fact-text border border-badge-fact-text/30">سجل تجاري أولي</span></td>
+<td class="py-space-sm px-space-sm"><span class="text-badge-fact-text font-bold">قطعية (100%)</span></td>
+<td class="py-space-sm px-space-sm">الملكية المؤسسية وتاريخ التدشين القانوني</td>
+<td class="py-space-sm px-space-sm"><a class="text-accent-acid hover:underline flex items-center gap-0.5" href="#"><span class="material-symbols-outlined text-xs">open_in_new</span> فتح</a></td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-elevated/60 transition-colors" id="source-4">
+<td class="py-space-sm px-space-sm text-accent-acid font-bold">[4]</td>
+<td class="py-space-sm px-space-sm text-text-ivory font-medium">أرشيف مجلة قافلة الزيت - برامج التحول الرقمي للتوريد</td>
+<td class="py-space-sm px-space-sm">أرامكو السعودية</td>
+<td class="py-space-sm px-space-sm">يونيو 2016</td>
+<td class="py-space-sm px-space-sm"><span class="px-1.5 py-0.5 rounded bg-surface-elevated text-text-muted border border-border-subtle">نشرة داخلية موثقة</span></td>
+<td class="py-space-sm px-space-sm"><span class="text-badge-fact-text font-bold">عالية (95%)</span></td>
+<td class="py-space-sm px-space-sm">قيادة مشروع ربط مستودعات المنطقة الشرقية</td>
+<td class="py-space-sm px-space-sm"><a class="text-accent-acid hover:underline flex items-center gap-0.5" href="#"><span class="material-symbols-outlined text-xs">open_in_new</span> فتح</a></td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-elevated/60 transition-colors" id="source-5">
+<td class="py-space-sm px-space-sm text-accent-acid font-bold">[5]</td>
+<td class="py-space-sm px-space-sm text-text-ivory font-medium">أطروحة الماجستير: Systems Engineering &amp; Supply Optimisation</td>
+<td class="py-space-sm px-space-sm">Imperial College Library</td>
+<td class="py-space-sm px-space-sm">سبتمبر 2010</td>
+<td class="py-space-sm px-space-sm"><span class="px-1.5 py-0.5 rounded bg-badge-fact-bg/30 text-badge-fact-text border border-badge-fact-text/30">أطروحة أكاديمية</span></td>
+<td class="py-space-sm px-space-sm"><span class="text-badge-fact-text font-bold">قطعية (100%)</span></td>
+<td class="py-space-sm px-space-sm">توثيق الخلفية الهندسية البريطانية</td>
+<td class="py-space-sm px-space-sm"><a class="text-accent-acid hover:underline flex items-center gap-0.5" href="#"><span class="material-symbols-outlined text-xs">open_in_new</span> فتح</a></td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-surface-elevated/60 transition-colors" id="source-9">
+<td class="py-space-sm px-space-sm text-accent-acid font-bold">[9]</td>
+<td class="py-space-sm px-space-sm text-text-ivory font-medium">استعلام قاعدة بيانات الهيئة العامة للاستثمار والمناطق الحرة بمصر</td>
+<td class="py-space-sm px-space-sm">GAFI Egypt Registry</td>
+<td class="py-space-sm px-space-sm">أغسطس 2024</td>
+<td class="py-space-sm px-space-sm"><span class="px-1.5 py-0.5 rounded bg-badge-gap-risk/20 text-badge-gap-risk border border-badge-gap-risk/30">فحص تجاري خارجي</span></td>
+<td class="py-space-sm px-space-sm"><span class="text-badge-fact-text font-bold">عالية (92%)</span></td>
+<td class="py-space-sm px-space-sm">عدم وجود ترخيص نقل نشط باسم الشركة حتى الآن</td>
+<td class="py-space-sm px-space-sm"><a class="text-accent-acid hover:underline flex items-center gap-0.5" href="#"><span class="material-symbols-outlined text-xs">open_in_new</span> فتح</a></td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-surface-elevated/60 transition-colors" id="source-11">
+<td class="py-space-sm px-space-sm text-accent-acid font-bold">[11]</td>
+<td class="py-space-sm px-space-sm text-text-ivory font-medium">مقابلة بودكاست سقراط - حلقة «كيف تدار سلاسل التوريد الرقمية»</td>
+<td class="py-space-sm px-space-sm">ثمانية للنشر والتوزيع</td>
+<td class="py-space-sm px-space-sm">نوفمبر 2022</td>
+<td class="py-space-sm px-space-sm"><span class="px-1.5 py-0.5 rounded bg-badge-inference/20 text-badge-inference border border-badge-inference/30">تسجيل صوتي متاح</span></td>
+<td class="py-space-sm px-space-sm"><span class="text-badge-fact-text font-bold">قطعية (100%)</span></td>
+<td class="py-space-sm px-space-sm">تصريح الوصول للتدفقات النقدية الموجبة في 2022</td>
+<td class="py-space-sm px-space-sm"><a class="text-accent-acid hover:underline flex items-center gap-0.5" href="#"><span class="material-symbols-outlined text-xs">open_in_new</span> فتح</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Ledger Summary Stats Footnote -->
+<div class="pt-space-xs flex flex-wrap items-center justify-between text-text-dim font-caption-code text-caption-code">
+<div class="flex items-center gap-space-md">
+<span>يتم التحقق من كسر الروابط (Dead Link Verification) بشكل يومي عبر أرشيف Wayback Machine</span>
+<span class="text-accent-acid">كافة المستندات مؤرشفة محلياً بصيغة WARC</span>
+</div>
+<button class="text-text-muted hover:text-text-ivory flex items-center gap-1">
+<span>عرض جميع المصادر الـ 28</span>
+<span class="material-symbols-outlined text-xs">expand_more</span>
+</button>
+</div>
+</section>
+</div>
+</div></main><footer class="w-full bg-surface-card border-t border-border-subtle py-space-md"><div class="w-full px-space-lg flex flex-col md:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><span class="font-label-sm text-label-sm text-text-dim">نظام التحقق الاستقصائي التراكمي © 2025 «المِجهر»</span><span class="font-caption-code text-caption-code text-badge-fact-text bg-badge-fact-bg/30 px-space-xs py-0.5 rounded border border-badge-fact-text/20">SECURE ARCHIVE V2.4</span></div><div class="flex items-center gap-space-md"><span class="font-caption-code text-caption-code text-text-dim">زمن الاستجابة: 34ms</span><span class="font-caption-code text-caption-code text-text-dim">فهرس المصادر: نشط</span></div></div></footer></body></html>

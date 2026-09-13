@@ -1,0 +1,194 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ResearchJob {
+  id             String           @id @default(uuid())
+  status         String           // "pending", "identifying", "gathering", "analyzing", "completed", "failed", "cancelled", "ambiguous"
+  progress       Int              @default(0)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  error          String?
+  guestName      String
+  role           String?
+  organization   String?
+  country        String?
+  url            String?
+  twitterUrl     String?
+  linkedinUrl    String?
+  objective      String?
+  depth          String           // "سريع", "متقدم", "عميق"
+  
+  project        ResearchProject? @relation(fields: [projectId], references: [id])
+  projectId      String?
+}
+
+model ResearchProject {
+  id                String           @id @default(uuid())
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  executiveBriefing String?
+  confidenceScore   Int?
+  identityMatch     String?          // JSON string
+  quickMetrics      String?          // JSON string
+
+  job            ResearchJob[]
+  profile        PersonProfile?
+  candidates     PersonCandidate[]
+  sources        Source[]
+  claims         EvidenceClaim[]
+  timeline       TimelineEvent[]
+  strengths      Strength[]
+  verifications  VerificationArea[]
+  contradictions Contradiction[]
+  appearances    InterviewAppearance[]
+  topics         ConversationTopic[]
+  questions      InterviewQuestion[]
+}
+
+model PersonCandidate {
+  id             String           @id @default(uuid())
+  name           String
+  role           String?
+  organization   String?
+  location       String?
+  imageUrl       String?
+  sourceUrl      String?
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model PersonProfile {
+  id             String           @id @default(uuid())
+  name           String
+  role           String?
+  organization   String?
+  location       String?
+  confidence     String?          // Executive overview confidence
+
+  projectId      String           @unique
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Source {
+  id             String           @id @default(uuid())
+  title          String
+  publisher      String?
+  url            String
+  publishedAt    DateTime?
+  accessedAt     DateTime         @default(now())
+  type           String           // Primary, News, Interview, etc.
+  reliability    String           // High, Medium, Low
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  claims         EvidenceClaim[]
+}
+
+model EvidenceClaim {
+  id             String           @id @default(uuid())
+  claim          String
+  classification String           // Verified fact, Claim, Inference, etc.
+  
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  sourceId       String?
+  source         Source?          @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+}
+
+model TimelineEvent {
+  id             String           @id @default(uuid())
+  date           String
+  event          String
+  organization   String?
+  explanation    String?
+  classification String
+  sourceUrl      String?
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Strength {
+  id             String           @id @default(uuid())
+  title          String
+  explanation    String
+  confidence     String
+  sourceUrls     String           // JSON string array
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model VerificationArea {
+  id             String           @id @default(uuid())
+  gap            String
+  whyItMatters   String
+  existingEvidence String
+  missingInfo    String
+  questionToAsk  String
+  sourceUrls     String           // JSON string array
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Contradiction {
+  id             String           @id @default(uuid())
+  statementA     String
+  statementB     String
+  dateA          String?
+  dateB          String?
+  sourceUrlA     String?
+  sourceUrlB     String?
+  question       String
+  confidence     String
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model InterviewAppearance {
+  id             String           @id @default(uuid())
+  title          String
+  platform       String
+  date           String?
+  mainThemes     String           // JSON string array
+  quote          String?
+  url            String
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model ConversationTopic {
+  id             String           @id @default(uuid())
+  category       String           // منطقة مريحة, منطقة واعدة, منطقة حساسة, سؤال حاسم
+  whyUseful      String
+  evidence       String
+  openingQuestion String
+  followUp       String
+  riskLevel      String
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model InterviewQuestion {
+  id             String           @id @default(uuid())
+  category       String           // opening, exploratory, evidence-based, follow-up, challenging, closing
+  question       String
+  motivationUrl  String?
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
