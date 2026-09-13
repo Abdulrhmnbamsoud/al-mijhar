@@ -143,7 +143,7 @@ export default function ResearchDashboard() {
             <div className="flex items-center gap-space-md">
               <div className="flex items-center gap-space-xs">
                 <span className="w-2.5 h-2.5 rounded-full bg-accent-acid animate-pulse"></span>
-                <span className="font-caption-code text-caption-code text-accent-acid tracking-wider font-semibold">ملف استقصائي مُفهرس // DOS-{project?.id.split('-')[0].toUpperCase()}</span>
+                <span className="font-caption-code text-caption-code text-accent-acid tracking-wider font-semibold">ملف استقصائي مُفهرس // مِلف-{project?.id.split('-')[0].toUpperCase()}</span>
               </div>
               <span className="text-border-subtle">|</span>
               <div className="flex items-center gap-space-xs text-text-muted">
@@ -174,7 +174,7 @@ export default function ResearchDashboard() {
                   هذا التقرير مبني على مصادر مفتوحة ومتاحة للعامة. الاستنتاجات التحليلية ليست حقائق قطعية، ويجب التحقق منها أثناء الحوار.
                 </p>
               </div>
-              <span className="font-caption-code text-caption-code text-text-dim shrink-0 hidden lg:inline">PROTO-OSINT-V4</span>
+              <span className="font-caption-code text-caption-code text-text-dim shrink-0 hidden lg:inline">نظام الاستقصاء الآلي v4</span>
             </div>
           </section>
 
@@ -195,7 +195,7 @@ export default function ResearchDashboard() {
                     <div className="flex flex-wrap items-center gap-space-xs">
                       <span className="px-space-xs py-0.5 rounded bg-surface-elevated border border-border-subtle font-caption-code text-caption-code text-text-dim">شخصية بحث</span>
                       <span className="px-space-xs py-0.5 rounded bg-badge-fact-bg/40 border border-badge-fact-text/30 font-caption-code text-caption-code text-badge-fact-text">سجل موثق</span>
-                      <span className="px-space-xs py-0.5 rounded bg-surface-elevated border border-border-subtle font-caption-code text-caption-code text-text-muted">ID: DOS-{project?.id.split('-')[0].toUpperCase()}</span>
+                      <span className="px-space-xs py-0.5 rounded bg-surface-elevated border border-border-subtle font-caption-code text-caption-code text-text-muted">مُعرّف: {project?.id.split('-')[0].toUpperCase()}</span>
                     </div>
                     <h1 className="font-headline-lg text-headline-lg text-text-ivory tracking-tight">{profile?.name}</h1>
                     <p className="font-body-dense text-body-dense text-text-muted">
@@ -263,7 +263,7 @@ export default function ResearchDashboard() {
                 <div className="flex items-center justify-between border-b border-border-subtle pb-space-sm">
                   <div className="flex items-center gap-space-xs">
                     <span className="material-symbols-outlined text-accent-acid text-lg">timer</span>
-                    <h2 className="font-headline-sm text-headline-sm text-text-ivory">موجز الدقائق الخمس (Executive Briefing)</h2>
+                    <h2 className="font-headline-sm text-headline-sm text-text-ivory">موجز الدقائق الخمس</h2>
                   </div>
                   <span className="font-caption-code text-caption-code px-2 py-0.5 bg-surface-elevated border border-border-subtle text-text-muted rounded">قراءة تمهيدية قبل اللقاء</span>
                 </div>
@@ -444,7 +444,7 @@ export default function ResearchDashboard() {
               <div className="flex items-center justify-between border-b border-border-subtle pb-space-sm">
                 <div className="flex items-center gap-space-xs">
                   <span className="material-symbols-outlined text-accent-acid text-lg">radar</span>
-                  <h2 className="font-headline-sm text-headline-sm text-text-ivory">خريطة الحوار الساخن (Tactical Interview Radar)</h2>
+                  <h2 className="font-headline-sm text-headline-sm text-text-ivory">خريطة الحوار الساخن</h2>
                 </div>
                 <span className="font-caption-code text-caption-code text-text-muted">مناطق لتوجيه بوصلة المقابلة</span>
               </div>
@@ -509,7 +509,7 @@ export default function ResearchDashboard() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-space-sm border-b border-border-subtle gap-space-sm">
                 <div className="flex items-center gap-space-xs">
                   <span className="material-symbols-outlined text-accent-acid text-lg">folder_shared</span>
-                  <h2 className="font-headline-sm text-headline-sm text-text-ivory">سجل المصادر المفهرس (Evidence Master Index)</h2>
+                  <h2 className="font-headline-sm text-headline-sm text-text-ivory">سجل المصادر المفهرس</h2>
                 </div>
               </div>
               <div className="overflow-x-auto">
