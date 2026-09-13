@@ -1,6 +1,81 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-on-secondary-fixed-variant: #424753;
+  --color-on-primary-fixed: #161e00;
+  --color-tertiary-fixed-dim: #adc6ff;
+  --color-inverse-on-surface: #2f3034;
+  --color-surface-container-highest: #333538;
+  --color-surface-tint: #abd600;
+  --color-border-subtle: #283040;
+  --color-on-tertiary-fixed: #001a42;
+  --color-secondary-fixed: #dee2f1;
+  --color-outline: #8e9379;
+  --color-on-primary-container: #556d00;
+  --color-secondary: #c2c6d5;
+  --color-badge-fact-text: #10B981;
+  --color-on-surface: #e2e2e6;
+  --color-text-dim: #6B7280;
+  --color-background: #111317;
+  --color-on-primary: #283500;
+  --color-error: #ffb4ab;
+  --color-badge-fact-bg: #064E3B;
+  --color-secondary-container: #444955;
+  --color-surface-bright: #37393d;
+  --color-primary: #ffffff;
+  --color-badge-gap-risk: #EF4444;
+  --color-secondary-fixed-dim: #c2c6d5;
+  --color-badge-inference: #F59E0B;
+  --color-on-surface-variant: #c4c9ac;
+  --color-tertiary-fixed: #d8e2ff;
+  --color-on-secondary-fixed: #171c26;
+  --color-outline-variant: #444933;
+  --color-error-container: #93000a;
+  --color-primary-container: #c3f400;
+  --color-on-tertiary: #002e6a;
+  --color-on-error-container: #ffdad6;
+  --color-badge-claim-text: #3B82F6;
+  --color-accent-acid: #CCFF00;
+  --color-primary-fixed: #c3f400;
+  --color-surface-container: #1e2023;
+  --color-surface: #111317;
+  --color-text-ivory: #F9FAFB;
+  --color-surface-card: #181C24;
+  --color-surface-dim: #111317;
+  --color-badge-claim-bg: #1E3A8A;
+  --color-tertiary: #ffffff;
+  --color-surface-variant: #333538;
+  --color-surface-container-lowest: #0c0e11;
+  --color-on-tertiary-fixed-variant: #004395;
+  --color-surface-elevated: #1E232E;
+  --color-badge-reporting: #8B5CF6;
+  --color-tertiary-container: #d8e2ff;
+  --color-on-tertiary-container: #0060ce;
+  --color-surface-container-high: #282a2d;
+  --color-on-error: #690005;
+  --color-on-secondary: #2b303c;
+  --color-text-muted: #9CA3AF;
+  --color-primary-fixed-dim: #abd600;
+  --color-on-primary-fixed-variant: #3c4d00;
+  --color-surface-container-low: #1a1c1f;
+  --color-on-background: #e2e2e6;
+  --color-inverse-primary: #506600;
+  --color-canvas-base: #0D0F12;
+  --color-on-secondary-container: #b4b8c7;
+  --color-inverse-surface: #e2e2e6;
+
+  --font-label-md: "IBM Plex Sans", sans-serif;
+  --font-body-default: "IBM Plex Sans", sans-serif;
+  --font-headline-md: "IBM Plex Sans", sans-serif;
+  --font-display-hero-mobile: "IBM Plex Sans", sans-serif;
+  --font-headline-lg: "IBM Plex Sans", sans-serif;
+  --font-display-hero: "IBM Plex Sans", sans-serif;
+  --font-body-dense: "IBM Plex Sans", sans-serif;
+  --font-label-sm: "IBM Plex Sans", sans-serif;
+  --font-headline-sm: "IBM Plex Sans", sans-serif;
+  --font-body-lead: "IBM Plex Sans", sans-serif;
+  --font-caption-code: "IBM Plex Sans", sans-serif;
+}
 
 @layer base {
   html, body {
@@ -10,8 +85,8 @@
   }
   body {
     overscroll-behavior: none;
-    background-color: var(--canvas-base);
-    color: var(--on-surface);
+    background-color: var(--color-canvas-base);
+    color: var(--color-on-surface);
   }
   main > :first-child {
     margin-top: 0 !important;
