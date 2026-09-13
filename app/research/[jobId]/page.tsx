@@ -97,7 +97,7 @@ export default function ResearchDashboard() {
 
   return (
     <div className="bg-canvas-base font-body-default text-on-surface antialiased min-h-screen">
-      <header className="fixed top-0 w-full z-50 bg-surface-card border-b border-border-subtle">
+      <header className="fixed top-0 w-full z-50 bg-surface-card border-b border-border-subtle print:hidden">
         <div className="h-16 w-full px-space-lg flex items-center justify-between gap-space-md">
           <div className="flex items-center gap-space-md">
             <div className="flex items-center gap-space-sm pl-space-md border-l border-border-subtle">
@@ -123,13 +123,13 @@ export default function ResearchDashboard() {
               <kbd className="font-caption-code text-caption-code bg-surface-container px-1 py-0.5 rounded text-text-dim border border-border-subtle">⌘K</kbd>
             </div>
             <div className="flex items-center gap-space-xs">
-              <button className="hidden md:inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-elevated border border-border-subtle font-label-sm text-label-sm text-text-ivory hover:border-text-muted transition-colors" type="button">
+              <button onClick={() => window.print()} className="hidden md:inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-elevated border border-border-subtle font-label-sm text-label-sm text-text-ivory hover:border-text-muted transition-colors" type="button">
                 <span className="material-symbols-outlined text-base">picture_as_pdf</span>تصدير PDF
               </button>
               <button className="hidden md:inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-elevated border border-border-subtle font-label-sm text-label-sm text-text-ivory hover:border-text-muted transition-colors" type="button">
                 <span className="material-symbols-outlined text-base">quiz</span>ورقة الأسئلة
               </button>
-              <button className="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-accent-acid font-label-sm text-label-sm font-bold text-canvas-base hover:bg-primary-fixed-dim transition-colors" type="button">
+              <button onClick={() => navigator.clipboard.writeText(project?.executiveBriefing || 'لا يوجد ملخص')} className="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-accent-acid font-label-sm text-label-sm font-bold text-canvas-base hover:bg-primary-fixed-dim transition-colors" type="button">
                 <span className="material-symbols-outlined text-base">content_copy</span>نسخ التقرير
               </button>
             </div>
@@ -137,7 +137,7 @@ export default function ResearchDashboard() {
         </div>
       </header>
 
-      <main className="w-full pt-16 bg-canvas-base">
+      <main className="w-full pt-16 bg-canvas-base print:pt-0">
         <div className="flex flex-col w-full">
           <section className="w-full bg-surface-card border-b border-border-subtle px-space-lg py-space-sm flex flex-wrap items-center justify-between gap-space-md">
             <div className="flex items-center gap-space-md">
