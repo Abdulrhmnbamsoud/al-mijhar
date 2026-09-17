@@ -52,6 +52,7 @@ model ResearchProject {
   questions      InterviewQuestion[]
   networkNodes   NetworkNode[]
   anomalies      Anomaly[]
+  interviewScriptAxes InterviewScriptAxis[]
 }
 
 model PersonCandidate {
@@ -215,6 +216,15 @@ model InterviewQuestion {
   category       String           // opening, exploratory, evidence-based, follow-up, challenging, closing
   question       String
   motivationUrl  String?
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model InterviewScriptAxis {
+  id             String           @id @default(uuid())
+  title          String
+  content        String
 
   projectId      String
   project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)

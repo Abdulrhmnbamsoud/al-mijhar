@@ -10,6 +10,7 @@ export default function ResearchDashboard() {
 
   const [job, setJob] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [showScriptModal, setShowScriptModal] = useState(false);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -126,7 +127,7 @@ export default function ResearchDashboard() {
               <button onClick={() => window.print()} className="hidden md:inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-elevated border border-border-subtle font-label-sm text-label-sm text-text-ivory hover:border-text-muted transition-colors" type="button">
                 <span className="material-symbols-outlined text-base">picture_as_pdf</span>تصدير PDF
               </button>
-              <button className="hidden md:inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-elevated border border-border-subtle font-label-sm text-label-sm text-text-ivory hover:border-text-muted transition-colors" type="button">
+              <button onClick={() => setShowScriptModal(true)} className="hidden md:inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-elevated border border-border-subtle font-label-sm text-label-sm text-text-ivory hover:border-text-muted transition-colors" type="button">
                 <span className="material-symbols-outlined text-base">quiz</span>ورقة الأسئلة
               </button>
               <button onClick={() => navigator.clipboard.writeText(project?.executiveBriefing || 'لا يوجد ملخص')} className="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-accent-acid font-label-sm text-label-sm font-bold text-canvas-base hover:bg-primary-fixed-dim transition-colors" type="button">
@@ -623,6 +624,62 @@ export default function ResearchDashboard() {
           </div>
         </div>
       </main>
+
+      {/* Script Modal */}
+      {showScriptModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-8">
+          <div className="bg-canvas-base border border-border-subtle rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-space-md border-b border-border-subtle bg-surface-card">
+              <div className="flex items-center gap-space-sm">
+                <span className="material-symbols-outlined text-accent-acid text-2xl">format_quote</span>
+                <h2 className="font-headline-sm text-headline-sm text-text-ivory">سيناريو المقابلة (Teleprompter)</h2>
+              </div>
+              <button onClick={() => setShowScriptModal(false)} className="text-text-muted hover:text-text-ivory p-1 rounded-full hover:bg-surface-elevated transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            
+            {/* Modal Content */}
+            <div className="flex-1 overflow-y-auto p-space-lg md:p-10 space-y-space-xl teleprompter-scroll">
+              {!project?.interviewScriptAxes || project.interviewScriptAxes.length === 0 ? (
+                <div className="text-center py-20 text-text-muted">
+                  <span className="material-symbols-outlined text-4xl mb-4 block">hourglass_empty</span>
+                  <p className="font-body-default text-body-default">لم يتم توليد سيناريو المقابلة لهذا الملف.</p>
+                </div>
+              ) : (
+                <div className="max-w-3xl mx-auto space-y-12">
+                  <div className="text-center border-b border-border-subtle pb-8 mb-12">
+                    <h1 className="font-display-sm text-display-sm text-text-ivory mb-2">مقابلة حصرية مع {profile?.name || job.guestName}</h1>
+                    <p className="font-caption-code text-caption-code text-accent-acid">مسودة سرية - للقراءة فقط</p>
+                  </div>
+                  
+                  {project.interviewScriptAxes.map((axis: any, index: number) => (
+                    <div key={axis.id} className="space-y-4">
+                      <h3 className="font-headline-sm text-headline-sm text-accent-acid bg-accent-acid/10 inline-block px-3 py-1 rounded">
+                        {axis.title}
+                      </h3>
+                      <p className="font-body-default text-body-default text-text-ivory leading-loose text-lg md:text-xl whitespace-pre-wrap">
+                        {axis.content}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="p-space-md border-t border-border-subtle bg-surface-card flex justify-end gap-space-sm">
+              <button onClick={() => {
+                 const text = project?.interviewScriptAxes?.map((a: any) => `${a.title}\n${a.content}`).join('\n\n') || '';
+                 navigator.clipboard.writeText(text);
+              }} className="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded bg-surface-elevated border border-border-subtle font-label-md text-label-md text-text-ivory hover:border-text-muted transition-colors">
+                <span className="material-symbols-outlined text-base">content_copy</span> نسخ النص كاملًا
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

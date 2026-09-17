@@ -23,6 +23,7 @@ export async function GET(
             questions: true,
             networkNodes: true,
             anomalies: true,
+            interviewScriptAxes: true,
           }
         }
       }
