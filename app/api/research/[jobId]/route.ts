@@ -24,6 +24,8 @@ export async function GET(
             networkNodes: true,
             anomalies: true,
             interviewScriptAxes: true,
+            psychologicalTraits: true,
+            lieDetectorRadars: true,
           }
         }
       }

@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import dynamic from 'next/dynamic';
+
+const NetworkGraph = dynamic(() => import('../../components/NetworkGraph'), { ssr: false });
 
 export default function ResearchDashboard() {
   const params = useParams();
@@ -372,30 +375,93 @@ export default function ResearchDashboard() {
 
             {/* Network & Anomalies (OSINT Insane Mode) */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-lg items-stretch">
-              {/* Network Nodes */}
+              {/* Network Nodes Graph */}
               {project?.networkNodes && project.networkNodes.length > 0 && (
-                <section className="bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md">
+                <section className="bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md lg:col-span-2">
                   <div className="flex items-center justify-between border-b border-border-subtle pb-space-sm mb-space-md">
                     <div className="flex items-center gap-space-xs">
                       <span className="material-symbols-outlined text-accent-acid text-lg">share</span>
-                      <h2 className="font-headline-sm text-headline-sm text-text-ivory">شبكة الارتباطات الاستخباراتية</h2>
+                      <h2 className="font-headline-sm text-headline-sm text-text-ivory">خريطة الارتباطات الاستخباراتية (تفاعلية)</h2>
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-space-sm">
-                    {project.networkNodes.map((node: any) => (
-                      <div key={node.id} className="bg-surface-elevated border border-border-subtle rounded p-space-sm flex items-start gap-space-sm relative overflow-hidden group">
-                        <div className={`absolute top-0 bottom-0 right-0 w-1 ${node.relationType.includes('حليف') || node.relationType.includes('داعم') ? 'bg-badge-fact-text' : node.relationType.includes('خصم') ? 'bg-badge-gap-risk' : 'bg-badge-inference'}`}></div>
-                        <span className="material-symbols-outlined text-text-dim mt-1">person</span>
-                        <div className="space-y-1 w-full pr-1">
-                          <div className="flex justify-between items-start w-full">
-                            <h3 className="font-label-md text-label-md text-text-ivory font-bold">{node.name}</h3>
-                            <span className="font-caption-code text-caption-code text-text-muted bg-surface-container-highest px-2 py-0.5 rounded">{node.relationType}</span>
+                  <div className="w-full">
+                    <NetworkGraph nodesData={project.networkNodes} targetName={profile?.name || job.guestName} />
+                  </div>
+                </section>
+              )}
+
+              {/* Psychological Traits */}
+              {project?.psychologicalTraits && project.psychologicalTraits.length > 0 && (
+                <section className="bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md">
+                  <div className="flex items-center justify-between border-b border-border-subtle pb-space-sm mb-space-md">
+                    <div className="flex items-center gap-space-xs">
+                      <span className="material-symbols-outlined text-accent-acid text-lg">psychology</span>
+                      <h2 className="font-headline-sm text-headline-sm text-text-ivory">التحليل النفسي المظلم</h2>
+                    </div>
+                  </div>
+                  <div className="space-y-space-md">
+                    {project.psychologicalTraits.map((trait: any) => (
+                      <div key={trait.id} className="border border-border-subtle bg-surface-elevated rounded p-space-md relative overflow-hidden">
+                        <div className="flex justify-between items-center mb-2">
+                          <h3 className="font-label-md text-label-md text-text-ivory font-bold">{trait.trait}</h3>
+                          <span className="font-caption-code text-caption-code text-accent-acid bg-accent-acid/10 px-2 py-0.5 rounded border border-accent-acid/20">
+                            مؤشر السمة: {trait.score}%
+                          </span>
+                        </div>
+                        <p className="font-body-dense text-body-dense text-text-muted mt-2 mb-4 leading-relaxed bg-canvas-base p-2 rounded border border-border-subtle">
+                          <span className="font-bold text-text-ivory block mb-1">دليل السمة:</span>
+                          {trait.evidence}
+                        </p>
+                        <p className="font-body-dense text-body-dense text-badge-fact-text leading-relaxed bg-badge-fact-bg/20 p-2 rounded border border-badge-fact-text/30">
+                          <span className="font-bold block mb-1">استغلال السمة في المقابلة:</span>
+                          {trait.exploitation}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Lie Detector Radar */}
+              {project?.lieDetectorRadars && project.lieDetectorRadars.length > 0 && (
+                <section className="bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md lg:col-span-2">
+                  <div className="flex items-center justify-between border-b border-border-subtle pb-space-sm mb-space-md">
+                    <div className="flex items-center gap-space-xs">
+                      <span className="material-symbols-outlined text-badge-gap-risk text-lg">radar</span>
+                      <h2 className="font-headline-sm text-headline-sm text-text-ivory">رادار كشف الخداع والتناقضات</h2>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 gap-space-md">
+                    {project.lieDetectorRadars.map((radar: any) => (
+                      <div key={radar.id} className="border border-border-subtle bg-surface-elevated rounded p-space-lg relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-l from-badge-gap-risk via-accent-acid to-transparent"></div>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b border-border-subtle pb-4">
+                          <h3 className="font-label-lg text-label-lg text-text-ivory font-bold flex items-center gap-2">
+                            <span className="material-symbols-outlined text-badge-gap-risk">compare_arrows</span>
+                            المحور: {radar.topic}
+                          </h3>
+                          <div className="mt-2 md:mt-0 flex items-center gap-2 bg-badge-gap-risk/10 px-3 py-1 rounded-full border border-badge-gap-risk/30">
+                            <span className="font-caption-code text-caption-code text-badge-gap-risk">مؤشر التهرب والتناقض:</span>
+                            <span className="font-headline-sm text-headline-sm text-badge-gap-risk font-bold">{radar.evasionScore}%</span>
                           </div>
-                          <p className="font-body-dense text-body-dense text-text-muted leading-relaxed">{node.description}</p>
-                          <div className="mt-2 text-right">
-                            <span className={`font-caption-code text-caption-code px-2 py-0.5 rounded border ${node.riskLevel === 'مرتفع' ? 'bg-badge-gap-risk/20 text-badge-gap-risk border-badge-gap-risk/30' : node.riskLevel === 'متوسط' ? 'bg-badge-inference/20 text-badge-inference border-badge-inference/30' : 'bg-badge-fact-bg/40 text-badge-fact-text border-badge-fact-text/30'}`}>
-                              تهديد: {node.riskLevel}
-                            </span>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-space-md relative">
+                          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border-subtle hidden md:block"></div>
+                          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface-card border border-border-subtle rounded-full p-2 hidden md:block z-10">
+                            <span className="material-symbols-outlined text-accent-acid text-sm">flash_on</span>
+                          </div>
+                          
+                          <div className="bg-canvas-base border border-border-subtle rounded p-4 relative">
+                            <span className="absolute -top-3 right-4 bg-surface-elevated px-2 py-0.5 font-caption-code text-caption-code text-text-muted border border-border-subtle rounded">التصريح الأول</span>
+                            <p className="font-body-default text-body-default text-text-ivory mt-2">{radar.statementA}</p>
+                            {radar.dateA && <span className="block mt-4 font-caption-code text-caption-code text-text-dim text-left">{radar.dateA}</span>}
+                          </div>
+
+                          <div className="bg-canvas-base border border-badge-gap-risk/30 rounded p-4 relative">
+                            <span className="absolute -top-3 right-4 bg-badge-gap-risk/20 px-2 py-0.5 font-caption-code text-caption-code text-badge-gap-risk border border-badge-gap-risk/30 rounded">الواقع / التصريح الثاني</span>
+                            <p className="font-body-default text-body-default text-text-ivory mt-2">{radar.statementB}</p>
+                            {radar.dateB && <span className="block mt-4 font-caption-code text-caption-code text-text-dim text-left">{radar.dateB}</span>}
                           </div>
                         </div>
                       </div>

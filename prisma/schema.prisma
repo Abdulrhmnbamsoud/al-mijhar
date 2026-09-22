@@ -53,6 +53,8 @@ model ResearchProject {
   networkNodes   NetworkNode[]
   anomalies      Anomaly[]
   interviewScriptAxes InterviewScriptAxis[]
+  psychologicalTraits PsychologicalTrait[]
+  lieDetectorRadars LieDetectorRadar[]
 }
 
 model PersonCandidate {
@@ -225,6 +227,30 @@ model InterviewScriptAxis {
   id             String           @id @default(uuid())
   title          String
   content        String
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model PsychologicalTrait {
+  id             String           @id @default(uuid())
+  trait          String
+  evidence       String
+  score          Int              // 0-100 severity/prominence
+  exploitation   String           // How to exploit this in an interview
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model LieDetectorRadar {
+  id             String           @id @default(uuid())
+  topic          String
+  statementA     String           // Earlier statement
+  dateA          String?
+  statementB     String           // Later/Action statement
+  dateB          String?
+  evasionScore   Int              // 0-100
 
   projectId      String
   project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
