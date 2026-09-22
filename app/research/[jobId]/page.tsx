@@ -14,6 +14,7 @@ export default function ResearchDashboard() {
   const [job, setJob] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showScriptModal, setShowScriptModal] = useState(false);
+  const [isDeclassified, setIsDeclassified] = useState(false);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -100,7 +101,7 @@ export default function ResearchDashboard() {
   const mediaSources = sources.filter((s:any) => s.type === "News/Interview").length;
 
   return (
-    <div className="bg-canvas-base font-body-default text-on-surface antialiased min-h-screen">
+    <div className={`bg-canvas-base font-body-default text-on-surface antialiased min-h-screen ${isDeclassified ? 'declassified-mode crt' : ''}`}>
       <header className="fixed top-0 w-full z-50 bg-surface-card border-b border-border-subtle print:hidden">
         <div className="h-16 w-full px-space-lg flex items-center justify-between gap-space-md">
           <div className="flex items-center gap-space-md">
@@ -127,6 +128,14 @@ export default function ResearchDashboard() {
               <kbd className="font-caption-code text-caption-code bg-surface-container px-1 py-0.5 rounded text-text-dim border border-border-subtle">⌘K</kbd>
             </div>
             <div className="flex items-center gap-space-xs">
+              <button 
+                onClick={() => setIsDeclassified(!isDeclassified)} 
+                className={`hidden md:inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded font-label-sm text-label-sm transition-colors border ${isDeclassified ? 'bg-accent-acid/20 border-accent-acid text-accent-acid shadow-[0_0_15px_rgba(255,0,60,0.5)]' : 'bg-surface-elevated border-border-subtle text-text-ivory hover:border-text-muted'}`}
+                type="button"
+                title="تفعيل وضع رفع السرية"
+              >
+                <span className="material-symbols-outlined text-base">policy</span>{isDeclassified ? 'نشط' : 'رفع السرية'}
+              </button>
               <button onClick={() => window.print()} className="hidden md:inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-elevated border border-border-subtle font-label-sm text-label-sm text-text-ivory hover:border-text-muted transition-colors" type="button">
                 <span className="material-symbols-outlined text-base">picture_as_pdf</span>تصدير PDF
               </button>
@@ -141,8 +150,73 @@ export default function ResearchDashboard() {
         </div>
       </header>
 
-      <main className="w-full pt-16 bg-canvas-base print:pt-0">
-        <div className="flex flex-col w-full">
+      <main className="w-full pt-16 bg-canvas-base print:pt-0 flex">
+        {/* Live Intercept Feed (Declassified Mode) */}
+        {isDeclassified && (
+          <aside className="hidden xl:block w-80 shrink-0 border-l border-border-subtle bg-surface-card min-h-screen p-space-md print:hidden relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-accent-acid animate-pulse"></div>
+            <div className="flex items-center gap-space-xs mb-space-lg pb-space-sm border-b border-border-subtle">
+              <span className="material-symbols-outlined text-accent-acid">rss_feed</span>
+              <h3 className="font-caption-code text-caption-code text-text-ivory font-bold uppercase tracking-widest glitch-text" data-text="اعتراض البيانات الحية">اعتراض البيانات الحية</h3>
+            </div>
+            
+            <div className="space-y-space-md">
+              <div className="bg-surface-elevated border border-badge-gap-risk/30 rounded p-space-sm relative overflow-hidden">
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-badge-gap-risk"></div>
+                <div className="flex justify-between items-start">
+                  <span className="font-caption-code text-caption-code text-badge-gap-risk">تحذير سلوكي</span>
+                  <span className="font-caption-code text-caption-code text-text-dim">الآن</span>
+                </div>
+                <p className="font-body-dense text-body-dense text-text-ivory mt-1">
+                  رصد ارتفاع في مستوى التهرب (Evasion) بنسبة 42% عند ذكر المصادر المالية.
+                </p>
+              </div>
+
+              <div className="bg-surface-elevated border border-accent-acid/30 rounded p-space-sm relative overflow-hidden opacity-80">
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent-acid"></div>
+                <div className="flex justify-between items-start">
+                  <span className="font-caption-code text-caption-code text-accent-acid">تحديث شبكة الاتصال</span>
+                  <span className="font-caption-code text-caption-code text-text-dim">-2 دقيقة</span>
+                </div>
+                <p className="font-body-dense text-body-dense text-text-muted mt-1 font-mono text-sm">
+                  تم اكتشاف عقدة مخفية: {project?.networkNodes?.[0]?.name || 'غير معروف'}
+                </p>
+              </div>
+
+              <div className="bg-surface-elevated border border-badge-fact-text/30 rounded p-space-sm relative overflow-hidden opacity-60">
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-badge-fact-text"></div>
+                <div className="flex justify-between items-start">
+                  <span className="font-caption-code text-caption-code text-badge-fact-text">تطابق الهوية</span>
+                  <span className="font-caption-code text-caption-code text-text-dim">-5 دقيقة</span>
+                </div>
+                <p className="font-body-dense text-body-dense text-text-muted mt-1 font-mono text-sm">
+                  البصمة الرقمية متطابقة بنسبة 99.9%.
+                </p>
+              </div>
+
+              {/* Scrolling Terminal Effect */}
+              <div className="mt-space-lg p-space-sm bg-canvas-base border border-border-subtle rounded font-mono text-[10px] text-text-dim overflow-hidden h-40 relative">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-canvas-base z-10"></div>
+                <div className="animate-[scrollUp_10s_linear_infinite] flex flex-col gap-1">
+                  <span>&gt; INITIATING DEEP SCAN...</span>
+                  <span>&gt; BYPASSING FIREWALL... [OK]</span>
+                  <span>&gt; EXTRACTING METADATA...</span>
+                  <span>&gt; ALIGNING TIMELINES...</span>
+                  <span>&gt; CROSS-REFERENCING ALIASES...</span>
+                  <span>&gt; DETECTING LIES... [FOUND 3]</span>
+                  <span>&gt; GENERATING PROFILE...</span>
+                  <span>&gt; WARNING: HIGH RISK SUBJECT</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        )}
+
+        <div className="flex flex-col w-full flex-1 relative">
+          {/* Print Dossier Stamp */}
+          <div className="hidden print-only dossier-stamp">
+            TOP SECRET / REDACTED
+          </div>
           <section className="w-full bg-surface-card border-b border-border-subtle px-space-lg py-space-sm flex flex-wrap items-center justify-between gap-space-md">
             <div className="flex items-center gap-space-md">
               <div className="flex items-center gap-space-xs">
@@ -491,6 +565,38 @@ export default function ResearchDashboard() {
                           <span className="font-caption-code text-caption-code text-badge-gap-risk bg-badge-gap-risk/20 px-2 py-0.5 rounded border border-badge-gap-risk/30">{anomaly.severity}</span>
                         </div>
                         <p className="font-body-dense text-body-dense text-text-muted mt-1 leading-relaxed">{anomaly.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Behavioral Patterns */}
+              {project?.behavioralPatterns && project.behavioralPatterns.length > 0 && (
+                <section className="bg-surface-card border border-border-subtle rounded-lg p-space-lg space-y-space-md">
+                  <div className="flex items-center justify-between border-b border-border-subtle pb-space-sm mb-space-md">
+                    <div className="flex items-center gap-space-xs">
+                      <span className="material-symbols-outlined text-badge-inference text-lg">body_system</span>
+                      <h2 className="font-headline-sm text-headline-sm text-text-ivory">قاموس لغة الجسد المتوقعة (Tells)</h2>
+                    </div>
+                  </div>
+                  <div className="space-y-space-sm">
+                    {project.behavioralPatterns.map((pattern: any) => (
+                      <div key={pattern.id} className="border-l-2 border-badge-inference pl-space-md py-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-caption-code text-caption-code bg-surface-elevated px-2 py-0.5 border border-border-subtle rounded text-text-dim">عند الحديث عن:</span>
+                          <span className="font-label-md text-label-md text-text-ivory font-bold">{pattern.trigger}</span>
+                        </div>
+                        <p className="font-body-dense text-body-dense text-badge-inference mb-2">
+                          <span className="material-symbols-outlined text-sm align-middle mr-1">visibility</span>
+                          {pattern.behavior}
+                        </p>
+                        <div className="bg-surface-elevated p-2 rounded text-sm text-text-muted mb-2">
+                          <strong className="text-text-ivory block">التحليل:</strong> {pattern.analysis}
+                        </div>
+                        <div className="bg-badge-gap-risk/10 p-2 rounded text-sm text-badge-gap-risk border border-badge-gap-risk/20">
+                          <strong className="block">التكتيك المضاد:</strong> {pattern.countermeasure}
+                        </div>
                       </div>
                     ))}
                   </div>

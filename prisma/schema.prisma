@@ -55,6 +55,18 @@ model ResearchProject {
   interviewScriptAxes InterviewScriptAxis[]
   psychologicalTraits PsychologicalTrait[]
   lieDetectorRadars LieDetectorRadar[]
+  behavioralPatterns BehavioralPattern[]
+}
+
+model BehavioralPattern {
+  id             String           @id @default(uuid())
+  trigger        String           // The topic or situation (e.g., "When asked about funding")
+  behavior       String           // The expected behavior (e.g., "Rapid blinking, defensive tone")
+  analysis       String           // What this means
+  countermeasure String           // How the interviewer should react
+
+  projectId      String
+  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model PersonCandidate {

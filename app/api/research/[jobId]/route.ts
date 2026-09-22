@@ -26,6 +26,7 @@ export async function GET(
             interviewScriptAxes: true,
             psychologicalTraits: true,
             lieDetectorRadars: true,
+            behavioralPatterns: true,
           }
         }
       }
