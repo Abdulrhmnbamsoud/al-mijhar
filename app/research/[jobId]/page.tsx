@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import dynamic from 'next/dynamic';
@@ -15,6 +15,22 @@ export default function ResearchDashboard() {
   const [loading, setLoading] = useState(true);
   const [showScriptModal, setShowScriptModal] = useState(false);
   const [isDeclassified, setIsDeclassified] = useState(false);
+  const [teleprompterSpeed, setTeleprompterSpeed] = useState(50);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMirrored, setIsMirrored] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let scrollInterval: NodeJS.Timeout;
+    if (isPlaying && scrollContainerRef.current) {
+      scrollInterval = setInterval(() => {
+        if (scrollContainerRef.current) {
+          scrollContainerRef.current.scrollTop += (teleprompterSpeed / 50);
+        }
+      }, 30);
+    }
+    return () => clearInterval(scrollInterval);
+  }, [isPlaying, teleprompterSpeed]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -797,57 +813,117 @@ export default function ResearchDashboard() {
         </div>
       </main>
 
-      {/* Script Modal */}
+      {/* Script Modal (Pro Teleprompter) */}
       {showScriptModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-8">
-          <div className="bg-canvas-base border border-border-subtle rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-space-md border-b border-border-subtle bg-surface-card">
-              <div className="flex items-center gap-space-sm">
-                <span className="material-symbols-outlined text-accent-acid text-2xl">format_quote</span>
-                <h2 className="font-headline-sm text-headline-sm text-text-ivory">سيناريو المقابلة (Teleprompter)</h2>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black p-0 md:p-8 transition-all">
+          <div className="bg-black border border-border-subtle md:rounded-xl w-full h-full md:max-h-[95vh] overflow-hidden flex flex-col shadow-[0_0_50px_rgba(204,255,0,0.1)] relative animate-in fade-in zoom-in-95 duration-200">
+            {/* Teleprompter Toolbar */}
+            <div className="flex flex-wrap items-center justify-between p-4 border-b border-border-subtle bg-[#111] z-10 gap-4">
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-accent-acid text-3xl">smart_display</span>
+                  <h2 className="font-headline-md text-headline-md text-white font-bold">المُلقّن الآلي</h2>
+                </div>
+                
+                <div className="hidden sm:flex items-center gap-4 bg-[#222] px-4 py-2 rounded-lg border border-[#333]">
+                  <button 
+                    onClick={() => setIsPlaying(!isPlaying)}
+                    className={`flex items-center gap-2 font-bold px-4 py-1.5 rounded transition-colors ${isPlaying ? 'bg-accent-acid text-black' : 'bg-[#333] text-white hover:bg-[#444]'}`}
+                  >
+                    <span className="material-symbols-outlined">{isPlaying ? 'pause' : 'play_arrow'}</span>
+                    {isPlaying ? 'إيقاف' : 'تشغيل'}
+                  </button>
+                  
+                  <div className="flex items-center gap-2 text-white">
+                    <span className="material-symbols-outlined text-sm">speed</span>
+                    <input 
+                      type="range" 
+                      min="10" 
+                      max="200" 
+                      value={teleprompterSpeed}
+                      onChange={(e) => setTeleprompterSpeed(Number(e.target.value))}
+                      className="w-24 accent-accent-acid"
+                    />
+                  </div>
+
+                  <div className="w-px h-6 bg-[#444] mx-2"></div>
+
+                  <button 
+                    onClick={() => setIsMirrored(!isMirrored)}
+                    className={`flex items-center gap-2 font-bold px-3 py-1.5 rounded transition-colors ${isMirrored ? 'bg-badge-claim-text text-white border-badge-claim-text' : 'bg-[#333] text-white hover:bg-[#444]'}`}
+                    title="عكس الشاشة للزجاج العاكس"
+                  >
+                    <span className="material-symbols-outlined">flip</span>
+                    مرآة
+                  </button>
+                </div>
               </div>
-              <button onClick={() => setShowScriptModal(false)} className="text-text-muted hover:text-text-ivory p-1 rounded-full hover:bg-surface-elevated transition-colors">
-                <span className="material-symbols-outlined">close</span>
-              </button>
+
+              <div className="flex items-center gap-3">
+                <button onClick={() => {
+                   const text = project?.interviewScriptAxes?.map((a: any) => `${a.title}\n${a.content}`).join('\n\n') || '';
+                   navigator.clipboard.writeText(text);
+                }} className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded bg-[#222] border border-[#333] text-white hover:bg-[#333] transition-colors">
+                  <span className="material-symbols-outlined text-sm">content_copy</span> نسخ
+                </button>
+                <button onClick={() => { setShowScriptModal(false); setIsPlaying(false); }} className="text-white hover:text-error bg-[#222] hover:bg-[#333] p-2 rounded transition-colors border border-[#333]">
+                  <span className="material-symbols-outlined">close</span>
+                </button>
+              </div>
             </div>
             
-            {/* Modal Content */}
-            <div className="flex-1 overflow-y-auto p-space-lg md:p-10 space-y-space-xl teleprompter-scroll">
+            {/* Reading Focus Area Overlay */}
+            <div className="absolute top-[80px] left-0 w-full h-32 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-0 w-full h-32 -translate-y-1/2 flex items-center px-4 pointer-events-none z-10 opacity-30">
+              <div className="w-full border-t-2 border-accent-acid border-dashed"></div>
+            </div>
+            <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none"></div>
+
+            {/* Teleprompter Content */}
+            <div 
+              ref={scrollContainerRef}
+              className={`flex-1 overflow-y-auto p-8 md:p-16 space-y-16 pb-[60vh] scroll-smooth ${isMirrored ? 'scale-x-[-1]' : ''}`}
+              style={{ direction: isMirrored ? 'ltr' : 'rtl' }}
+            >
               {!project?.interviewScriptAxes || project.interviewScriptAxes.length === 0 ? (
-                <div className="text-center py-20 text-text-muted">
-                  <span className="material-symbols-outlined text-4xl mb-4 block">hourglass_empty</span>
-                  <p className="font-body-default text-body-default">لم يتم توليد سيناريو المقابلة لهذا الملف.</p>
+                <div className="text-center py-32 text-white">
+                  <span className="material-symbols-outlined text-6xl mb-6 block text-[#444]">hourglass_empty</span>
+                  <p className="text-3xl font-bold">لم يتم توليد سيناريو المقابلة لهذا الملف.</p>
                 </div>
               ) : (
-                <div className="max-w-3xl mx-auto space-y-12">
-                  <div className="text-center border-b border-border-subtle pb-8 mb-12">
-                    <h1 className="font-display-sm text-display-sm text-text-ivory mb-2">مقابلة حصرية مع {profile?.name || job.guestName}</h1>
-                    <p className="font-caption-code text-caption-code text-accent-acid">مسودة سرية - للقراءة فقط</p>
+                <div className="max-w-4xl mx-auto space-y-24 pt-[30vh]">
+                  <div className="text-center border-b-4 border-[#333] pb-12 mb-20">
+                    <h1 className="text-5xl md:text-7xl font-bold text-white mb-6" style={{ lineHeight: '1.4' }}>
+                      مقابلة مع <span className="text-accent-acid">{profile?.name || job.guestName}</span>
+                    </h1>
+                    <p className="text-2xl text-error font-bold uppercase tracking-widest">
+                      [ بداية التسجيل ]
+                    </p>
                   </div>
                   
                   {project.interviewScriptAxes.map((axis: any, index: number) => (
-                    <div key={axis.id} className="space-y-4">
-                      <h3 className="font-headline-sm text-headline-sm text-accent-acid bg-accent-acid/10 inline-block px-3 py-1 rounded">
-                        {axis.title}
-                      </h3>
-                      <p className="font-body-default text-body-default text-text-ivory leading-loose text-lg md:text-xl whitespace-pre-wrap">
+                    <div key={axis.id} className="space-y-8" style={{ textAlign: isMirrored ? 'right' : 'right' }}>
+                      <div className="flex items-center gap-4">
+                        <span className="text-4xl font-black text-black bg-accent-acid px-4 py-2 rounded-lg shrink-0">
+                          {index + 1}
+                        </span>
+                        <h3 className="text-4xl md:text-5xl font-bold text-accent-acid">
+                          {axis.title}
+                        </h3>
+                      </div>
+                      <p className="text-4xl md:text-[3.5rem] text-white font-bold leading-normal md:leading-[1.7] whitespace-pre-wrap">
                         {axis.content}
                       </p>
                     </div>
                   ))}
+                  
+                  <div className="text-center pt-32 pb-64">
+                     <p className="text-4xl text-error font-bold uppercase tracking-widest">
+                      [ نهاية اللقاء ]
+                    </p>
+                  </div>
                 </div>
               )}
-            </div>
-            
-            {/* Modal Footer */}
-            <div className="p-space-md border-t border-border-subtle bg-surface-card flex justify-end gap-space-sm">
-              <button onClick={() => {
-                 const text = project?.interviewScriptAxes?.map((a: any) => `${a.title}\n${a.content}`).join('\n\n') || '';
-                 navigator.clipboard.writeText(text);
-              }} className="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded bg-surface-elevated border border-border-subtle font-label-md text-label-md text-text-ivory hover:border-text-muted transition-colors">
-                <span className="material-symbols-outlined text-base">content_copy</span> نسخ النص كاملًا
-              </button>
             </div>
           </div>
         </div>
