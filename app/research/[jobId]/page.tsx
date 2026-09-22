@@ -759,17 +759,51 @@ export default function ResearchDashboard() {
                     </div>
                   </div>
                 </div>
-                <div className="space-y-space-xs divide-y divide-border-subtle">
+                <div className="space-y-space-md mt-space-md">
                   {project.questions.map((q: any) => (
-                    <div key={q.id} className="pt-space-sm pb-space-xs flex items-start justify-between gap-space-md group">
-                      <div className="space-y-1">
+                    <div key={q.id} className="bg-surface-elevated border border-border-subtle rounded-lg p-space-md relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-1 h-full bg-accent-acid"></div>
+                      <div className="flex items-center justify-between mb-space-sm">
                         <div className="flex items-center gap-space-xs">
-                          <span className="font-caption-code text-caption-code px-1.5 py-0.5 rounded bg-surface-elevated text-text-muted border border-border-subtle">{q.category}</span>
+                          <span className="font-caption-code text-caption-code px-2 py-0.5 rounded bg-surface-card text-text-muted border border-border-subtle">{q.category}</span>
+                          {q.pressureLevel && (
+                            <span className={`font-caption-code text-caption-code px-2 py-0.5 rounded border ${q.pressureLevel > 7 ? 'bg-badge-gap-risk/20 text-badge-gap-risk border-badge-gap-risk/30' : 'bg-badge-inference/20 text-badge-inference border-badge-inference/30'}`}>
+                              مستوى الضغط: {q.pressureLevel}/10
+                            </span>
+                          )}
                         </div>
-                        <p className="font-body-dense text-body-dense text-text-ivory">
-                          «{q.question}»
-                        </p>
                       </div>
+                      <p className="font-headline-sm text-headline-sm text-text-ivory mb-space-sm leading-relaxed">
+                        «{q.question}»
+                      </p>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-space-sm mt-space-md">
+                        {q.purpose && (
+                          <div className="bg-surface-card p-space-sm rounded border border-border-subtle">
+                            <span className="font-caption-code text-caption-code text-text-dim flex items-center gap-1 mb-1">
+                              <span className="material-symbols-outlined text-xs">target</span> الهدف الاستراتيجي
+                            </span>
+                            <p className="font-body-dense text-body-dense text-text-muted">{q.purpose}</p>
+                          </div>
+                        )}
+                        {q.expectedEvasion && (
+                          <div className="bg-surface-card p-space-sm rounded border border-border-subtle">
+                            <span className="font-caption-code text-caption-code text-badge-inference flex items-center gap-1 mb-1">
+                              <span className="material-symbols-outlined text-xs">directions_run</span> التهرب المتوقع
+                            </span>
+                            <p className="font-body-dense text-body-dense text-text-muted">{q.expectedEvasion}</p>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {q.followUp && (
+                        <div className="mt-space-sm bg-badge-gap-risk/10 p-space-sm rounded border border-badge-gap-risk/20">
+                          <span className="font-caption-code text-caption-code text-badge-gap-risk flex items-center gap-1 mb-1 font-bold">
+                            <span className="material-symbols-outlined text-xs">bolt</span> سؤال المتابعة (الضربة القاضية)
+                          </span>
+                          <p className="font-body-dense text-body-dense text-text-ivory font-medium">«{q.followUp}»</p>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
