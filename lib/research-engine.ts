@@ -300,12 +300,12 @@ export async function startResearchJob(jobId: string) {
                 properties: {
                   topic: { type: "string" },
                   statementA: { type: "string" },
-                  dateA: { type: "string" },
+                  dateA: { type: ["string", "null"] },
                   statementB: { type: "string" },
-                  dateB: { type: "string" },
+                  dateB: { type: ["string", "null"] },
                   evasionScore: { type: "number" }
                 },
-                required: ["topic", "statementA", "statementB", "evasionScore"],
+                required: ["topic", "statementA", "dateA", "statementB", "dateB", "evasionScore"],
                 additionalProperties: false
               }
             },
