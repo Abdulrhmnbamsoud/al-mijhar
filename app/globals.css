@@ -77,17 +77,17 @@
   --radius-xl: 0.5rem;
   --radius-full: 0.75rem;
 
-  --font-label-md: "IBM Plex Sans", sans-serif;
-  --font-body-default: "IBM Plex Sans", sans-serif;
-  --font-headline-md: "IBM Plex Sans", sans-serif;
-  --font-display-hero-mobile: "IBM Plex Sans", sans-serif;
-  --font-headline-lg: "IBM Plex Sans", sans-serif;
-  --font-display-hero: "IBM Plex Sans", sans-serif;
-  --font-body-dense: "IBM Plex Sans", sans-serif;
-  --font-label-sm: "IBM Plex Sans", sans-serif;
-  --font-headline-sm: "IBM Plex Sans", sans-serif;
-  --font-body-lead: "IBM Plex Sans", sans-serif;
-  --font-caption-code: "IBM Plex Sans", sans-serif;
+  --font-label-md: "IBM Plex Sans Arabic", sans-serif;
+  --font-body-default: "IBM Plex Sans Arabic", sans-serif;
+  --font-headline-md: "IBM Plex Sans Arabic", sans-serif;
+  --font-display-hero-mobile: "IBM Plex Sans Arabic", sans-serif;
+  --font-headline-lg: "IBM Plex Sans Arabic", sans-serif;
+  --font-display-hero: "IBM Plex Sans Arabic", sans-serif;
+  --font-body-dense: "IBM Plex Sans Arabic", sans-serif;
+  --font-label-sm: "IBM Plex Sans Arabic", sans-serif;
+  --font-headline-sm: "IBM Plex Sans Arabic", sans-serif;
+  --font-body-lead: "IBM Plex Sans Arabic", sans-serif;
+  --font-caption-code: "IBM Plex Sans Arabic", sans-serif;
 
   --text-label-md: 14px;
   --text-label-md--line-height: 20px;

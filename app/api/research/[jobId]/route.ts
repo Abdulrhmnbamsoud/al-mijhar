@@ -13,20 +13,11 @@ export async function GET(
         project: {
           include: {
             profile: true,
-            sources: true,
-            timeline: { orderBy: { date: 'asc' } },
-            strengths: true,
-            verifications: true,
-            contradictions: true,
-            appearances: true,
-            topics: true,
-            questions: true,
-            networkNodes: true,
-            anomalies: true,
-            interviewScriptAxes: true,
-            psychologicalTraits: true,
-            lieDetectorRadars: true,
-            behavioralPatterns: true,
+            timeline: true,
+            axes: true,
+            confrontations: true,
+            storyQuestions: true,
+            teleprompter: true,
           }
         }
       }

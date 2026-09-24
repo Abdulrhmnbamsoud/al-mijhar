@@ -7,263 +7,276 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model ResearchJob {
+// -----------------------------------------
+// 1. Core: Guest & Episode Project
+// -----------------------------------------
+
+model Guest {
   id             String           @id @default(uuid())
-  status         String           // "pending", "identifying", "gathering", "analyzing", "completed", "failed", "cancelled", "ambiguous"
-  progress       Int              @default(0)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  error          String?
-  guestName      String
+  name           String
   role           String?
   organization   String?
   country        String?
   url            String?
   twitterUrl     String?
   linkedinUrl    String?
-  objective      String?
-  depth          String           // "سريع", "متقدم", "عميق"
-  
-  project        ResearchProject? @relation(fields: [projectId], references: [id])
-  projectId      String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  projects       EpisodeProject[]
 }
 
-model ResearchProject {
+model EpisodeProject {
   id                String           @id @default(uuid())
+  title             String?          // e.g., "حلقة نورة السالم"
+  status            String           @default("draft") // "draft", "researching", "pre_interview", "editing", "reviewing", "ready"
+  durationMinutes   Int?             @default(60)
+  notes             String?
+
+  guestId           String
+  guest             Guest            @relation(fields: [guestId], references: [id], onDelete: Cascade)
+
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
-  
-  executiveBriefing String?
-  confidenceScore   Int?
-  identityMatch     String?          // JSON string
-  quickMetrics      String?          // JSON string
 
-  job            ResearchJob[]
-  profile        PersonProfile?
-  candidates     PersonCandidate[]
-  sources        Source[]
-  claims         EvidenceClaim[]
-  timeline       TimelineEvent[]
-  strengths      Strength[]
-  verifications  VerificationArea[]
-  contradictions Contradiction[]
-  appearances    InterviewAppearance[]
-  topics         ConversationTopic[]
-  questions      InterviewQuestion[]
-  networkNodes   NetworkNode[]
-  anomalies      Anomaly[]
-  interviewScriptAxes InterviewScriptAxis[]
-  psychologicalTraits PsychologicalTrait[]
-  lieDetectorRadars LieDetectorRadar[]
-  behavioralPatterns BehavioralPattern[]
+  // Relationships
+  sources           Source[]
+  preInterviews     PreInterview[]
+  storyMoments      StoryMoment[]
+  openQuestions     OpenQuestion[]
+  episodeAngles     EpisodeAngle[]
+  reviewFindings    ReviewFinding[]
+  approvals         Approval[]
+  generationRuns    GenerationRun[]
+  auditEvents       AuditEvent[]
 }
 
-model BehavioralPattern {
-  id             String           @id @default(uuid())
-  trigger        String           // The topic or situation (e.g., "When asked about funding")
-  behavior       String           // The expected behavior (e.g., "Rapid blinking, defensive tone")
-  analysis       String           // What this means
-  countermeasure String           // How the interviewer should react
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-model PersonCandidate {
-  id             String           @id @default(uuid())
-  name           String
-  role           String?
-  organization   String?
-  location       String?
-  imageUrl       String?
-  sourceUrl      String?
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-model PersonProfile {
-  id             String           @id @default(uuid())
-  name           String
-  role           String?
-  organization   String?
-  location       String?
-  confidence     String?          // Executive overview confidence
-  imageUrl       String?
-
-  behavioralProfile String?
-  evasionScore      Int?
-
-  projectId      String           @unique
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-model NetworkNode {
-  id             String           @id @default(uuid())
-  name           String
-  relationType   String           // "حليف", "خصم", "ارتباط مالي", "داعم"
-  description    String
-  riskLevel      String           // "مرتفع", "متوسط", "منخفض"
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-model Anomaly {
-  id             String           @id @default(uuid())
-  title          String
-  description    String
-  severity       String           // "عالي", "متوسط", "منخفض"
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
+// -----------------------------------------
+// 2. Research & Sourcing
+// -----------------------------------------
 
 model Source {
   id             String           @id @default(uuid())
+  type           String           // "article", "video", "audio", "social", "document", "other"
   title          String
+  originalUrl    String?
   publisher      String?
-  url            String
   publishedAt    DateTime?
-  accessedAt     DateTime         @default(now())
-  type           String           // Primary, News, Interview, etc.
-  reliability    String           // High, Medium, Low
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  
-  claims         EvidenceClaim[]
-}
-
-model EvidenceClaim {
-  id             String           @id @default(uuid())
-  claim          String
-  classification String           // Verified fact, Claim, Inference, etc.
+  processingStatus String         @default("pending") // "pending", "processing", "completed", "failed"
+  extractedText  String?
   
   projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project        EpisodeProject   @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-  sourceId       String?
-  source         Source?          @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  createdAt      DateTime         @default(now())
+  
+  excerpts       SourceExcerpt[]
 }
 
-model TimelineEvent {
+model SourceExcerpt {
   id             String           @id @default(uuid())
-  date           String
-  event          String
-  organization   String?
-  explanation    String?
-  classification String
-  sourceUrl      String?
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-model Strength {
-  id             String           @id @default(uuid())
-  title          String
-  explanation    String
-  confidence     String
-  sourceUrls     String           // JSON string array
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-model VerificationArea {
-  id             String           @id @default(uuid())
-  gap            String
-  whyItMatters   String
-  existingEvidence String
-  missingInfo    String
-  questionToAsk  String
-  sourceUrls     String           // JSON string array
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-model Contradiction {
-  id             String           @id @default(uuid())
-  statementA     String
-  statementB     String
-  dateA          String?
-  dateB          String?
-  sourceUrlA     String?
-  sourceUrlB     String?
-  question       String
-  confidence     String
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-model InterviewAppearance {
-  id             String           @id @default(uuid())
-  title          String
-  platform       String
-  date           String?
-  mainThemes     String           // JSON string array
-  quote          String?
-  url            String
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-model ConversationTopic {
-  id             String           @id @default(uuid())
-  category       String           // منطقة مريحة, منطقة واعدة, منطقة حساسة, سؤال حاسم
-  whyUseful      String
-  evidence       String
-  openingQuestion String
-  followUp       String
-  riskLevel      String
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-model InterviewQuestion {
-  id             String           @id @default(uuid())
-  category       String           // opening, exploratory, evidence-based, follow-up, challenging, closing
-  question       String
-  motivationUrl  String?
-
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-model InterviewScriptAxis {
-  id             String           @id @default(uuid())
-  title          String
   content        String
+  startTime      String?          // For audio/video (e.g., "12:34")
+  endTime        String?
+  
+  sourceId       String
+  source         Source           @relation(fields: [sourceId], references: [id], onDelete: Cascade)
 
-  projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  // Link to moments or questions
+  storyMoments   StoryMomentExcerpt[]
+  followUps      FollowUp[]
+  hostQuestions  HostQuestion[]
+  
+  createdAt      DateTime         @default(now())
 }
 
-model PsychologicalTrait {
-  id             String           @id @default(uuid())
-  trait          String
-  evidence       String
-  score          Int              // 0-100 severity/prominence
-  exploitation   String           // How to exploit this in an interview
+// -----------------------------------------
+// 3. Pre-Interview
+// -----------------------------------------
 
+model PreInterview {
+  id             String           @id @default(uuid())
+  date           DateTime?
+  conductedBy    String?
+  transcript     String?
+  
   projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project        EpisodeProject   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  notes          PreInterviewNote[]
+  createdAt      DateTime         @default(now())
 }
 
-model LieDetectorRadar {
+model PreInterviewNote {
   id             String           @id @default(uuid())
-  topic          String
-  statementA     String           // Earlier statement
-  dateA          String?
-  statementB     String           // Later/Action statement
-  dateB          String?
-  evasionScore   Int              // 0-100
+  question       String?
+  answer         String?
+  note           String
+  author         String?
+  isSensitive    Boolean          @default(false)
+  needsVerification Boolean       @default(false)
+
+  preInterviewId String
+  preInterview   PreInterview     @relation(fields: [preInterviewId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime         @default(now())
+}
+
+// -----------------------------------------
+// 4. Narrative & Structure
+// -----------------------------------------
+
+model StoryMoment {
+  id             String           @id @default(uuid())
+  title          String
+  description    String
+  status         String           @default("draft") // "draft", "verified", "disputed", "guest_claim"
+  
+  projectId      String
+  project        EpisodeProject   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  excerpts       StoryMomentExcerpt[]
+  chapters       Chapter[]
+  createdAt      DateTime         @default(now())
+}
+
+// Join table for many-to-many relationship
+model StoryMomentExcerpt {
+  storyMomentId  String
+  storyMoment    StoryMoment      @relation(fields: [storyMomentId], references: [id], onDelete: Cascade)
+  excerptId      String
+  excerpt        SourceExcerpt    @relation(fields: [excerptId], references: [id], onDelete: Cascade)
+
+  @@id([storyMomentId, excerptId])
+}
+
+model OpenQuestion {
+  id             String           @id @default(uuid())
+  question       String
+  context        String?
+  status         String           @default("open") // "open", "asked", "resolved"
+  
+  projectId      String
+  project        EpisodeProject   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime         @default(now())
+}
+
+model EpisodeAngle {
+  id             String           @id @default(uuid())
+  angle          String           // "زاوية الحلقة في جملة واحدة"
+  isActive       Boolean          @default(false)
+  
+  projectId      String
+  project        EpisodeProject   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  chapters       Chapter[]
+  createdAt      DateTime         @default(now())
+}
+
+model Chapter {
+  id             String           @id @default(uuid())
+  title          String
+  orderIndex     Int
+  estimatedMinutes Int?
+
+  angleId        String
+  angle          EpisodeAngle     @relation(fields: [angleId], references: [id], onDelete: Cascade)
+
+  momentId       String?
+  moment         StoryMoment?     @relation(fields: [momentId], references: [id], onDelete: SetNull)
+
+  hostQuestions  HostQuestion[]
+}
+
+model HostQuestion {
+  id             String           @id @default(uuid())
+  question       String
+  orderIndex     Int
+  whyItMatters   String?
+  
+  chapterId      String
+  chapter        Chapter          @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  // Direct link to the source if applicable
+  excerptId      String?
+  excerpt        SourceExcerpt?   @relation(fields: [excerptId], references: [id], onDelete: SetNull)
+
+  followUps      FollowUp[]
+}
+
+model FollowUp {
+  id             String           @id @default(uuid())
+  question       String
+  orderIndex     Int
+
+  hostQuestionId String
+  hostQuestion   HostQuestion     @relation(fields: [hostQuestionId], references: [id], onDelete: Cascade)
+
+  excerptId      String?
+  excerpt        SourceExcerpt?   @relation(fields: [excerptId], references: [id], onDelete: SetNull)
+}
+
+// -----------------------------------------
+// 5. Review & Governance
+// -----------------------------------------
+
+model ReviewFinding {
+  id             String           @id @default(uuid())
+  type           String           // "repetition", "weak_axis", "unverified_info", "sudden_shift", "sensitive", "over_time"
+  message        String
+  severity       String           // "info", "warning", "critical"
+  status         String           @default("open") // "open", "ignored", "resolved"
+  ignoreReason   String?
 
   projectId      String
-  project        ResearchProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project        EpisodeProject   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime         @default(now())
+}
+
+model Approval {
+  id             String           @id @default(uuid())
+  version        Int
+  approvedBy     String?
+  notes          String?
+  snapshot       String           // JSON string of the complete approved episode structure
+
+  projectId      String
+  project        EpisodeProject   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime         @default(now())
+}
+
+// -----------------------------------------
+// 6. Agents & Auditing
+// -----------------------------------------
+
+model GenerationRun {
+  id             String           @id @default(uuid())
+  agentRole      String           // "researcher", "fact_checker", "pre_interviewer", "editor", "question_writer", "reviewer", "presenter_copy"
+  status         String           // "pending", "running", "completed", "failed"
+  inputSnapshot  String?          // JSON
+  outputSnapshot String?          // JSON
+  error          String?
+
+  projectId      String
+  project        EpisodeProject   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+model AuditEvent {
+  id             String           @id @default(uuid())
+  action         String
+  entityType     String
+  entityId       String
+  changes        String?          // JSON describing what changed
+  userId         String?          // If done by human
+
+  projectId      String
+  project        EpisodeProject   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime         @default(now())
 }
