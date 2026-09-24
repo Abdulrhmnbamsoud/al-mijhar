@@ -8,7 +8,9 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
   const project = await prisma.episodeProject.findUnique({
     where: { id: projectId },
     include: {
-      guest: true,
+      guest: {
+        include: { careerHistory: true }
+      },
       episodeAngles: {
         where: { isActive: true },
         include: {
@@ -53,6 +55,28 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
               <div className="mt-space-sm p-space-sm bg-surface-base border border-border-subtle rounded text-text-muted font-body-dense max-w-3xl leading-relaxed">
                 <span className="material-symbols-outlined text-sm inline-block ml-1 align-text-bottom">person_book</span>
                 {project.notes}
+              </div>
+            )}
+
+            {project.guest.careerHistory && project.guest.careerHistory.length > 0 && (
+              <div className="mt-space-md p-space-sm bg-surface-base border border-border-subtle rounded text-text-muted font-body-dense max-w-3xl">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-symbols-outlined text-accent-acid text-sm">work</span>
+                  <strong className="text-text-ivory">السجل المهني والخبرات:</strong>
+                </div>
+                <ul className="space-y-2">
+                  {project.guest.careerHistory.map(ch => (
+                    <li key={ch.id} className="flex gap-2">
+                      <span className="text-accent-acid mt-1">•</span>
+                      <div>
+                        <span className="text-text-ivory font-medium">{ch.role}</span>
+                        <span className="mx-1 text-text-dim">في</span>
+                        <span>{ch.company}</span>
+                        {ch.duration && <span className="text-text-dim block text-xs mt-0.5">{ch.duration}</span>}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
             

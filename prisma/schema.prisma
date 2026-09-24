@@ -24,7 +24,21 @@ model Guest {
   updatedAt      DateTime         @updatedAt
 
   projects       EpisodeProject[]
+  careerHistory  CareerExperience[]
 }
+
+model CareerExperience {
+  id             String           @id @default(uuid())
+  role           String
+  company        String
+  duration       String?
+  
+  guestId        String
+  guest          Guest            @relation(fields: [guestId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime         @default(now())
+}
+
 
 model EpisodeProject {
   id                String           @id @default(uuid())

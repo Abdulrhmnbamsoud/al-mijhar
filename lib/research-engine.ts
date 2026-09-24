@@ -124,6 +124,20 @@ export async function startResearchPipeline(projectId: string) {
             type: "object",
             properties: {
               guestSummary: { type: "string", description: "Comprehensive biographical summary of the guest based on sources (In Arabic)" },
+              careerHistory: {
+                type: "array",
+                description: "List of the guest's past and current roles/jobs, especially from LinkedIn (In Arabic)",
+                items: {
+                  type: "object",
+                  properties: {
+                    role: { type: "string", description: "Job title or role" },
+                    company: { type: "string", description: "Company or organization name" },
+                    duration: { type: "string", description: "Duration or year (e.g. 2018 - 2022)" }
+                  },
+                  required: ["role", "company"],
+                  additionalProperties: false
+                }
+              },
               angle: { type: "string", description: "The core angle of the episode (In Arabic)" },
               chapters: {
                 type: "array",
@@ -170,7 +184,7 @@ export async function startResearchPipeline(projectId: string) {
                 }
               }
             },
-            required: ["guestSummary", "angle", "chapters"],
+            required: ["guestSummary", "angle", "chapters", "careerHistory"],
             additionalProperties: false
           }
         }
@@ -224,6 +238,21 @@ export async function startResearchPipeline(projectId: string) {
             }
           }
         }
+      }
+    }
+
+    if (parsed.careerHistory && Array.isArray(parsed.careerHistory)) {
+      const guestId = (await prisma.episodeProject.findUnique({ where: { id: projectId } }))?.guestId;
+      if (guestId) {
+        await prisma.careerExperience.deleteMany({ where: { guestId } });
+        await prisma.careerExperience.createMany({
+          data: parsed.careerHistory.map((ch: any) => ({
+            guestId,
+            role: ch.role,
+            company: ch.company,
+            duration: ch.duration || null
+          }))
+        });
       }
     }
 
