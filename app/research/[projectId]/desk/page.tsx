@@ -104,7 +104,7 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
                   </div>
                   
                   <div className="flex-grow space-y-space-sm">
-                    <details className="group/details">
+                    <details className="group/details" open>
                       <summary className="flex justify-between items-center border-b border-border-subtle pb-space-xs cursor-pointer select-none outline-none list-none [&::-webkit-details-marker]:hidden">
                         <div className="flex items-center gap-2">
                           <span className="material-symbols-outlined text-text-muted transition-transform group-open/details:rotate-90">chevron_left</span>
