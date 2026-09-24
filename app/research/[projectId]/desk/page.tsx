@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { AutoRefresh } from "@/components/AutoRefresh";
+import { RegenerateButton } from "@/components/RegenerateButton";
 
 export default async function EpisodeDeskPage({ params }: { params: Promise<{ projectId: string }> }) {
   const { projectId } = await params;
@@ -79,9 +80,7 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
           </div>
           
           <div className="flex items-center gap-space-sm">
-            <button className="px-space-md py-2 rounded bg-surface-elevated border border-border-subtle font-label-md text-text-ivory hover:border-accent-acid transition-colors">
-              إعادة توليد المحاور
-            </button>
+            <RegenerateButton projectId={project.id} />
           </div>
         </div>
       </section>
