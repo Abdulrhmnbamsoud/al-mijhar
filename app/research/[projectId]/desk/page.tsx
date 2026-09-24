@@ -48,8 +48,15 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
               {project.guest.role} {project.guest.organization && `| ${project.guest.organization}`}
             </p>
             
+            {project.notes && (
+              <div className="mt-space-sm p-space-sm bg-surface-base border border-border-subtle rounded text-text-muted font-body-dense max-w-3xl leading-relaxed">
+                <span className="material-symbols-outlined text-sm inline-block ml-1 align-text-bottom">person_book</span>
+                {project.notes}
+              </div>
+            )}
+            
             {activeAngle && (
-              <div className="mt-space-md p-space-sm bg-surface-elevated border border-accent-acid/30 rounded inline-block">
+              <div className="mt-space-md p-space-sm bg-surface-elevated border border-accent-acid/30 rounded inline-block max-w-3xl">
                 <span className="font-caption-code text-caption-code text-accent-acid block mb-1">زاوية الحلقة المعتمدة:</span>
                 <p className="font-body-default text-text-ivory font-medium">{activeAngle.angle}</p>
               </div>

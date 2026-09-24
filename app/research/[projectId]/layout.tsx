@@ -1,5 +1,6 @@
 import Link from "next/link";
 import prisma from "@/lib/prisma";
+import { WorkspaceNav } from "@/components/WorkspaceNav";
 
 export default async function ProjectLayout({
   children,
@@ -37,23 +38,7 @@ export default async function ProjectLayout({
             </div>
           </div>
 
-          <nav className="hidden lg:flex items-center gap-space-xs">
-            <Link href={`/research/${project.id}/desk`} className="px-space-md py-space-xs rounded font-label-md transition-colors text-text-muted hover:text-text-ivory hover:bg-surface-elevated">
-              طاولة الحلقة
-            </Link>
-            <Link href={`/research/${project.id}/room`} className="px-space-md py-space-xs rounded font-label-md transition-colors text-text-muted hover:text-text-ivory hover:bg-surface-elevated">
-              غرفة البحث والتوثيق
-            </Link>
-            <Link href={`/research/${project.id}/pre-interview`} className="px-space-md py-space-xs rounded font-label-md transition-colors text-text-muted hover:text-text-ivory hover:bg-surface-elevated">
-              اللقاء التمهيدي
-            </Link>
-            <Link href={`/research/${project.id}/review`} className="px-space-md py-space-xs rounded font-label-md transition-colors text-text-muted hover:text-text-ivory hover:bg-surface-elevated">
-              المراجعة
-            </Link>
-            <Link href={`/research/${project.id}/presenter`} className="px-space-md py-space-xs rounded font-label-md transition-colors text-text-muted hover:text-text-ivory hover:bg-surface-elevated">
-              موجز المقدّم
-            </Link>
-          </nav>
+          <WorkspaceNav projectId={project.id} />
 
           <div className="flex items-center gap-space-sm">
             <Link href={`/research/${project.id}/studio`} className="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-accent-acid font-label-sm text-label-sm font-bold text-canvas-base hover:bg-primary-fixed-dim transition-colors">

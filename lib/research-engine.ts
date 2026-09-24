@@ -121,6 +121,7 @@ export async function startResearchPipeline(projectId: string) {
           schema: {
             type: "object",
             properties: {
+              guestSummary: { type: "string", description: "Comprehensive biographical summary of the guest based on sources (In Arabic)" },
               angle: { type: "string", description: "The core angle of the episode (In Arabic)" },
               chapters: {
                 type: "array",
@@ -167,7 +168,7 @@ export async function startResearchPipeline(projectId: string) {
                 }
               }
             },
-            required: ["angle", "chapters"],
+            required: ["guestSummary", "angle", "chapters"],
             additionalProperties: false
           }
         }
@@ -176,6 +177,14 @@ export async function startResearchPipeline(projectId: string) {
 
     const parsed = JSON.parse(completion.choices[0].message.content || "{}");
     if (parsed.angle) {
+      // Save guest summary
+      if (parsed.guestSummary) {
+        await prisma.episodeProject.update({
+          where: { id: projectId },
+          data: { notes: parsed.guestSummary }
+        });
+      }
+
       const angle = await prisma.episodeAngle.create({
         data: { projectId, angle: parsed.angle, isActive: true }
       });
