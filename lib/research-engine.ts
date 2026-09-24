@@ -109,7 +109,8 @@ export async function startResearchPipeline(projectId: string) {
           role: "system",
           content: `أنت محرر محترف لبرنامج حواري (مثل برنامج الليوان). مهمتك هي استخراج زاوية للحلقة وثلاثة فصول بناءً على المصادر المقدمة. 
           هام جداً: تجاهل أي معلومات أو مصادر تتحدث عن أشخاص آخرين يحملون أسماء مشابهة، ركز فقط على الضيف المستهدف بصفته ومجاله. 
-          إذا كانت المعلومات غير كافية، ركز على ما هو مؤكد فقط. الرد يجب أن يكون بصيغة JSON حصرية.`
+          يجب أن تكون جميع النصوص والمخرجات باللغة العربية الفصحى حصراً (100% Arabic). لا تستخدم الإنجليزية أبداً.
+          الرد يجب أن يكون بصيغة JSON حصرية.`
         },
         { role: "user", content: `الضيف: ${project.guest.name}\n\nالمصادر:\n${contextStr}` }
       ],
@@ -120,13 +121,48 @@ export async function startResearchPipeline(projectId: string) {
           schema: {
             type: "object",
             properties: {
-              angle: { type: "string" },
+              angle: { type: "string", description: "The core angle of the episode (In Arabic)" },
               chapters: {
                 type: "array",
                 items: {
                   type: "object",
-                  properties: { title: { type: "string" }, estimatedMinutes: { type: "number" } },
-                  required: ["title", "estimatedMinutes"],
+                  properties: {
+                    title: { type: "string", description: "Chapter title (In Arabic)" },
+                    estimatedMinutes: { type: "number" },
+                    moment: {
+                      type: "object",
+                      properties: {
+                        title: { type: "string", description: "Title of the fact or story (In Arabic)" },
+                        description: { type: "string", description: "Details of the fact (In Arabic)" }
+                      },
+                      required: ["title", "description"],
+                      additionalProperties: false
+                    },
+                    hostQuestions: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          question: { type: "string", description: "Main question (In Arabic)" },
+                          whyItMatters: { type: "string", description: "Goal of the question (In Arabic)" },
+                          followUps: {
+                            type: "array",
+                            items: {
+                              type: "object",
+                              properties: {
+                                question: { type: "string", description: "Follow up question (In Arabic)" }
+                              },
+                              required: ["question"],
+                              additionalProperties: false
+                            }
+                          }
+                        },
+                        required: ["question", "whyItMatters", "followUps"],
+                        additionalProperties: false
+                      }
+                    }
+                  },
+                  required: ["title", "estimatedMinutes", "moment", "hostQuestions"],
                   additionalProperties: false
                 }
               }
@@ -146,9 +182,37 @@ export async function startResearchPipeline(projectId: string) {
       
       let index = 1;
       for (const ch of parsed.chapters) {
-        await prisma.chapter.create({
+        const chapter = await prisma.chapter.create({
           data: { angleId: angle.id, title: ch.title, orderIndex: index++, estimatedMinutes: ch.estimatedMinutes }
         });
+        
+        if (ch.moment) {
+          const moment = await prisma.storyMoment.create({
+            data: { projectId, title: ch.moment.title, description: ch.moment.description }
+          });
+          await prisma.chapter.update({
+            where: { id: chapter.id },
+            data: { momentId: moment.id }
+          });
+        }
+        
+        if (ch.hostQuestions) {
+          let qIdx = 1;
+          for (const q of ch.hostQuestions) {
+            const hostQuestion = await prisma.hostQuestion.create({
+              data: { chapterId: chapter.id, question: q.question, whyItMatters: q.whyItMatters, orderIndex: qIdx++ }
+            });
+            
+            if (q.followUps) {
+              let fIdx = 1;
+              for (const f of q.followUps) {
+                await prisma.followUp.create({
+                  data: { hostQuestionId: hostQuestion.id, question: f.question, orderIndex: fIdx++ }
+                });
+              }
+            }
+          }
+        }
       }
     }
 
