@@ -64,6 +64,12 @@ export async function startResearchPipeline(projectId: string) {
       queries.push(`site:linkedin.com/in "${guest.name}"`);
     }
 
+    // 6. Deep OSINT by Phone Number
+    if (guest.phone) {
+      // Searching the exact phone number, or the phone number with the name
+      queries.push(`"${guest.phone}" ("${guest.name}" OR "PDF" OR "contact" OR "directory" OR "دليل")`);
+    }
+
     let allResults: any[] = [];
     for (const q of queries) {
       const res = await tvlyClient.search(q, { searchDepth: "advanced", maxResults: 5 });

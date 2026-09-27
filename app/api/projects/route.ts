@@ -6,7 +6,7 @@ import { startResearchPipeline } from "@/lib/research-engine";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { guestName, role, organization, country, url, linkedinUrl } = body;
+    const { guestName, role, organization, country, url, linkedinUrl, phone } = body;
 
     if (!guestName) {
       return NextResponse.json({ error: "اسم الضيف مطلوب" }, { status: 400 });
@@ -21,6 +21,7 @@ export async function POST(request: Request) {
         country: country || null,
         url: url || null,
         linkedinUrl: linkedinUrl || null,
+        phone: phone || null,
       },
     });
 

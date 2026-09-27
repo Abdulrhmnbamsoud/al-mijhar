@@ -23,6 +23,7 @@ export default function NewProject() {
       url: formData.get("url") as string,
       twitterUrl: formData.get("twitterUrl") as string,
       linkedinUrl: formData.get("linkedinUrl") as string,
+      phone: formData.get("phone") as string,
     };
 
     try {
@@ -97,6 +98,11 @@ export default function NewProject() {
             <div>
               <label className={labelClass}>رابط اللينكد إن (إن وجد)</label>
               <input name="linkedinUrl" type="url" className={inputClass} placeholder="https://linkedin.com/in/..." dir="ltr" />
+            </div>
+
+            <div>
+              <label className={labelClass}>رقم الجوال (للبحث العميق OSINT)</label>
+              <input name="phone" type="tel" className={inputClass} placeholder="مثال: +9665..." dir="ltr" />
             </div>
 
             <div className="md:col-span-2">
