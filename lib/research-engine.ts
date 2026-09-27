@@ -72,7 +72,7 @@ export async function startResearchPipeline(projectId: string) {
 
     let allResults: any[] = [];
     for (const q of queries) {
-      const res = await tvlyClient.search(q, { searchDepth: "advanced", maxResults: 5 });
+      const res = await tvlyClient.search(q, { searchDepth: "advanced", maxResults: 10 });
       allResults = allResults.concat(res.results);
     }
 
@@ -145,6 +145,19 @@ export async function startResearchPipeline(projectId: string) {
                   additionalProperties: false
                 }
               },
+              expectedScenarios: {
+                type: "array",
+                description: "3 different expected scenarios for how the interview might unfold (e.g. Defensive, Professional, Controversial) (In Arabic)",
+                items: {
+                  type: "object",
+                  properties: {
+                    name: { type: "string", description: "Scenario Name (e.g. السيناريو التصادمي)" },
+                    description: { type: "string", description: "Detailed description of how the guest might behave and how the host should react" }
+                  },
+                  required: ["name", "description"],
+                  additionalProperties: false
+                }
+              },
               angle: { type: "string", description: "The core angle of the episode (In Arabic)" },
               chapters: {
                 type: "array",
@@ -191,7 +204,7 @@ export async function startResearchPipeline(projectId: string) {
                 }
               }
             },
-            required: ["guestSummary", "angle", "chapters", "careerHistory"],
+            required: ["guestSummary", "angle", "chapters", "careerHistory", "expectedScenarios"],
             additionalProperties: false
           }
         }
@@ -200,11 +213,14 @@ export async function startResearchPipeline(projectId: string) {
 
     const parsed = JSON.parse(completion.choices[0].message.content || "{}");
     if (parsed.angle) {
-      // Save guest summary
-      if (parsed.guestSummary) {
+      // Save guest summary and scenarios
+      if (parsed.guestSummary || parsed.expectedScenarios) {
         await prisma.episodeProject.update({
           where: { id: projectId },
-          data: { notes: parsed.guestSummary }
+          data: { 
+            notes: parsed.guestSummary || null,
+            expectedScenarios: parsed.expectedScenarios ? JSON.stringify(parsed.expectedScenarios) : null
+          }
         });
       }
 

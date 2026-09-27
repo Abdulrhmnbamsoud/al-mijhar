@@ -38,6 +38,12 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
   if (!project) return <div>Project not found</div>;
 
   const activeAngle = project.episodeAngles[0];
+  let parsedScenarios: { name: string, description: string }[] = [];
+  if (project.expectedScenarios) {
+    try {
+      parsedScenarios = JSON.parse(project.expectedScenarios);
+    } catch(e) {}
+  }
 
   return (
     <div className="w-full px-space-lg py-space-lg max-w-7xl mx-auto space-y-space-lg">
@@ -77,6 +83,23 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
                     </li>
                   ))}
                 </ul>
+              </div>
+            )}
+
+            {parsedScenarios.length > 0 && (
+              <div className="mt-space-md pt-space-md border-t border-border-subtle max-w-3xl">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="material-symbols-outlined text-accent-cyan text-sm">visibility</span>
+                  <strong className="text-text-ivory">السيناريوهات المتوقعة للقاء:</strong>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {parsedScenarios.map((scen, idx) => (
+                    <div key={idx} className="bg-surface-elevated border border-border-subtle p-3 rounded hover:border-accent-cyan/50 transition-colors">
+                      <h4 className="text-accent-cyan font-bold font-label-md mb-1">{scen.name}</h4>
+                      <p className="text-text-muted text-xs leading-relaxed">{scen.description}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
             

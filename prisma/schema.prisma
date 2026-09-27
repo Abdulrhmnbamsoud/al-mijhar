@@ -47,6 +47,7 @@ model EpisodeProject {
   status            String           @default("draft") // "draft", "researching", "pre_interview", "editing", "reviewing", "ready"
   durationMinutes   Int?             @default(60)
   notes             String?
+  expectedScenarios String?
 
   guestId           String
   guest             Guest            @relation(fields: [guestId], references: [id], onDelete: Cascade)
