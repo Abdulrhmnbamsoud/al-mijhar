@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
+import ClientButton from "@/components/ClientButton";
 import { AutoRefresh } from "@/components/AutoRefresh";
 import { RegenerateButton } from "@/components/RegenerateButton";
 
@@ -108,14 +109,14 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
                 </div>
               </div>
               <div className="bg-[#282a2f]/30 flex p-2 gap-2">
-                <button className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white text-[10px] py-1.5 rounded flex items-center justify-center gap-1 transition-colors">
+                <ClientButton actionType="alert" alertMessage="جاري تحميل المقطع الصوتي للملخص..." className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white text-[10px] py-1.5 rounded flex items-center justify-center gap-1 transition-colors">
                   <span className="material-symbols-outlined text-[14px]">headphones</span>
                   استمع للملخص
-                </button>
-                <button className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white text-[10px] py-1.5 rounded flex items-center justify-center gap-1 transition-colors">
+                </ClientButton>
+                <ClientButton actionType="alert" alertMessage="التفريغ الخام لم يتوفر بعد." className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white text-[10px] py-1.5 rounded flex items-center justify-center gap-1 transition-colors">
                   <span className="material-symbols-outlined text-[14px]">description</span>
                   التفريغ الخام
-                </button>
+                </ClientButton>
               </div>
             </div>
 
@@ -141,12 +142,12 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
                 <span className="material-symbols-outlined text-sm">mic</span>
                 جاهز للدخول للمايك
               </Link>
-              <button className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors">
+              <ClientButton actionType="print" className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors" title="طباعة">
                 <span className="material-symbols-outlined text-sm">print</span>
-              </button>
-              <button className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors">
+              </ClientButton>
+              <ClientButton actionType="cast" className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors" title="بث لاستوديو العزل">
                 <span className="material-symbols-outlined text-sm">cast</span>
-              </button>
+              </ClientButton>
             </div>
 
           </div>
@@ -204,10 +205,10 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
                     <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px] text-[#a1824a]">article</span> {chapter.hostQuestions.length} أسئلة وتفرعات</span>
                     <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px] text-red-500">warning</span> نقطة حساسة في الطرح</span>
                   </div>
-                  <button className="text-[#a1824a] hover:text-[#8b6e3e] flex items-center gap-1 transition-colors">
+                  <ClientButton actionType="alert" alertMessage="فتح بنك التحكم للمحور..." className="text-[#a1824a] hover:text-[#8b6e3e] flex items-center gap-1 transition-colors">
                     عرض بنك التحكم لهذا المحور
                     <span className="material-symbols-outlined text-[14px]">arrow_back</span>
-                  </button>
+                  </ClientButton>
                 </div>
               </div>
             ))}
@@ -267,10 +268,10 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
                 </div>
               </div>
 
-              <button className="w-full py-2 bg-white border border-[#e8e6df] hover:border-[#a1824a] hover:text-[#a1824a] text-[#1b1d20] rounded text-[10px] font-bold flex items-center justify-center gap-2 transition-colors">
+              <ClientButton actionType="alert" alertMessage="جاري فتح نافذة رفع الملفات..." className="w-full py-2 bg-white border border-[#e8e6df] hover:border-[#a1824a] hover:text-[#a1824a] text-[#1b1d20] rounded text-[10px] font-bold flex items-center justify-center gap-2 transition-colors">
                 <span className="material-symbols-outlined text-[14px]">add</span>
                 إرفاق وثيقة أو تسجيل صوتي جديد
-              </button>
+              </ClientButton>
             </div>
           </div>
 
@@ -281,7 +282,7 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
                 <span className="material-symbols-outlined text-[18px]">alt_route</span>
                 بنك الأسئلة البديلة للمقدم
               </div>
-              <button className="text-gray-400 hover:text-white bg-[#282a2f] text-[9px] px-2 py-1 rounded transition-colors">تطوير الطوارئ</button>
+              <ClientButton actionType="alert" alertMessage="طلب خطة طوارئ جديدة بالذكاء الاصطناعي..." className="text-gray-400 hover:text-white bg-[#282a2f] text-[9px] px-2 py-1 rounded transition-colors">تطوير الطوارئ</ClientButton>
             </div>
             
             <div className="p-4 space-y-3">
@@ -291,7 +292,9 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
 
               {parsedScenarios.map((scenario, i) => (
                 <div key={i} className="bg-[#282a2f] rounded p-3 relative">
-                  <span className="material-symbols-outlined absolute top-3 left-3 text-[14px] text-gray-500 cursor-pointer hover:text-white">content_copy</span>
+                  <ClientButton actionType="copy" copyText={scenario.description} className="absolute top-3 left-3 text-[14px] text-gray-500 cursor-pointer hover:text-white bg-transparent border-none p-0 flex items-center justify-center" title="نسخ">
+                    <span className="material-symbols-outlined">content_copy</span>
+                  </ClientButton>
                   <div className="text-[9px] text-[#a1824a] font-bold mb-1">{scenario.name}</div>
                   <p className="text-[11px] text-white font-bold leading-relaxed pr-6">
                     «{scenario.description}»
@@ -309,9 +312,9 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
                 <div className="text-[9px] text-gray-500 mb-2">ملاحظة فورية لتعليق المذيع أثناء التصوير:</div>
                 <div className="relative">
                   <input type="text" placeholder="اكتب تلميحاً يظهر فوراً في شاشة المذيع..." className="w-full bg-[#111317] border border-[#282a2f] rounded px-3 py-2 text-[10px] text-white focus:outline-none focus:border-[#a1824a]" />
-                  <button className="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center bg-[#a1824a] text-white rounded cursor-pointer hover:bg-[#8b6e3e]">
+                  <ClientButton actionType="alert" alertMessage="تم إرسال الملاحظة بنجاح لشاشة الاستوديو!" className="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center bg-[#a1824a] text-white rounded cursor-pointer hover:bg-[#8b6e3e]">
                     <span className="material-symbols-outlined text-[12px]">send</span>
-                  </button>
+                  </ClientButton>
                 </div>
               </div>
             </div>
