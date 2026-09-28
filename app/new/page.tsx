@@ -46,35 +46,35 @@ export default function NewProject() {
     }
   }
 
-  const inputClass = "w-full bg-white text-[#1b1d20] border border-[#e8e6df] p-3 rounded font-body-default focus:border-[#a1824a] focus:outline-none transition-colors";
-  const labelClass = "block mb-2 font-bold text-xs text-gray-500";
+  const inputClass = "w-full bg-surface-elevated text-text-ivory border border-border-subtle p-3 rounded font-body-default focus:border-accent-acid focus:outline-none transition-colors";
+  const labelClass = "block mb-2 font-label-md text-text-muted";
 
   return (
-    <main className="min-h-screen bg-[#f8f8f5] flex flex-col items-center py-16 px-4" dir="rtl">
-      <div className="max-w-2xl w-full bg-white border border-[#e8e6df] rounded-lg p-8 shadow-sm relative overflow-hidden">
+    <main className="min-h-screen bg-canvas-base flex flex-col items-center py-16 px-4 declassified-mode">
+      <div className="max-w-2xl w-full bg-surface-card border border-border-subtle rounded-lg p-space-lg shadow-xl relative overflow-hidden">
         
         {/* Subdued Glitch effect background */}
         <div className="absolute -top-32 -left-32 w-64 h-64 bg-accent-acid/5 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="flex justify-between items-center mb-8 relative z-10">
+        <div className="flex justify-between items-center mb-space-lg relative z-10">
           <div>
-            <h1 className="text-2xl font-bold text-[#1b1d20] mb-2">إضافة ضيف جديد</h1>
-            <p className="text-sm text-gray-500">أدخل المعلومات الأساسية للضيف لبدء بناء ملف الإعداد.</p>
+            <h1 className="font-headline-lg text-headline-lg text-text-ivory mb-2 glitch-text" data-text="إضافة ضيف جديد">إضافة ضيف جديد</h1>
+            <p className="font-body-default text-text-muted">أدخل المعلومات الأساسية للضيف لبدء بناء ملف الإعداد.</p>
           </div>
-          <Link href="/" className="text-gray-400 hover:text-[#1b1d20] transition-colors">
+          <Link href="/" className="text-text-muted hover:text-text-ivory transition-colors">
             <span className="material-symbols-outlined">close</span>
           </Link>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded mb-8 text-sm relative z-10 flex items-start gap-2">
+          <div className="bg-error-container/20 border border-error text-error p-space-sm rounded mb-space-lg font-label-md relative z-10 flex items-start gap-2">
             <span className="material-symbols-outlined text-xl shrink-0">error</span>
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit} className="space-y-space-md relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-space-md">
             <div className="md:col-span-2">
               <label className={labelClass}>اسم الضيف (مطلوب)</label>
               <input name="guestName" required className={inputClass} placeholder="مثال: نورة السالم" />
@@ -111,18 +111,18 @@ export default function NewProject() {
             </div>
           </div>
 
-          <div className="pt-6 border-t border-[#e8e6df] flex justify-end gap-3">
-            <Link href="/" className="px-6 py-3 rounded text-sm text-gray-500 hover:text-[#1b1d20] hover:bg-gray-100 transition-all duration-300 font-bold active:scale-95">
+          <div className="pt-space-md border-t border-border-subtle flex justify-end gap-space-sm">
+            <Link href="/" className="px-space-md py-3 rounded font-label-md text-text-muted hover:text-text-ivory hover:bg-surface-elevated transition-colors">
               إلغاء
             </Link>
             <button 
               type="submit" 
               disabled={loading}
-              className="bg-[#1b1d20] text-white hover:bg-black hover:shadow-lg hover:-translate-y-1 active:scale-95 px-8 py-3 rounded text-sm font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="bg-accent-acid text-canvas-base hover:bg-primary-fixed-dim px-space-xl py-3 rounded font-label-md font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
-                  <span className="material-symbols-outlined animate-spin text-xl text-[#a1824a]">progress_activity</span>
+                  <span className="material-symbols-outlined animate-spin text-xl">progress_activity</span>
                   جاري الإنشاء بالذكاء الاصطناعي...
                 </>
               ) : (
