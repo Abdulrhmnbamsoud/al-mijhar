@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import GlobalAppLayout from "@/components/GlobalAppLayout";
 
 export const metadata: Metadata = {
   title: "المِجهر - بحث وتحليل للشخصيات",
@@ -17,7 +18,11 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
       </head>
-      <body>{children}</body>
+      <body>
+        <GlobalAppLayout>
+          {children}
+        </GlobalAppLayout>
+      </body>
     </html>
   );
 }
