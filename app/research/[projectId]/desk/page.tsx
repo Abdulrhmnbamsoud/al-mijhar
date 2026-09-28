@@ -91,14 +91,11 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
                    <img 
                      src={
                        project.guest.linkedinUrl && project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)
-                         ? `https://unavatar.io/linkedin/${project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)?.[1]}`
+                         ? `https://unavatar.io/linkedin/${project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)?.[1]}?fallback=${encodeURIComponent(`https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=374151&color=ffffff`)}`
                          : `https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=374151&color=ffffff`
                      }
                      alt={project.guest.name}
                      className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-70"
-                     onError={(e) => {
-                       e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=374151&color=ffffff`;
-                     }}
                    />
                    <div className="absolute inset-0 flex items-center justify-center">
                      <span className="material-symbols-outlined text-white drop-shadow-md">videocam</span>

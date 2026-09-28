@@ -119,15 +119,11 @@ export default async function ProjectsArchive() {
                    <img 
                      src={
                        project.guest.linkedinUrl && project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)
-                         ? `https://unavatar.io/linkedin/${project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)?.[1]}`
+                         ? `https://unavatar.io/linkedin/${project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)?.[1]}?fallback=${encodeURIComponent(`https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=e8e6df&color=1b1d20&size=512`)}`
                          : `https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=e8e6df&color=1b1d20&size=512`
                      }
                      alt={project.guest.name}
                      className="absolute inset-0 w-full h-full object-cover object-center filter grayscale opacity-90 mix-blend-multiply"
-                     onError={(e) => {
-                       // Fallback if unavatar fails
-                       e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=e8e6df&color=1b1d20&size=512`;
-                     }}
                    />
                    
                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
