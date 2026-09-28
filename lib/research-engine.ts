@@ -76,7 +76,17 @@ export async function startResearchPipeline(projectId: string) {
       allResults = allResults.concat(res.results);
     }
 
-    const uniqueResults = Array.from(new Map(allResults.map(r => [r.url, r])).values());
+    const guestNameWords = guest.name.trim().split(" ");
+    const uniqueResults = Array.from(new Map(allResults.map(r => [r.url, r])).values()).filter(r => {
+      const text = (r.title + " " + r.content).toLowerCase();
+      const name = guest.name.toLowerCase();
+      if (text.includes(name)) return true;
+      if (guestNameWords.length > 1) {
+        const firstAndLast = guestNameWords[0].toLowerCase() + " " + guestNameWords[guestNameWords.length - 1].toLowerCase();
+        if (text.includes(firstAndLast)) return true;
+      }
+      return false;
+    });
 
     for (const r of uniqueResults) {
       const source = await prisma.source.create({
