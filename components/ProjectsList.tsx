@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { formatDistanceToNow } from 'date-fns';
+import { ar } from 'date-fns/locale';
 
 export default function ProjectsList({ initialProjects }: { initialProjects: any[] }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -105,11 +107,14 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
                  <img 
                    src={
                      project.guest.linkedinUrl && project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)
-                       ? `https://unavatar.io/linkedin/${project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)?.[1]}?fallback=${encodeURIComponent(`https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=e8e6df&color=1b1d20&size=512`)}`
+                       ? `https://unavatar.io/linkedin/${project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)?.[1]}`
                        : `https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=e8e6df&color=1b1d20&size=512`
                    }
                    alt={project.guest.name}
                    className="absolute inset-0 w-full h-full object-cover object-center filter grayscale opacity-90 mix-blend-multiply"
+                   onError={(e) => {
+                     e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=e8e6df&color=1b1d20&size=512`;
+                   }}
                  />
                  
                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
@@ -135,7 +140,7 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
                     مقترح جاهز للعرض
                   </div>
                   <span className="text-[10px] text-gray-400 font-mono">
-                    آخر تحديث: {new Date(project.updatedAt).toLocaleDateString('ar-SA')}
+                    آخر تحديث: {formatDistanceToNow(new Date(project.updatedAt), { addSuffix: true, locale: ar })}
                   </span>
                 </div>
                 

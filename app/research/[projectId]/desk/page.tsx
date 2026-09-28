@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import ClientButton from "@/components/ClientButton";
+import ClientImage from "@/components/ClientImage";
 import { AutoRefresh } from "@/components/AutoRefresh";
 import { RegenerateButton } from "@/components/RegenerateButton";
 
@@ -89,12 +90,13 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
             <div className="bg-[#1b1d20] border border-[#282a2f] rounded-lg overflow-hidden flex flex-col">
               <div className="p-4 flex gap-4 items-center border-b border-[#282a2f]">
                 <div className="w-12 h-12 bg-gray-700 rounded overflow-hidden flex-shrink-0 relative">
-                   <img 
+                   <ClientImage
                      src={
                        project.guest.linkedinUrl && project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)
-                         ? `https://unavatar.io/linkedin/${project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)?.[1]}?fallback=${encodeURIComponent(`https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=374151&color=ffffff`)}`
+                         ? `https://unavatar.io/linkedin/${project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)?.[1]}`
                          : `https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=374151&color=ffffff`
                      }
+                     fallbackSrc={`https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=374151&color=ffffff`}
                      alt={project.guest.name}
                      className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-70"
                    />
