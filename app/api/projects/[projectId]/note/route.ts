@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 export async function POST(
   request: Request,
@@ -10,7 +10,7 @@ export async function POST(
     const body = await request.json();
     const { note } = body;
 
-    const project = await prisma.project.update({
+    const project = await prisma.episodeProject.update({
       where: { id: projectId },
       data: { notes: note }
     });
