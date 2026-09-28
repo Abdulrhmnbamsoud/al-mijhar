@@ -6,14 +6,27 @@ import React from 'react';
 
 export default function GlobalAppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  
+  // Extract projectId if we are in a project route (e.g., /research/123/desk)
+  const pathParts = pathname.split('/');
+  const projectId = pathParts[1] === 'research' ? pathParts[2] : null;
+
+  const getHref = (base: string) => {
+    if (!projectId) return base === '/' ? '/' : '#'; // Disabled or fallback
+    return `/research/${projectId}${base}`;
+  };
 
   const navItems = [
-    { name: 'بث مباشر - استوديو العزل', href: '/studio', activePath: '/studio' },
-    { name: 'مفكرة المحاور والتلقين', href: '/teleprompter', activePath: '/teleprompter' },
-    { name: 'إعداد الحلقة والمصادر', href: '/', activePath: '/desk' },
-    { name: 'مشغل الفصول الصوتية', href: '/player', activePath: '/player' },
+    { name: 'بث مباشر - استوديو العزل', href: getHref('/studio'), activePath: '/studio' },
+    { name: 'مفكرة المحاور والتلقين', href: getHref('/desk'), activePath: '/desk' }, // using desk as teleprompter for now
+    { name: 'إعداد الحلقة والمصادر', href: getHref('/desk'), activePath: '/desk' },
+    { name: 'مشغل الفصول الصوتية', href: getHref('/player'), activePath: '/player' },
     { name: 'أرشيف الحلقات', href: '/', activePath: '/', exact: true },
   ];
+
+  if (pathname.includes('/studio')) {
+    return <>{children}</>;
+  }
 
   return (
     <div className="min-h-screen bg-[#f8f8f5] text-[#1b1d20] flex flex-col font-sans" dir="rtl">
