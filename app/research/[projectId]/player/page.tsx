@@ -187,10 +187,14 @@ export default async function AudioPlayerPage({ params }: { params: Promise<{ pr
 
             {/* Document preview card */}
             <div className="bg-[#1b1d20] rounded-xl overflow-hidden flex flex-col md:flex-row mt-8">
-              <div className="w-full md:w-1/3 bg-gray-800 relative min-h-[120px]">
-                {/* Fake image */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-gray-700 to-gray-600"></div>
-                <div className="absolute bottom-2 left-2 bg-black/60 text-white text-[9px] px-2 py-0.5 rounded">صورة من أرشيف نورة</div>
+              <div className="w-full md:w-1/3 bg-gray-800 relative min-h-[120px] overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1619983081563-430f63602796?auto=format&fit=crop&q=80&w=800"
+                  alt="كاسيت"
+                  className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-70 mix-blend-screen"
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-black/80 to-transparent"></div>
+                <div className="absolute bottom-2 left-2 bg-black/60 text-white text-[9px] px-2 py-0.5 rounded z-10">صورة من أرشيف نورة</div>
               </div>
               <div className="flex-1 p-5 text-white flex justify-between items-center">
                 <div>

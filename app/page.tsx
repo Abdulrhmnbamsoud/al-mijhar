@@ -114,18 +114,25 @@ export default async function ProjectsArchive() {
               <div key={project.id} className="bg-white border border-[#e8e6df] rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm hover:shadow-md transition-shadow">
                 
                 {/* Image Placeholder - Right Side */}
-                <div className="md:w-72 bg-[#e8e6df] relative flex-shrink-0 min-h-[200px] md:min-h-full">
-                   <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-[#e8e6df] opacity-50"></div>
+                <div className="md:w-72 bg-[#e8e6df] relative flex-shrink-0 min-h-[200px] md:min-h-full overflow-hidden">
+                   {/* Fake Image from Unsplash based on guest name or ID length for variety */}
+                   <img 
+                     src={project.guest.name.includes('نورة') ? "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800" : "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=800"} 
+                     alt={project.guest.name}
+                     className="absolute inset-0 w-full h-full object-cover object-center filter grayscale opacity-90 mix-blend-multiply"
+                   />
                    
-                   <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm text-white text-[10px] px-3 py-1.5 rounded-full flex items-center gap-2">
+                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                   
+                   <div className="absolute bottom-4 right-4 text-white text-[10px] px-3 py-1.5 rounded-full flex items-center gap-2 z-10 border border-white/20 bg-black/40 backdrop-blur-sm">
                      <span className="material-symbols-outlined text-[14px]">play_circle</span>
                      المدة 2:50 | حلقة {project.id.slice(-4)} (الجديد)
                    </div>
                    
-                   <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-[#1b1d20] text-[10px] font-bold px-3 py-1.5 rounded shadow-sm">
+                   <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-[#1b1d20] text-[10px] font-bold px-3 py-1.5 rounded shadow-sm z-10">
                      الموسم 3 - حلقة {project.id.slice(-4)}
                    </div>
-                   <div className="absolute top-4 left-4 bg-[#a1824a] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
+                   <div className="absolute top-4 left-4 bg-[#a1824a] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm z-10">
                      {project.status === 'ready' ? 'مكتملة' : 'قيد الإعداد'}
                    </div>
                 </div>
