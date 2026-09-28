@@ -79,12 +79,12 @@ export default function GlobalAppLayout({ children }: { children: React.ReactNod
       <div className="flex flex-1 overflow-hidden h-[calc(100vh-3.5rem)]">
         
         {/* Right Sidebar */}
-        <aside className="w-64 bg-[#1b1d20] flex-shrink-0 flex flex-col overflow-y-auto">
+        <aside className="w-64 bg-[#f8f8f5] border-l border-[#e8e6df] flex-shrink-0 flex flex-col overflow-y-auto">
           <div className="p-6">
             <h2 className="text-[10px] text-gray-500 mb-6 font-semibold tracking-wider">غرفة التحرير الصوتي</h2>
             
             <div className="mb-2">
-              <h3 className="text-white font-bold text-xl mb-4">سير إنتاج الحلقة</h3>
+              <h3 className="text-[#1b1d20] font-bold text-xl mb-4">سير إنتاج الحلقة</h3>
             </div>
 
             <nav className="flex flex-col space-y-1">
@@ -94,13 +94,13 @@ export default function GlobalAppLayout({ children }: { children: React.ReactNod
                   <Link 
                     key={idx} 
                     href={item.href}
-                    className={`flex items-center gap-3 py-3 transition-all ${
+                    className={`flex items-center gap-3 px-4 py-3 rounded-md transition-all ${
                       isActive 
-                        ? 'text-white' 
-                        : 'text-gray-400 hover:text-white'
+                        ? 'bg-[#1b1d20] text-white font-bold' 
+                        : 'text-gray-500 hover:text-[#1b1d20] hover:bg-white'
                     }`}
                   >
-                    <span className="text-sm font-medium">{item.name}</span>
+                    <span className="text-sm">{item.name}</span>
                   </Link>
                 );
               })}

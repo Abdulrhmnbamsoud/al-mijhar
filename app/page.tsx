@@ -23,7 +23,7 @@ export default async function ProjectsArchive() {
   });
 
   return (
-    <div className="min-h-screen bg-[#f8f8f5] flex flex-col p-8 font-sans" dir="rtl">
+    <div className="flex flex-col p-8 font-sans w-full" dir="rtl">
       <div className="max-w-6xl mx-auto w-full space-y-8">
         
         {/* Header Section */}
