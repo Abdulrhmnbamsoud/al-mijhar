@@ -8,7 +8,7 @@ export default function StudioView({ project, angle }: { project: any, angle: an
   const activeChapter = angle?.chapters?.find((c: any) => c.id === activeChapterId) || angle?.chapters?.[0];
 
   return (
-    <div className="min-h-screen bg-[#f8f8f5] text-[#1b1d20] font-sans selection:bg-[#a1824a] selection:text-white" dir="rtl">
+    <div className="fixed inset-0 z-50 flex flex-col bg-[#f8f8f5] text-[#1b1d20] font-sans selection:bg-[#a1824a] selection:text-white" dir="rtl">
       {/* Top Header */}
       <header className="bg-[#1b1d20] text-white flex items-center justify-between px-6 py-3 sticky top-0 z-50">
         <div className="flex items-center gap-6">
