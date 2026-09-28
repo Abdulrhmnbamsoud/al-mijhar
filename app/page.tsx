@@ -115,11 +115,19 @@ export default async function ProjectsArchive() {
                 
                 {/* Image Placeholder - Right Side */}
                 <div className="md:w-72 bg-[#e8e6df] relative flex-shrink-0 min-h-[200px] md:min-h-full overflow-hidden">
-                   {/* Fake Image from Unsplash based on guest name or ID length for variety */}
+                   {/* Real Guest Image from LinkedIn or fallback */}
                    <img 
-                     src={project.guest.name.includes('نورة') ? "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800" : "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=800"} 
+                     src={
+                       project.guest.linkedinUrl && project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)
+                         ? `https://unavatar.io/linkedin/${project.guest.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/)?.[1]}`
+                         : `https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=e8e6df&color=1b1d20&size=512`
+                     }
                      alt={project.guest.name}
                      className="absolute inset-0 w-full h-full object-cover object-center filter grayscale opacity-90 mix-blend-multiply"
+                     onError={(e) => {
+                       // Fallback if unavatar fails
+                       e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(project.guest.name)}&background=e8e6df&color=1b1d20&size=512`;
+                     }}
                    />
                    
                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
