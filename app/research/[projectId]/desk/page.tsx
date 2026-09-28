@@ -45,19 +45,292 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
     } catch(e) {}
   }
 
+  // Calculate some stats
+  const totalChapters = activeAngle?.chapters?.length || 0;
+  const totalQuestions = activeAngle?.chapters?.reduce((acc, ch) => acc + ch.hostQuestions.length, 0) || 0;
+
   return (
-    <div className="w-full px-space-lg py-space-lg max-w-7xl mx-auto space-y-space-lg">
+    <div className="w-full bg-[#f8f8f5] font-sans" dir="rtl">
+      <AutoRefresh intervalMs={5000} />
       
-      {/* Header Profile */}
-      <section className="w-full bg-surface-card border border-border-subtle rounded-lg p-space-lg relative overflow-hidden">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg relative z-10">
-          <div className="flex flex-col space-y-space-xs">
-            <h1 className="font-headline-lg text-headline-lg text-text-ivory tracking-tight">{project.guest.name}</h1>
-            <p className="font-body-dense text-body-dense text-text-muted">
-              {project.guest.role} {project.guest.organization && `| ${project.guest.organization}`}
-            </p>
+      {/* Top Banner (Dark) */}
+      <section className="bg-[#1b1d20] text-white border-b border-[#282a2f] p-8 lg:p-10">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 justify-between items-start">
+          
+          {/* Right Side - Info */}
+          <div className="flex-1 space-y-4">
+            <div className="flex items-center gap-3 text-xs font-medium text-gray-400">
+              <span className="bg-[#282a2f] text-white px-2 py-1 rounded text-[10px]">حلقة رقم {project.id.slice(-3)}</span>
+              <span>• طولة الإعداد المبني للمقترح والقصة</span>
+              <span>• <span className="material-symbols-outlined text-[14px] align-middle">schedule</span> تقدير التسجيل: 58 دقيقة</span>
+            </div>
             
-            {project.notes && (
+            <h1 className="text-4xl lg:text-5xl font-bold tracking-tight text-white mb-2">{project.guest.name}</h1>
+            <p className="text-[#a1824a] text-sm lg:text-base font-bold mb-6">
+              {project.guest.role} {project.guest.organization && `في ${project.guest.organization}`}
+            </p>
+
+            <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-5">
+              <div className="flex items-center gap-2 text-[#a1824a] text-xs font-bold mb-2">
+                <span className="material-symbols-outlined text-[16px]">psychology_alt</span>
+                الزاوية التحريرية المعتمدة
+              </div>
+              <p className="text-gray-300 text-sm leading-relaxed font-serif">
+                «{activeAngle?.angle || "جاري صياغة الزاوية التحريرية بناءً على المعطيات..."}»
+              </p>
+            </div>
+          </div>
+
+          {/* Left Side - Tools & Stats */}
+          <div className="w-full lg:w-80 flex flex-col gap-4">
+            
+            {/* Call Card */}
+            <div className="bg-[#1b1d20] border border-[#282a2f] rounded-lg overflow-hidden flex flex-col">
+              <div className="p-4 flex gap-4 items-center border-b border-[#282a2f]">
+                <div className="w-12 h-12 bg-gray-700 rounded overflow-hidden flex-shrink-0">
+                   <div className="w-full h-full bg-gradient-to-br from-gray-500 to-gray-600 flex items-center justify-center">
+                     <span className="material-symbols-outlined text-gray-300">videocam</span>
+                   </div>
+                </div>
+                <div>
+                  <div className="text-[10px] text-gray-400 font-bold mb-1">المكالمة التمهيدية</div>
+                  <div className="text-xs font-bold text-white mb-1">{project.guest.name.split(' ')[0]} • مكالمة زوم (42 دقيقة)</div>
+                  <div className="text-[10px] text-[#10B981]">مكتملة وموثقة بالكامل</div>
+                </div>
+              </div>
+              <div className="bg-[#282a2f]/30 flex p-2 gap-2">
+                <button className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white text-[10px] py-1.5 rounded flex items-center justify-center gap-1 transition-colors">
+                  <span className="material-symbols-outlined text-[14px]">headphones</span>
+                  استمع للملخص
+                </button>
+                <button className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white text-[10px] py-1.5 rounded flex items-center justify-center gap-1 transition-colors">
+                  <span className="material-symbols-outlined text-[14px]">description</span>
+                  التفريغ الخام
+                </button>
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-2">
+              <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-3 text-center flex flex-col justify-center">
+                <span className="text-xl font-bold text-white">{totalChapters}</span>
+                <span className="text-[9px] text-gray-400 mt-1">محاور مسارات</span>
+              </div>
+              <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-3 text-center flex flex-col justify-center">
+                <span className="text-xl font-bold text-[#a1824a]">12</span>
+                <span className="text-[9px] text-gray-400 mt-1">وثيقة ومصادر</span>
+              </div>
+              <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-3 text-center flex flex-col justify-center">
+                <span className="text-xl font-bold text-white">{totalQuestions}</span>
+                <span className="text-[9px] text-gray-400 mt-1">أسئلة استرجاعية</span>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+              <Link href={`/research/${project.id}/studio`} className="flex-1 bg-[#a1824a] hover:bg-[#8b6e3e] text-white text-xs font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors">
+                <span className="material-symbols-outlined text-sm">mic</span>
+                جاهز للدخول للمايك
+              </Link>
+              <button className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors">
+                <span className="material-symbols-outlined text-sm">print</span>
+              </button>
+              <button className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors">
+                <span className="material-symbols-outlined text-sm">cast</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content Area */}
+      <section className="max-w-7xl mx-auto p-6 lg:p-10 flex flex-col lg:flex-row gap-8 items-start">
+        
+        {/* Right Column (Chapters Flow) */}
+        <div className="flex-1 w-full">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <span className="text-[10px] text-gray-500 font-bold mb-1 block">هيكل الحوار التفصيلي</span>
+              <h2 className="text-2xl font-bold text-[#1b1d20]">تسلسل المحاور الخمسة وسوالف الحلقة</h2>
+            </div>
+            <div className="flex items-center gap-2 text-[10px] text-gray-400 bg-white border border-[#e8e6df] px-3 py-1.5 rounded-full shadow-sm">
+              <span className="material-symbols-outlined text-[14px]">drag_indicator</span>
+              اسحب المحور لإعادة ترتيب تدفق الحوار
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {activeAngle?.chapters.map((chapter, index) => (
+              <div key={chapter.id} className="bg-white border border-[#e8e6df] rounded-xl p-5 shadow-sm relative">
+                
+                {/* Chapter Number Badge */}
+                <div className="absolute -right-4 top-5 w-8 h-8 rounded-full bg-[#1b1d20] text-white flex items-center justify-center text-xs font-bold shadow-md">
+                  {String(index + 1).padStart(2, '0')}
+                </div>
+
+                <div className="flex justify-between items-start mb-4 pr-6">
+                  <div>
+                    <div className="text-[10px] text-gray-500 font-bold mb-1">المحور {index + 1} • {chapter.title}</div>
+                    <h3 className="text-lg font-bold text-[#1b1d20]">{chapter.hostQuestions[0]?.question || "جاري تجهيز السؤال..."}</h3>
+                  </div>
+                  <div className="flex items-center gap-2 bg-[#f8f8f5] border border-[#e8e6df] px-2 py-1 rounded text-[10px] text-gray-500 font-medium">
+                    <span className="material-symbols-outlined text-[14px]">schedule</span>
+                    15 دقيقة
+                  </div>
+                </div>
+
+                {chapter.hostQuestions[0]?.whyItMatters && (
+                  <div className="bg-[#f8f8f5] border-r-2 border-[#a1824a] p-3 rounded text-[11px] text-[#1b1d20] mb-4">
+                    <span className="text-[#a1824a] font-bold block mb-1 flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[14px]">campaign</span>
+                      تلميح للمذيع:
+                    </span>
+                    {chapter.hostQuestions[0].whyItMatters}
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between pt-3 border-t border-[#e8e6df] text-[10px] text-gray-500 font-medium">
+                  <div className="flex items-center gap-4">
+                    <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px] text-[#a1824a]">article</span> {chapter.hostQuestions.length} أسئلة وتفرعات</span>
+                    <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px] text-red-500">warning</span> نقطة حساسة في الطرح</span>
+                  </div>
+                  <button className="text-[#a1824a] hover:text-[#8b6e3e] flex items-center gap-1 transition-colors">
+                    عرض بنك التحكم لهذا المحور
+                    <span className="material-symbols-outlined text-[14px]">arrow_back</span>
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            {(!activeAngle?.chapters || activeAngle.chapters.length === 0) && (
+              <div className="text-center py-10 bg-white rounded-xl border border-dashed border-[#e8e6df]">
+                <RegenerateButton projectId={project.id} endpoint="/api/ai/generate-chapters" label="توليد محاور الحلقة بالذكاء الاصطناعي" />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Left Column (Sidebar Tools) */}
+        <div className="w-full lg:w-80 space-y-6">
+          
+          {/* Evidences Box */}
+          <div className="bg-[#fcfbf9] border border-[#a1824a]/30 rounded-xl overflow-hidden shadow-sm">
+            <div className="bg-white border-b border-[#a1824a]/30 p-4 flex justify-between items-center">
+              <div className="flex items-center gap-2 text-[#a1824a] font-bold text-sm">
+                <span className="material-symbols-outlined text-[18px]">verified_user</span>
+                أدلة ومصادر المحور الثاني
+              </div>
+              <span className="text-[9px] bg-[#f8f8f5] text-[#a1824a] px-2 py-0.5 rounded border border-[#a1824a]/20">مرتبط بـ المحور 02</span>
+            </div>
+            
+            <div className="p-4 space-y-3">
+              <p className="text-[10px] text-gray-500 leading-relaxed">
+                الأدلة المستندة لهذا المحور مصنفة حسب درجة الموثوقية لتسهيل استخدامها على الهواء:
+              </p>
+
+              {/* Source Card */}
+              <div className="bg-white border border-[#e8e6df] rounded p-3 text-[10px]">
+                <div className="flex justify-between items-center text-gray-400 font-bold mb-2 pb-2 border-b border-[#e8e6df]">
+                  <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[12px] text-[#1b1d20]">description</span> منشور ومعلومة رسمي</span>
+                  <span>صحيفة عكاظ • 2021</span>
+                </div>
+                <p className="text-[#1b1d20] leading-relaxed mb-2 font-serif font-bold">
+                  «تصريح رسمي لنورة: بدأنا بمبادرة توثيق 120 مسنة في الشمال، وواجهنا صعوبة تقبل العائلات لتسجيل أصوات النساء في البداية.»
+                </p>
+                <div className="flex justify-between items-center text-gray-400">
+                  <a href="#" className="hover:text-[#a1824a] underline">رابط المقال الأصلي</a>
+                  <span className="text-[#10B981]">تستخدم كمدخل لإثبات جديتها</span>
+                </div>
+              </div>
+              
+              {/* Alert Card */}
+              <div className="bg-red-50/50 border border-red-100 rounded p-3 text-[10px]">
+                <div className="flex justify-between items-center text-red-700 font-bold mb-2 pb-2 border-b border-red-100">
+                  <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[12px]">gavel</span> يحتاج تأكيد بتدقيق قبل الطرح</span>
+                  <span>غير مؤكد</span>
+                </div>
+                <p className="text-[#1b1d20] leading-relaxed mb-2 font-serif font-bold">
+                  شائعة متداولة على X (تويتر) أن التسجيل الصوتي لجدتها تم بيعه في مزاد تراثي لاحقاً دون إذنها.
+                </p>
+                <div className="text-red-600 bg-red-100/50 p-1.5 rounded">
+                  <span className="font-bold">توجيه للإعداد:</span> نورة نفت هذا الأمر مراراً، تجنب ذكر المزاد إلا إذا فتحت هي سالفة التفريط بالأرشيف.
+                </div>
+              </div>
+
+              <button className="w-full py-2 bg-white border border-[#e8e6df] hover:border-[#a1824a] hover:text-[#a1824a] text-[#1b1d20] rounded text-[10px] font-bold flex items-center justify-center gap-2 transition-colors">
+                <span className="material-symbols-outlined text-[14px]">add</span>
+                إرفاق وثيقة أو تسجيل صوتي جديد
+              </button>
+            </div>
+          </div>
+
+          {/* Alternative Questions Box */}
+          <div className="bg-[#1b1d20] rounded-xl overflow-hidden shadow-md">
+            <div className="p-4 border-b border-[#282a2f] flex justify-between items-center">
+              <div className="flex items-center gap-2 text-[#a1824a] font-bold text-sm">
+                <span className="material-symbols-outlined text-[18px]">alt_route</span>
+                بنك الأسئلة البديلة للمقدم
+              </div>
+              <button className="text-gray-400 hover:text-white bg-[#282a2f] text-[9px] px-2 py-1 rounded transition-colors">تطوير الطوارئ</button>
+            </div>
+            
+            <div className="p-4 space-y-3">
+              <p className="text-[10px] text-gray-400 leading-relaxed mb-4">
+                إذا أفلتت نورة بسؤال متشعب، أو تشعبت بمبالغة خارج السياق، استخدم هذه الجسور للعودة:
+              </p>
+
+              {parsedScenarios.map((scenario, i) => (
+                <div key={i} className="bg-[#282a2f] rounded p-3 relative">
+                  <span className="material-symbols-outlined absolute top-3 left-3 text-[14px] text-gray-500 cursor-pointer hover:text-white">content_copy</span>
+                  <div className="text-[9px] text-[#a1824a] font-bold mb-1">{scenario.name}</div>
+                  <p className="text-[11px] text-white font-bold leading-relaxed pr-6">
+                    «{scenario.description}»
+                  </p>
+                </div>
+              ))}
+              
+              {parsedScenarios.length === 0 && (
+                <div className="bg-[#282a2f] rounded p-3 text-[11px] text-white text-center">
+                  لا توجد أسئلة بديلة مولدة بعد.
+                </div>
+              )}
+
+              <div className="mt-4 pt-4 border-t border-[#282a2f]">
+                <div className="text-[9px] text-gray-500 mb-2">ملاحظة فورية لتعليق المذيع أثناء التصوير:</div>
+                <div className="relative">
+                  <input type="text" placeholder="اكتب تلميحاً يظهر فوراً في شاشة المذيع..." className="w-full bg-[#111317] border border-[#282a2f] rounded px-3 py-2 text-[10px] text-white focus:outline-none focus:border-[#a1824a]" />
+                  <button className="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center bg-[#a1824a] text-white rounded cursor-pointer hover:bg-[#8b6e3e]">
+                    <span className="material-symbols-outlined text-[12px]">send</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Audio Sample Box */}
+          <div className="bg-white border border-[#e8e6df] rounded-xl p-4 shadow-sm text-center">
+            <div className="text-[10px] text-gray-500 font-bold mb-3">عينة التسجيل الصوتي للأرشيف</div>
+            
+            {/* Fake Audio Waveform */}
+            <div className="flex items-center justify-center gap-1 h-12 mb-3">
+              {[...Array(30)].map((_, i) => (
+                <div key={i} className={`w-1 rounded-full ${i % 3 === 0 ? 'bg-[#a1824a]' : 'bg-[#e8e6df]'}`} style={{ height: `${Math.random() * 100}%`, minHeight: '20%' }}></div>
+              ))}
+            </div>
+            
+            <div className="flex justify-between items-center text-[9px] text-gray-400">
+              <span>كاسيت نادرة • 1984م</span>
+              <span>نسبة الضجيج: 2.1 dB (ممتاز)</span>
+            </div>
+          </div>
+
+        </div>
+        
+      </section>
+    </div>
+  );
+}
               <div className="mt-space-sm p-space-sm bg-surface-base border border-border-subtle rounded text-text-muted font-body-dense max-w-3xl leading-relaxed">
                 <span className="material-symbols-outlined text-sm inline-block ml-1 align-text-bottom">person_book</span>
                 {project.notes}
