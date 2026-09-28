@@ -1,14 +1,20 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { AutoRefresh } from '@/components/AutoRefresh';
 
 export default function StudioView({ project, angle }: { project: any, angle: any }) {
   const [activeChapterId, setActiveChapterId] = useState(angle?.chapters?.[0]?.id);
 
   const activeChapter = angle?.chapters?.find((c: any) => c.id === activeChapterId) || angle?.chapters?.[0];
+  let parsedScenarios: any[] = [];
+  try {
+    parsedScenarios = project.expectedScenarios ? JSON.parse(project.expectedScenarios) : [];
+  } catch (e) { }
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-[#f8f8f5] text-[#1b1d20] font-sans selection:bg-[#a1824a] selection:text-white" dir="rtl">
+      <AutoRefresh intervalMs={3000} />
       {/* Top Header */}
       <header className="bg-[#1b1d20] text-white flex items-center justify-between px-6 py-3 sticky top-0 z-50">
         <div className="flex items-center gap-6">
@@ -171,12 +177,12 @@ export default function StudioView({ project, angle }: { project: any, angle: an
           <div className="bg-[#fcfbf9] rounded-xl p-5 border border-[#a1824a]/20 shadow-sm">
             <div className="flex items-center gap-2 mb-4 text-[#a1824a]">
               <span className="material-symbols-outlined text-sm">label_important</span>
-              <h3 className="font-bold text-sm">كلمات مفتاحية لا تنساها</h3>
+              <h3 className="font-bold text-sm">بيانات الضيف السريعة</h3>
             </div>
             <div className="flex flex-wrap gap-2">
-              <span className="bg-white border border-gray-200 text-gray-700 px-3 py-1.5 rounded text-xs font-medium shadow-sm">مسيرته المبكرة</span>
-              <span className="bg-white border border-gray-200 text-gray-700 px-3 py-1.5 rounded text-xs font-medium shadow-sm">المنعطف المهني</span>
-              <span className="bg-white border border-gray-200 text-gray-700 px-3 py-1.5 rounded text-xs font-medium shadow-sm">التحدي الأكبر</span>
+              {project.guest.role && <span className="bg-white border border-gray-200 text-gray-700 px-3 py-1.5 rounded text-xs font-medium shadow-sm">{project.guest.role}</span>}
+              {project.guest.organization && <span className="bg-white border border-gray-200 text-gray-700 px-3 py-1.5 rounded text-xs font-medium shadow-sm">{project.guest.organization}</span>}
+              {project.guest.country && <span className="bg-white border border-gray-200 text-gray-700 px-3 py-1.5 rounded text-xs font-medium shadow-sm">{project.guest.country}</span>}
             </div>
           </div>
 
@@ -192,16 +198,29 @@ export default function StudioView({ project, angle }: { project: any, angle: an
             <p className="text-[10px] text-gray-400 mt-2 text-center">يتم إرفاق هذه الملاحظات في ملخص ما بعد الحلقة</p>
           </div>
 
-          <div className="bg-[#fdf8f6] rounded-xl p-5 border border-red-100 shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-1 h-full bg-red-400"></div>
-            <div className="flex items-center gap-2 mb-3 text-red-700">
-              <span className="material-symbols-outlined text-sm">notification_important</span>
-              <h3 className="font-bold text-sm">تنبيه تحريري من الإعداد:</h3>
+          {parsedScenarios.length > 0 ? (
+            <div className="bg-[#fdf8f6] rounded-xl p-5 border border-red-100 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-1 h-full bg-red-400"></div>
+              <div className="flex items-center gap-2 mb-3 text-red-700">
+                <span className="material-symbols-outlined text-sm">notification_important</span>
+                <h3 className="font-bold text-sm">تنبيه تحريري من الإعداد:</h3>
+              </div>
+              <p className="text-xs text-red-800/80 leading-relaxed font-bold mb-2">
+                سيناريو متوقع: {parsedScenarios[0]?.name}
+              </p>
+              <p className="text-xs text-red-800/80 leading-relaxed">
+                {parsedScenarios[0]?.description}
+              </p>
             </div>
-            <p className="text-xs text-red-800/80 leading-relaxed">
-              لا تذكر اسم الجهة السابقة لتجنب أي إحراج اجتماعي، وركز تماماً على البعد الإنساني.
-            </p>
-          </div>
+          ) : (
+            <div className="bg-[#fdf8f6] rounded-xl p-5 border border-red-100 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-1 h-full bg-red-400"></div>
+              <div className="flex items-center gap-2 mb-3 text-red-700">
+                <span className="material-symbols-outlined text-sm">notification_important</span>
+                <h3 className="font-bold text-sm">لا توجد تنبيهات محددة</h3>
+              </div>
+            </div>
+          )}
         </aside>
 
       </div>

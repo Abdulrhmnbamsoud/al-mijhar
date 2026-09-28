@@ -12,7 +12,7 @@ export default async function AudioPlayerPage({ params }: { params: Promise<{ pr
         include: {
           chapters: {
             orderBy: { orderIndex: 'asc' },
-            include: { hostQuestions: true }
+            include: { hostQuestions: true, moment: true }
           }
         }
       }
@@ -142,16 +142,16 @@ export default async function AudioPlayerPage({ params }: { params: Promise<{ pr
               </div>
               
               <h2 className="text-3xl font-bold text-[#1b1d20] leading-tight mb-6">
-                «{chapters[1]?.hostQuestions[0]?.question || "السؤال الرئيسي غير متوفر"}»
+                «{chapters[0]?.hostQuestions[0]?.question || "الحلقة في طور التسجيل أو قيد الإعداد"}»
               </h2>
 
               <div className="bg-white border-r-2 border-[#a1824a] p-5 rounded-l-lg shadow-sm">
-                <div className="text-[10px] text-[#a1824a] font-bold mb-2">أبرز مقولة في هذا الفصل (Quote Highlight)</div>
+                <div className="text-[10px] text-[#a1824a] font-bold mb-2">أبرز نقطة في هذا الفصل (Highlight)</div>
                 <p className="text-[#1b1d20] text-sm font-bold font-serif leading-relaxed mb-4">
-                  «لما شغلت الكاسيت وسمعت صوت جدتي تسولف مع جارتها في عام 1403هـ، حسيت إني ما أسمع صوت.. حسيت إني أشم ريحة بيت الطين، وعرفت إن الصوت هو الكائن الوحيد اللي ما يعترف بالموت.»
+                  «{chapters[0]?.moment?.description || project.notes || "لم يتم تحديد لحظة بارزة بعد."}»
                 </p>
                 <div className="flex justify-between items-center text-[10px] text-gray-500 font-bold">
-                  <span>نورة السالم • تسجيل الدقيقة 24:12</span>
+                  <span>{project.guest.name} • تسجيل הדقيقة 24:12</span>
                   <button className="flex items-center gap-1 text-[#a1824a] hover:text-[#8b6e3e]">
                     استمع لهذه اللحظة
                     <span className="material-symbols-outlined text-[14px]">play_circle</span>
@@ -163,23 +163,19 @@ export default async function AudioPlayerPage({ params }: { params: Promise<{ pr
             <div>
               <div className="flex items-center gap-2 text-[#1b1d20] text-sm font-bold mb-4">
                 <span className="material-symbols-outlined text-[18px]">account_tree</span>
-                السوالف الجانبية اللي فُتحت في هذا المحور
-                <span className="text-[9px] bg-gray-200 text-gray-500 px-2 py-0.5 rounded mr-2 font-normal">3 تفرعات حوارية عفوية</span>
+                نقاط وأحداث مسجلة في المحور
+                <span className="text-[9px] bg-gray-200 text-gray-500 px-2 py-0.5 rounded mr-2 font-normal">{chapters.length} محطات</span>
               </div>
 
               <div className="space-y-3">
-                {[
-                  { title: "سالفة تسجيلات رسائل المغتربين والمسافرين", desc: "حديث عفوي عن كيف كانت العائلات ترسل كاسيت بريدي كامل بدلاً من الخطابات الورقية لسماع نبض الصوت والضحكات.", time: "28:40", num: "1" },
-                  { title: "قلم الرصاص ومأساة الشريط المتشابك", desc: "نوستالجيا مشتركة بين المقدم والضيفة حول طقس تدوير شريط الكاسيت السداسي بواسطة قلم الرصاص لحمايته من التلف.", time: "33:15", num: "2" },
-                  { title: "ردة فعل والدها لما شافت المشروع أول مرة", desc: "تخوف الأهل المبدئي من ترك وظيفتها البنكية المرموقة للركض خلف ما وصفوه وقتها بـ «كراتين الغبار».", time: "39:50", num: "3" }
-                ].map(item => (
-                  <div key={item.num} className="bg-white border border-[#e8e6df] rounded-lg p-4 flex gap-4 items-center">
-                    <div className="w-8 h-8 rounded bg-[#f8f8f5] border border-[#e8e6df] flex items-center justify-center text-gray-500 font-bold text-xs">{item.num}</div>
+                {chapters.map((ch: any, i: number) => (
+                  <div key={ch.id} className="bg-white border border-[#e8e6df] rounded-lg p-4 flex gap-4 items-center">
+                    <div className="w-8 h-8 rounded bg-[#f8f8f5] border border-[#e8e6df] flex items-center justify-center text-gray-500 font-bold text-xs">{i + 1}</div>
                     <div className="flex-1">
-                      <h4 className="text-[#1b1d20] text-sm font-bold mb-1">{item.title}</h4>
-                      <p className="text-gray-500 text-[11px] leading-relaxed">{item.desc}</p>
+                      <h4 className="text-[#1b1d20] text-sm font-bold mb-1">{ch.moment?.title || ch.title}</h4>
+                      <p className="text-gray-500 text-[11px] leading-relaxed">{ch.moment?.description || ch.hostQuestions[0]?.whyItMatters || "..."}</p>
                     </div>
-                    <div className="text-gray-400 text-[10px] font-mono">{item.time}</div>
+                    <div className="text-gray-400 text-[10px] font-mono">{ch.estimatedMinutes}:00</div>
                   </div>
                 ))}
               </div>
@@ -194,14 +190,14 @@ export default async function AudioPlayerPage({ params }: { params: Promise<{ pr
                   className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-70 mix-blend-screen"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-black/80 to-transparent"></div>
-                <div className="absolute bottom-2 left-2 bg-black/60 text-white text-[9px] px-2 py-0.5 rounded z-10">صورة من أرشيف نورة</div>
+                <div className="absolute bottom-2 left-2 bg-black/60 text-white text-[9px] px-2 py-0.5 rounded z-10">صورة توضيحية لملف الضيف</div>
               </div>
               <div className="flex-1 p-5 text-white flex justify-between items-center">
                 <div>
-                  <div className="text-[#a1824a] text-[9px] font-bold mb-1">وثيقة المحور المرفقة</div>
-                  <h4 className="text-base font-bold mb-2">الكاسيت الأول: «جلسة الضحى - محرم 1403هـ»</h4>
+                  <div className="text-[#a1824a] text-[9px] font-bold mb-1">بيانات مرجعية</div>
+                  <h4 className="text-base font-bold mb-2">البحث الأولي لـ {project.guest.name}</h4>
                   <p className="text-[10px] text-gray-400 leading-relaxed max-w-sm">
-                    الشريط الذي بدأت منه الفكرة كاملة. كُتب على الغلاف بخط اليد الأزرق اسم الجدة لطيفة رحمها الله مع تسجيل لأهازيج شعبية نادرة كانت ترددها في موسم الحصاد.
+                    {project.notes ? (project.notes.length > 150 ? project.notes.substring(0, 150) + '...' : project.notes) : "لا توجد تفاصيل مبدئية مسجلة"}
                   </p>
                 </div>
                 <div>

@@ -4,17 +4,28 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
+import { AutoRefresh } from './AutoRefresh';
+import ClientButton from './ClientButton';
 
 export default function ProjectsList({ initialProjects }: { initialProjects: any[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSeason, setActiveSeason] = useState('الكل');
   const [activeCategory, setActiveCategory] = useState('الكل');
 
+  const hasProcessingProjects = initialProjects.some(p => p.status === 'researching');
+
+  const [toastMsg, setToastMsg] = useState<{ id: string, msg: string } | null>(null);
+
+  const showToast = (id: string, msg: string) => {
+    setToastMsg({ id, msg });
+    setTimeout(() => setToastMsg(null), 3000);
+  };
+
   // Interactive functions
   const handleShare = (projectId: string) => {
     const url = `${window.location.origin}/research/${projectId}/desk`;
     navigator.clipboard.writeText(url);
-    alert('تم نسخ رابط المشروع إلى الحافظة!');
+    showToast(projectId, 'تم نسخ الرابط!');
   };
 
   const handleDownload = () => {
@@ -35,6 +46,7 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
 
   return (
     <>
+      {hasProcessingProjects && <AutoRefresh intervalMs={3000} />}
       {/* Filter Bar */}
       <div className="flex flex-col space-y-4">
         <div className="flex flex-wrap gap-4 items-center justify-between border-b border-[#e8e6df] pb-4">
@@ -55,8 +67,8 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
               <button 
                 key={season}
                 onClick={() => setActiveSeason(season)}
-                className={`px-4 py-1.5 text-[11px] font-medium rounded transition-colors flex items-center gap-2 ${
-                  activeSeason === season ? 'bg-[#1b1d20] text-white' : 'text-gray-500 hover:text-[#1b1d20]'
+                className={`px-4 py-1.5 text-[11px] font-medium rounded transition-all duration-300 active:scale-95 flex items-center gap-2 ${
+                  activeSeason === season ? 'bg-[#1b1d20] text-white shadow-sm' : 'text-gray-500 hover:text-[#1b1d20] hover:bg-white hover:shadow-sm'
                 }`}
               >
                 {season === 'الكل' && <span className="material-symbols-outlined text-[14px]">grid_view</span>}
@@ -70,21 +82,21 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
           <div className="flex items-center gap-3 flex-wrap">
             <span className="text-gray-400 text-[11px]">تصنيف السالفة:</span>
             {['الكل', 'تحولات مدينة', 'توثيق تمدن وتراث', 'إعلام وثقافة', 'تجارة وأنثروبولوجيا'].map((category) => (
-              <span 
+              <button 
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-3 py-1 rounded text-[11px] cursor-pointer transition-colors ${
-                  activeCategory === category ? 'bg-[#1b1d20] text-white' : 'text-gray-500 hover:bg-gray-100'
+                className={`px-3 py-1 rounded text-[11px] cursor-pointer transition-all duration-300 active:scale-95 ${
+                  activeCategory === category ? 'bg-[#1b1d20] text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100'
                 }`}
               >
                 {category}
-              </span>
+              </button>
             ))}
           </div>
           
           <Link 
             href="/new"
-            className="px-4 py-1.5 bg-[#a1824a] hover:bg-[#8b6e3e] text-white text-[11px] font-bold rounded flex items-center gap-2 transition-colors shrink-0"
+            className="px-4 py-1.5 bg-[#a1824a] hover:bg-[#8b6e3e] text-white text-[11px] font-bold rounded flex items-center gap-2 transition-all duration-300 hover:shadow-md active:scale-95 shrink-0"
           >
             <span className="material-symbols-outlined text-sm">add</span>
             مشروع جديد
@@ -99,7 +111,7 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
           const chapters = angle?.chapters || [];
 
           return (
-            <div key={project.id} className="bg-white border border-[#e8e6df] rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm hover:shadow-md transition-shadow">
+            <div key={project.id} className="bg-white border border-[#e8e6df] rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-[#a1824a] transition-all duration-300 group">
               
               {/* Image Placeholder - Right Side */}
               <div className="md:w-72 bg-[#e8e6df] relative flex-shrink-0 min-h-[200px] md:min-h-full overflow-hidden">
@@ -119,10 +131,7 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
                  
                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                  
-                 <div className="absolute bottom-4 right-4 text-white text-[10px] px-3 py-1.5 rounded-full flex items-center gap-2 z-10 border border-white/20 bg-black/40 backdrop-blur-sm">
-                   <span className="material-symbols-outlined text-[14px]">play_circle</span>
-                   المدة 2:50 | حلقة {project.id.slice(-4)} (الجديد)
-                 </div>
+
                  
                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-[#1b1d20] text-[10px] font-bold px-3 py-1.5 rounded shadow-sm z-10">
                    الموسم 3 - حلقة {project.id.slice(-4)}
@@ -178,15 +187,8 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
                 <div className="mt-auto pt-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Link 
-                      href={`/research/${project.id}/player`} 
-                      className="px-5 py-2.5 bg-[#1b1d20] hover:bg-black text-white text-[11px] font-medium rounded flex items-center gap-2 transition-colors"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">play_arrow</span>
-                      الاستماع للحلقة كاملة
-                    </Link>
-                    <Link 
                       href={`/research/${project.id}/desk`} 
-                      className="px-5 py-2.5 bg-white border border-[#e8e6df] hover:border-[#a1824a] text-[#1b1d20] text-[11px] font-medium rounded flex items-center gap-2 transition-colors"
+                      className="px-5 py-2.5 bg-[#1b1d20] hover:bg-black text-white text-[11px] font-medium rounded flex items-center gap-2 transition-colors"
                     >
                       <span className="material-symbols-outlined text-[14px]">edit_document</span>
                       مذكرة التلقين والأسئلة
@@ -194,12 +196,22 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
                   </div>
                   
                   <div className="flex items-center gap-2">
-                    <button onClick={() => handleShare(project.id)} className="w-9 h-9 rounded border border-[#e8e6df] flex items-center justify-center text-gray-400 hover:text-[#1b1d20] transition-colors" title="مشاركة">
+                    <ClientButton 
+                      actionType="copy" 
+                      copyText={`${typeof window !== 'undefined' ? window.location.origin : ''}/research/${project.id}/desk`} 
+                      className="w-9 h-9 rounded border border-[#e8e6df] flex items-center justify-center text-gray-400 hover:text-[#1b1d20] hover:border-[#1b1d20] hover:bg-gray-50 transition-all shadow-sm" 
+                      title="مشاركة"
+                    >
                       <span className="material-symbols-outlined text-[14px]">share</span>
-                    </button>
-                    <button onClick={handleDownload} className="w-9 h-9 rounded border border-[#e8e6df] flex items-center justify-center text-gray-400 hover:text-[#1b1d20] transition-colors" title="تحميل">
+                    </ClientButton>
+                    <ClientButton 
+                      actionType="alert" 
+                      alertMessage="سيتم تجميع المستندات وتحميلها بصيغة PDF قريبًا" 
+                      className="w-9 h-9 rounded border border-[#e8e6df] flex items-center justify-center text-gray-400 hover:text-[#1b1d20] hover:border-[#1b1d20] hover:bg-gray-50 transition-all shadow-sm" 
+                      title="تحميل"
+                    >
                       <span className="material-symbols-outlined text-[14px]">download</span>
-                    </button>
+                    </ClientButton>
                   </div>
                 </div>
                 

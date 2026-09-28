@@ -10,6 +10,13 @@ interface ClientButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement
 }
 
 export default function ClientButton({ actionType, alertMessage, copyText, children, ...props }: ClientButtonProps) {
+  const [toastMsg, setToastMsg] = React.useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(null), 3000);
+  };
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (actionType === 'print') {
@@ -17,12 +24,12 @@ export default function ClientButton({ actionType, alertMessage, copyText, child
     } else if (actionType === 'copy') {
       if (copyText) {
         navigator.clipboard.writeText(copyText);
-        alert('تم النسخ بنجاح!');
+        showToast('تم النسخ بنجاح!');
       }
     } else if (actionType === 'alert' && alertMessage) {
-      alert(alertMessage);
+      showToast(alertMessage);
     } else if (actionType === 'cast') {
-      alert('جاري البحث عن شاشات العرض القريبة للربط...');
+      showToast('جاري البحث عن شاشات العرض القريبة للربط...');
     }
     
     if (props.onClick) {
@@ -31,8 +38,20 @@ export default function ClientButton({ actionType, alertMessage, copyText, child
   };
 
   return (
-    <button onClick={handleClick} {...props}>
-      {children}
-    </button>
+    <div className="relative inline-block">
+      <button 
+        onClick={handleClick} 
+        {...props} 
+        className={`${props.className} active:scale-95 transition-transform duration-200`}
+      >
+        {children}
+      </button>
+      {toastMsg && (
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-[#1b1d20] text-white text-[10px] px-3 py-1.5 rounded shadow-lg animate-in fade-in slide-in-from-bottom-2 duration-300 z-50">
+          {toastMsg}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#1b1d20]"></div>
+        </div>
+      )}
+    </div>
   );
 }

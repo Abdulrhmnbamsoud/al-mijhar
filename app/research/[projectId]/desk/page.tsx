@@ -4,6 +4,7 @@ import ClientButton from "@/components/ClientButton";
 import ClientImage from "@/components/ClientImage";
 import { AutoRefresh } from "@/components/AutoRefresh";
 import { RegenerateButton } from "@/components/RegenerateButton";
+import NoteSender from "@/components/NoteSender";
 
 export default async function EpisodeDeskPage({ params }: { params: Promise<{ projectId: string }> }) {
   const { projectId } = await params;
@@ -110,16 +111,6 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
                   <div className="text-[10px] text-[#10B981]">مكتملة وموثقة بالكامل</div>
                 </div>
               </div>
-              <div className="bg-[#282a2f]/30 flex p-2 gap-2">
-                <ClientButton actionType="alert" alertMessage="جاري تحميل المقطع الصوتي للملخص..." className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white text-[10px] py-1.5 rounded flex items-center justify-center gap-1 transition-colors">
-                  <span className="material-symbols-outlined text-[14px]">headphones</span>
-                  استمع للملخص
-                </ClientButton>
-                <ClientButton actionType="alert" alertMessage="التفريغ الخام لم يتوفر بعد." className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white text-[10px] py-1.5 rounded flex items-center justify-center gap-1 transition-colors">
-                  <span className="material-symbols-outlined text-[14px]">description</span>
-                  التفريغ الخام
-                </ClientButton>
-              </div>
             </div>
 
             {/* Stats */}
@@ -147,9 +138,9 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
               <ClientButton actionType="print" className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors" title="طباعة">
                 <span className="material-symbols-outlined text-sm">print</span>
               </ClientButton>
-              <ClientButton actionType="cast" className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors" title="بث لاستوديو العزل">
+              <a href={`/research/${project.id}/studio`} target="_blank" className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors" title="بث لاستوديو العزل (فتح نافذة جديدة)">
                 <span className="material-symbols-outlined text-sm">cast</span>
-              </ClientButton>
+              </a>
             </div>
 
           </div>
@@ -174,7 +165,7 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
 
           <div className="space-y-4">
             {activeAngle?.chapters.map((chapter, index) => (
-              <div key={chapter.id} className="bg-white border border-[#e8e6df] rounded-xl p-5 shadow-sm relative">
+              <div key={chapter.id} className="bg-white border border-[#e8e6df] rounded-xl p-5 shadow-sm relative hover:shadow-lg hover:-translate-y-1 hover:border-[#a1824a] transition-all duration-300">
                 
                 {/* Chapter Number Badge */}
                 <div className="absolute -right-4 top-5 w-8 h-8 rounded-full bg-[#1b1d20] text-white flex items-center justify-center text-xs font-bold shadow-md">
@@ -312,33 +303,10 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
 
               <div className="mt-4 pt-4 border-t border-[#282a2f]">
                 <div className="text-[9px] text-gray-500 mb-2">ملاحظة فورية لتعليق المذيع أثناء التصوير:</div>
-                <div className="relative">
-                  <input type="text" placeholder="اكتب تلميحاً يظهر فوراً في شاشة المذيع..." className="w-full bg-[#111317] border border-[#282a2f] rounded px-3 py-2 text-[10px] text-white focus:outline-none focus:border-[#a1824a]" />
-                  <ClientButton actionType="alert" alertMessage="تم إرسال الملاحظة بنجاح لشاشة الاستوديو!" className="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center bg-[#a1824a] text-white rounded cursor-pointer hover:bg-[#8b6e3e]">
-                    <span className="material-symbols-outlined text-[12px]">send</span>
-                  </ClientButton>
-                </div>
+                <NoteSender projectId={project.id} />
               </div>
             </div>
           </div>
-
-          {/* Audio Sample Box */}
-          <div className="bg-white border border-[#e8e6df] rounded-xl p-4 shadow-sm text-center">
-            <div className="text-[10px] text-gray-500 font-bold mb-3">عينة التسجيل الصوتي للأرشيف</div>
-            
-            {/* Fake Audio Waveform */}
-            <div className="flex items-center justify-center gap-1 h-12 mb-3">
-              {[...Array(30)].map((_, i) => (
-                <div key={i} className={`w-1 rounded-full ${i % 3 === 0 ? 'bg-[#a1824a]' : 'bg-[#e8e6df]'}`} style={{ height: `${Math.random() * 100}%`, minHeight: '20%' }}></div>
-              ))}
-            </div>
-            
-            <div className="flex justify-between items-center text-[9px] text-gray-400">
-              <span>كاسيت نادرة • 1984م</span>
-              <span>نسبة الضجيج: 2.1 dB (ممتاز)</span>
-            </div>
-          </div>
-
         </div>
         
       </section>
