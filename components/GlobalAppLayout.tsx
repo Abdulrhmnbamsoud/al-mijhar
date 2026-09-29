@@ -35,7 +35,7 @@ export default function GlobalAppLayout({ children }: { children: React.ReactNod
         <div className="flex items-center gap-3">
           <div className="flex flex-col">
             <span className="font-bold text-sm leading-none flex items-center gap-2">
-              بودكاست المجهر
+              ضيف الأسبوع
             </span>
             <span className="text-[10px] text-gray-400 mt-1">استوديو الحوار الوثائقي السعودي</span>
           </div>
@@ -62,10 +62,7 @@ export default function GlobalAppLayout({ children }: { children: React.ReactNod
 
         {/* Left - Status & Profile */}
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 text-xs text-gray-400 bg-[#282a2f] px-3 py-1.5 rounded-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
-            شاشة العزل متصل
-          </div>
+
           <div className="w-8 h-8 rounded-full bg-gray-700 overflow-hidden border border-gray-600 flex items-center justify-center">
             <span className="material-symbols-outlined text-sm text-gray-300">person</span>
           </div>

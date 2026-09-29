@@ -20,7 +20,7 @@ export default function StudioView({ project, angle }: { project: any, angle: an
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#a1824a] flex items-center justify-center font-bold">م</div>
-            <span className="font-bold text-lg tracking-wider">بودكاست المجهر</span>
+            <span className="font-bold text-lg tracking-wider">بودكاست ضيف الأسبوع</span>
           </div>
           <div className="h-6 w-px bg-gray-700"></div>
           <span className="text-gray-300 text-sm">استوديو الحوار الوثائقي</span>

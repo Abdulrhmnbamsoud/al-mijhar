@@ -33,7 +33,7 @@ export default async function ProjectsArchive() {
               <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
               العمل التوثيقي المعتمد | خزانة الأبحاث وبديهيات الرياض
             </div>
-            <h1 className="text-4xl font-bold text-[#1b1d20] mb-4">مكتبة سوالف المجهر الوثائقية</h1>
+            <h1 className="text-4xl font-bold text-[#1b1d20] mb-4">مكتبة بودكاست ضيف الأسبوع</h1>
             <p className="text-gray-500 max-w-2xl leading-relaxed text-sm">
               {projects.length} حلقة مسجلة وموثقة عبر 3 مواسم حوارية. توثق التحولات الإنسانية والمفصلية في الذاكرة السعودية المعاصرة من خلال مسارات إعداد رصينة وتوثيق دقيق لشهادات الضيوف.
             </p>

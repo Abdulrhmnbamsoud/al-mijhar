@@ -35,7 +35,7 @@ export default async function AudioPlayerPage({ params }: { params: Promise<{ pr
             <div>
               <div className="flex items-center gap-3 text-[10px] text-gray-400 font-bold mb-3">
                 <span className="bg-[#a1824a] text-white px-2 py-0.5 rounded text-[9px]">وثائقي صوتي • الحلقة #{project.id.slice(-3)}</span>
-                <span>سجلت في استوديو المجهر</span>
+                <span>سجلت في استوديو ضيف الأسبوع</span>
                 <span>•</span>
                 <span>فصول مراجعة المونتاج الصوتي</span>
               </div>
