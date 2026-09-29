@@ -183,6 +183,7 @@ model EpisodeAngle {
   angle          String           // "زاوية الحلقة في جملة واحدة"
   hostIntro      String?          // "مقدمة المقدّم - جاهزة للقراءة"
   introMetadata  String?          // JSON for duration and warnings
+  isIntroApproved Boolean         @default(false)
   isActive       Boolean          @default(false)
   
   projectId      String

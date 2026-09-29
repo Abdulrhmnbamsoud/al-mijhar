@@ -57,7 +57,7 @@ export default async function EpisodeDeskPage({
 
   const allAngles = await prisma.episodeAngle.findMany({
     where: { projectId },
-    select: { id: true, angle: true, hostIntro: true, introMetadata: true, createdAt: true, isActive: true },
+    select: { id: true, angle: true, hostIntro: true, introMetadata: true, isIntroApproved: true, createdAt: true, isActive: true },
     orderBy: { createdAt: 'desc' }
   });
 
@@ -145,16 +145,29 @@ export default async function EpisodeDeskPage({
 
             {/* Action Buttons */}
             <div className="flex gap-2">
-              <Link href={`/research/${project.id}/studio`} className="flex-1 bg-[#a1824a] hover:bg-[#8b6e3e] text-white text-xs font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors">
-                <span className="material-symbols-outlined text-sm">mic</span>
-                جاهز للدخول للمايك
-              </Link>
+              {activeAngle?.isIntroApproved ? (
+                <Link href={`/research/${project.id}/studio`} className="flex-1 bg-[#a1824a] hover:bg-[#8b6e3e] text-white text-xs font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors">
+                  <span className="material-symbols-outlined text-sm">mic</span>
+                  جاهز للدخول للمايك
+                </Link>
+              ) : (
+                <button disabled className="flex-1 bg-[#282a2f] text-gray-500 text-xs font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed border border-[#3f4147]" title="يجب اعتماد المقدمة أولاً">
+                  <span className="material-symbols-outlined text-sm">mic_off</span>
+                  بانتظار اعتماد المقدمة
+                </button>
+              )}
               <ClientButton actionType="print" className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors" title="طباعة">
                 <span className="material-symbols-outlined text-sm">print</span>
               </ClientButton>
-              <a href={`/research/${project.id}/studio`} target="_blank" className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors" title="بث لاستوديو العزل (فتح نافذة جديدة)">
-                <span className="material-symbols-outlined text-sm">cast</span>
-              </a>
+              {activeAngle?.isIntroApproved ? (
+                <a href={`/research/${project.id}/studio`} target="_blank" className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors" title="بث لاستوديو العزل (فتح نافذة جديدة)">
+                  <span className="material-symbols-outlined text-sm">cast</span>
+                </a>
+              ) : (
+                <button disabled className="w-12 bg-[#282a2f] text-gray-500 rounded-lg flex items-center justify-center cursor-not-allowed border border-[#3f4147]" title="يجب اعتماد المقدمة أولاً">
+                  <span className="material-symbols-outlined text-sm">cast</span>
+                </button>
+              )}
             </div>
 
           </div>

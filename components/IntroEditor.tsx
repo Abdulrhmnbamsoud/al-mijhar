@@ -53,19 +53,19 @@ export default function IntroEditor({
     }
   };
 
-  const handleSave = async (showSuccessMsg: boolean = false) => {
+  const handleSave = async (showSuccessMsg: boolean = false, isIntroApproved: boolean = false) => {
     if (!activeAngle?.id) return;
     setIsSaving(true);
     try {
       const res = await fetch(`/api/angles/${activeAngle.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ hostIntro: introText })
+        body: JSON.stringify({ hostIntro: introText, isIntroApproved })
       });
       
       if (res.ok) {
         if (showSuccessMsg) {
-          alert("تم حفظ المقدمة بنجاح!");
+          alert("تم حفظ المقدمة كمسودة بنجاح!");
         }
       } else {
         alert("فشل الحفظ.");
@@ -74,6 +74,8 @@ export default function IntroEditor({
       alert("حدث خطأ أثناء الحفظ.");
     } finally {
       setIsSaving(false);
+      // Reload page to reflect changes
+      window.location.reload();
     }
   };
 
@@ -148,7 +150,7 @@ export default function IntroEditor({
         
         <div className="flex gap-2">
           <button 
-            onClick={() => handleSave(true)}
+            onClick={() => handleSave(true, false)}
             disabled={isSaving}
             className="px-3 py-1.5 bg-[#1b1d20] text-gray-400 text-[10px] rounded border border-[#3f4147] hover:bg-gray-800 transition-colors disabled:opacity-50"
           >
@@ -156,7 +158,7 @@ export default function IntroEditor({
           </button>
           <button 
             onClick={() => {
-              handleSave(false).then(() => {
+              handleSave(false, true).then(() => {
                 alert("تم اعتماد المقدمة وإرسالها لشاشة الملقن (Teleprompter) بنجاح!");
               });
             }}

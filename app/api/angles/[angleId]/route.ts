@@ -8,11 +8,15 @@ export async function PUT(
   try {
     const { angleId } = await params;
     const body = await request.json();
-    const { hostIntro } = body;
+    const { hostIntro, isIntroApproved } = body;
+
+    const updateData: any = {};
+    if (hostIntro !== undefined) updateData.hostIntro = hostIntro;
+    if (isIntroApproved !== undefined) updateData.isIntroApproved = isIntroApproved;
 
     const angle = await prisma.episodeAngle.update({
       where: { id: angleId },
-      data: { hostIntro }
+      data: updateData
     });
 
     return NextResponse.json({ success: true, angle });
