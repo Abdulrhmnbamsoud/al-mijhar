@@ -20,8 +20,61 @@ export default function IntroEditor({
     } catch(e) {}
   }
 
-  const handleAction = (actionName: string) => {
-    alert(`جاري معالجة أمر: "${actionName}" باستخدام الذكاء الاصطناعي...`);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleAction = async (actionName: string) => {
+    if (!activeAngle?.id) return;
+    
+    setIsProcessing(true);
+    try {
+      // Map Arabic labels to English action strings for the API
+      let action = "rewrite";
+      if (actionName === "اجعلها أقصر") action = "shorter";
+      if (actionName === "اجعلها أدفأ") action = "warmer";
+
+      const res = await fetch(`/api/angles/${activeAngle.id}/rewrite-intro`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action, currentText: introText })
+      });
+      
+      const data = await res.json();
+      if (data.success && data.newText) {
+        setIntroText(data.newText);
+      } else {
+        alert("حدث خطأ أثناء إعادة الصياغة.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("تعذر الاتصال بالخادم.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleSave = async (showSuccessMsg: boolean = false) => {
+    if (!activeAngle?.id) return;
+    setIsSaving(true);
+    try {
+      const res = await fetch(`/api/angles/${activeAngle.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ hostIntro: introText })
+      });
+      
+      if (res.ok) {
+        if (showSuccessMsg) {
+          alert("تم حفظ المقدمة بنجاح!");
+        }
+      } else {
+        alert("فشل الحفظ.");
+      }
+    } catch (error) {
+      alert("حدث خطأ أثناء الحفظ.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -70,25 +123,49 @@ export default function IntroEditor({
       {/* Editor Actions */}
       <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#3f4147]">
         <div className="flex gap-2">
-          <button onClick={() => handleAction('أعد الصياغة')} className="px-3 py-1.5 bg-[#1b1d20] hover:bg-black text-gray-300 hover:text-white text-[10px] rounded border border-[#3f4147] transition-colors">
-            أعد الصياغة
+          <button 
+            onClick={() => handleAction('أعد الصياغة')} 
+            disabled={isProcessing}
+            className="px-3 py-1.5 bg-[#1b1d20] hover:bg-black text-gray-300 hover:text-white text-[10px] rounded border border-[#3f4147] transition-colors disabled:opacity-50"
+          >
+            {isProcessing ? 'جاري...' : 'أعد الصياغة'}
           </button>
-          <button onClick={() => handleAction('اجعلها أقصر')} className="px-3 py-1.5 bg-[#1b1d20] hover:bg-black text-gray-300 hover:text-white text-[10px] rounded border border-[#3f4147] transition-colors">
+          <button 
+            onClick={() => handleAction('اجعلها أقصر')} 
+            disabled={isProcessing}
+            className="px-3 py-1.5 bg-[#1b1d20] hover:bg-black text-gray-300 hover:text-white text-[10px] rounded border border-[#3f4147] transition-colors disabled:opacity-50"
+          >
             اجعلها أقصر
           </button>
-          <button onClick={() => handleAction('اجعلها أدفأ')} className="px-3 py-1.5 bg-[#1b1d20] hover:bg-black text-gray-300 hover:text-white text-[10px] rounded border border-[#3f4147] transition-colors">
+          <button 
+            onClick={() => handleAction('اجعلها أدفأ')} 
+            disabled={isProcessing}
+            className="px-3 py-1.5 bg-[#1b1d20] hover:bg-black text-gray-300 hover:text-white text-[10px] rounded border border-[#3f4147] transition-colors disabled:opacity-50"
+          >
             اجعلها أدفأ
           </button>
         </div>
         
         <div className="flex gap-2">
-          <button className="px-3 py-1.5 bg-[#1b1d20] text-gray-400 text-[10px] rounded border border-[#3f4147] hover:bg-gray-800 transition-colors">
-            احفظ كمسودة
+          <button 
+            onClick={() => handleSave(true)}
+            disabled={isSaving}
+            className="px-3 py-1.5 bg-[#1b1d20] text-gray-400 text-[10px] rounded border border-[#3f4147] hover:bg-gray-800 transition-colors disabled:opacity-50"
+          >
+            {isSaving ? 'يحفظ...' : 'احفظ كمسودة'}
           </button>
-          <ClientButton actionType="alert" alertMessage="تم اعتماد المقدمة وإرسالها لشاشة الملقن (Teleprompter) بنجاح!" className="px-4 py-1.5 bg-[#10B981] hover:bg-[#059669] text-white font-bold text-[10px] rounded flex items-center gap-1 transition-colors shadow-sm">
+          <button 
+            onClick={() => {
+              handleSave(false).then(() => {
+                alert("تم اعتماد المقدمة وإرسالها لشاشة الملقن (Teleprompter) بنجاح!");
+              });
+            }}
+            disabled={isSaving}
+            className="px-4 py-1.5 bg-[#10B981] hover:bg-[#059669] text-white font-bold text-[10px] rounded flex items-center gap-1 transition-colors shadow-sm disabled:opacity-50"
+          >
             <span className="material-symbols-outlined text-[12px]">check_circle</span>
             اعتمد للمقدّم
-          </ClientButton>
+          </button>
         </div>
       </div>
 
