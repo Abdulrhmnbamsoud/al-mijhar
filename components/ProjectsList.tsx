@@ -40,7 +40,8 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
         showToast(projectId, 'تم حذف الحلقة بنجاح');
         window.location.reload();
       } else {
-        alert("فشل الحذف، الرجاء المحاولة مجدداً.");
+        const errorData = await res.json().catch(() => ({}));
+        alert(`فشل الحذف: ${errorData.error || "الرجاء المحاولة مجدداً."}`);
       }
     } catch (error) {
       console.error(error);
