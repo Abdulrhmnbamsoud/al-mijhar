@@ -32,8 +32,8 @@ export default function ChapterCard({ chapter, index }: { chapter: any, index: n
       {chapter.hostQuestions[0]?.whyItMatters && (
         <div className="bg-[#f8f8f5] border-r-2 border-[#a1824a] p-3 rounded text-[11px] text-[#1b1d20] mb-4">
           <span className="text-[#a1824a] font-bold block mb-1 flex items-center gap-1">
-            <span className="material-symbols-outlined text-[14px]">campaign</span>
-            تلميح للمذيع:
+            <span className="material-symbols-outlined text-[14px]">psychology</span>
+            توجيه سري (تكتيك):
           </span>
           {chapter.hostQuestions[0].whyItMatters}
         </div>
@@ -71,8 +71,8 @@ export default function ChapterCard({ chapter, index }: { chapter: any, index: n
                   <p className="font-bold text-sm text-[#1b1d20] mb-2">{hq.question}</p>
                   {hq.whyItMatters && (
                     <p className="text-[10px] text-gray-500 mb-3 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[12px]">info</span>
-                      الهدف: {hq.whyItMatters}
+                      <span className="material-symbols-outlined text-[12px]">psychology</span>
+                      تكتيك: {hq.whyItMatters}
                     </p>
                   )}
                   

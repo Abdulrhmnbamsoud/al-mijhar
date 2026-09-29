@@ -201,7 +201,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
                         properties: {
                           question: { type: "string", description: "Main question (In Arabic)" },
                           type: { type: "string", enum: ["normal", "sensitive", "viral"], description: "Type of question: normal (عادي), sensitive (حساس للضيف أو المجتمع), viral (مثيرة للجدل وتجلب مشاهدات عالية)" },
-                          whyItMatters: { type: "string", description: "Goal of the question, and tactics to trap/corner the guest if they answer diplomatically (In Arabic)" },
+                          whyItMatters: { type: "string", description: "توجيه سري وذكي جداً للمذيع. ممنوع كتابة كلام عام أو سطحي. اكتب تكتيكاً نفسياً عميقاً أو زاوية هجومية لمحاصرة الضيف إذا حاول التهرب بدبلوماسية. يجب أن يكون التوجيه لاذعاً ويكشف النوايا المخفية وراء السؤال (In Arabic)" },
                           followUps: {
                             type: "array",
                             items: {

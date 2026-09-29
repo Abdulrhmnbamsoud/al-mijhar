@@ -94,8 +94,8 @@ export default function CardsClient({ cards }: { cards: any[] }) {
             {currentCard.whyItMatters && (
               <div className="bg-[#f8f8f5] border-r-4 border-[#a1824a] p-6 rounded-xl text-[#1b1d20] mb-8 text-xl shadow-sm">
                 <span className="text-[#a1824a] font-bold flex items-center gap-2 mb-3">
-                  <span className="material-symbols-outlined text-2xl">info</span>
-                  الهدف أو التلميح:
+                  <span className="material-symbols-outlined text-2xl">psychology</span>
+                  توجيه سري للمذيع (تكتيك):
                 </span>
                 {currentCard.whyItMatters}
               </div>
