@@ -85,7 +85,7 @@ export default async function EpisodeDeskPage({
           {/* Right Side - Info */}
           <div className="flex-1 space-y-4">
             <div className="flex items-center gap-3 text-xs font-medium text-gray-400">
-              <span className="bg-[#282a2f] text-white px-2 py-1 rounded text-[10px]">بودكاست المجهر</span>
+              <span className="bg-[#282a2f] text-white px-2 py-1 rounded text-[10px]">ضيف الأسبوع</span>
               <span>• طولة الإعداد المبني للمقترح والقصة</span>
               <span>• <span className="material-symbols-outlined text-[14px] align-middle">schedule</span> تقدير التسجيل: 58 دقيقة</span>
             </div>
