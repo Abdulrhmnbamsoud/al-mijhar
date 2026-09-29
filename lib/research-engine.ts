@@ -131,7 +131,8 @@ export async function startResearchPipeline(projectId: string, userInstructions:
           4. صغ الأسئلة بأسلوب "حواري استقصائي" (Conversational & Investigative)، وكأن المذيع جالس يتحدث مع الضيف بطريقة سلسة، ولكنها حادة، ذكية جداً، ومباغتة أحياناً (لا تقبل الإجابات الدبلوماسية).
           5. تجاهل أي معلومات أو مصادر تتحدث عن أشخاص آخرين يحملون أسماء مشابهة، ركز فقط على الضيف المستهدف وتاريخه الفعلي.
           6. استخدم "تلميح للمذيع" (whyItMatters) لتوجيه المذيع حول كيف يحاصر الضيف إن تهرب من الإجابة، أو ما هي النقطة الحساسة في هذا السؤال.
-          ${userInstructions ? `7. توجيه خاص من المستخدم لنمط هذه المحاور يجب الالتزام به حرفياً: "${userInstructions}"` : ""}
+          7. حقل "angle": يجب أن يكون "مقدمة تعريفية قوية جداً" (Introduction Script) مكتوبة بأسلوب المذيع ليقرأها على الهواء مباشرة في بداية الحلقة. يجب أن تعرف بالضيف، إنجازاته، وسبب استضافته اليوم بأسلوب مشوق وجذاب للمشاهد.
+          ${userInstructions ? `8. توجيه خاص من المستخدم لنمط هذه المحاور يجب الالتزام به حرفياً: "${userInstructions}"` : ""}
           يجب أن تكون جميع النصوص والمخرجات باللغة العربية الفصحى حصراً (100% Arabic). الرد يجب أن يكون بصيغة JSON حصرية.`
         },
         { role: "user", content: `الضيف: ${project.guest.name}\n\nالمصادر:\n${contextStr}` }
@@ -171,7 +172,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
                   additionalProperties: false
                 }
               },
-              angle: { type: "string", description: "The core angle of the episode (In Arabic)" },
+              angle: { type: "string", description: "A compelling, broadcast-ready introduction script for the host to read to the audience at the start of the episode, introducing who the guest is and why they are here today (In Arabic)" },
               chapters: {
                 type: "array",
                 items: {

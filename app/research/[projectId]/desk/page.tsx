@@ -97,11 +97,11 @@ export default async function EpisodeDeskPage({
 
             <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-5">
               <div className="flex items-center gap-2 text-[#a1824a] text-xs font-bold mb-2">
-                <span className="material-symbols-outlined text-[16px]">psychology_alt</span>
-                الزاوية التحريرية المعتمدة
+                <span className="material-symbols-outlined text-[16px]">record_voice_over</span>
+                مقدمة تعريفية للضيف (للقراءة على الهواء)
               </div>
               <p className="text-gray-300 text-sm leading-relaxed font-serif">
-                «{activeAngle?.angle || "جاري صياغة الزاوية التحريرية بناءً على المعطيات..."}»
+                «{activeAngle?.angle || "جاري صياغة المقدمة التعريفية بناءً على المعطيات..."}»
               </p>
               <AngleSwitcher angles={allAngles} currentAngleId={activeAngle?.id || ""} />
             </div>
