@@ -144,31 +144,12 @@ export default async function EpisodeDeskPage({
             </div>
 
             {/* Action Buttons */}
-            {activeAngle?.isIntroApproved ? (
-              <div className="flex gap-2">
-                <Link href={`/research/${project.id}/studio`} className="flex-1 bg-[#a1824a] hover:bg-[#8b6e3e] text-white text-xs font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors" title="واجهة الملقن (Teleprompter)">
-                  <span className="material-symbols-outlined text-sm">mic</span>
-                  دخول الاستوديو
-                </Link>
-                <Link href={`/research/${project.id}/cards`} target="_blank" className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white text-xs font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors border border-[#3f4147]" title="كروت الأسئلة للآيباد">
-                  <span className="material-symbols-outlined text-sm">tablet_mac</span>
-                  كروت الآيباد
-                </Link>
-                <ClientButton actionType="print" className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors" title="طباعة">
-                  <span className="material-symbols-outlined text-sm">print</span>
-                </ClientButton>
-                <a href={`/research/${project.id}/studio`} target="_blank" className="w-12 bg-[#282a2f] hover:bg-gray-700 text-white rounded-lg flex items-center justify-center transition-colors" title="بث لاستوديو العزل (فتح نافذة جديدة)">
-                  <span className="material-symbols-outlined text-sm">cast</span>
-                </a>
-              </div>
-            ) : (
-              <div className="flex gap-2">
-                <Link href={`/research/${project.id}/cards`} target="_blank" className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors border border-[#3f4147]">
-                  <span className="material-symbols-outlined">tablet_mac</span>
-                  كروت الأسئلة (تنفع في الآيباد)
-                </Link>
-              </div>
-            )}
+            <div className="flex gap-2 mt-4">
+              <Link href={`/research/${project.id}/cards`} target="_blank" className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors border border-[#3f4147]">
+                <span className="material-symbols-outlined">tablet_mac</span>
+                كروت الأسئلة (للآيباد)
+              </Link>
+            </div>
 
           </div>
         </div>
