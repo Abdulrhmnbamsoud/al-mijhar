@@ -90,14 +90,24 @@ export default function GlobalAppLayout({ children }: { children: React.ReactNod
             <nav className="flex flex-col space-y-1">
               {navItems.slice(1).map((item, idx) => {
                 const isActive = item.exact ? pathname === item.activePath : pathname.includes(item.activePath);
+                const isDisabled = !projectId && !item.exact;
+                
                 return (
                   <Link 
                     key={idx} 
                     href={item.href}
+                    onClick={(e) => {
+                      if (isDisabled) {
+                        e.preventDefault();
+                        alert('الرجاء اختيار أو إنشاء حلقة من الأرشيف أولاً للوصول إلى هذه الشاشة.');
+                      }
+                    }}
                     className={`flex items-center gap-3 px-4 py-3 rounded-md transition-all ${
                       isActive 
                         ? 'bg-[#1b1d20] text-white font-bold' 
-                        : 'text-gray-500 hover:text-[#1b1d20] hover:bg-white'
+                        : isDisabled 
+                          ? 'text-gray-300 cursor-not-allowed'
+                          : 'text-gray-500 hover:text-[#1b1d20] hover:bg-white'
                     }`}
                   >
                     <span className="text-sm">{item.name}</span>
