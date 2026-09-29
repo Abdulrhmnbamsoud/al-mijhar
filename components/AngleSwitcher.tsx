@@ -27,7 +27,8 @@ export default function AngleSwitcher({
       <div className="flex flex-col gap-2 max-h-[200px] overflow-y-auto custom-scrollbar pr-2">
         {angles.map((a, i) => {
           const isSelected = a.id === currentAngleId;
-          const label = i === 0 ? "أحدث محاولة" : `محاولة أقدم (${new Date(a.createdAt).toLocaleDateString('ar-SA')})`;
+          const dateStr = new Date(a.createdAt).toISOString().split('T')[0];
+          const label = i === 0 ? "أحدث محاولة" : \`محاولة أقدم (\${dateStr})\`;
           return (
             <button
               key={a.id}
