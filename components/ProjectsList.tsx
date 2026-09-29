@@ -9,6 +9,7 @@ import ClientButton from './ClientButton';
 
 export default function ProjectsList({ initialProjects }: { initialProjects: any[] }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   const hasProcessingProjects = initialProjects.some(p => p.status === 'researching');
 
@@ -19,7 +20,6 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
     setTimeout(() => setToastMsg(null), 3000);
   };
 
-  // Interactive functions
   const handleShare = (projectId: string) => {
     const url = `${window.location.origin}/research/${projectId}/desk`;
     navigator.clipboard.writeText(url);
@@ -28,6 +28,26 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
 
   const handleDownload = () => {
     alert('جاري تجهيز حزمة ملفات المشروع للتنزيل...');
+  };
+
+  const handleDelete = async (projectId: string) => {
+    if (!confirm("هل أنت متأكد من رغبتك بحذف هذه الحلقة؟ لا يمكن التراجع عن هذا الإجراء.")) return;
+    
+    setIsDeleting(projectId);
+    try {
+      const res = await fetch(`/api/projects/${projectId}`, { method: 'DELETE' });
+      if (res.ok) {
+        showToast(projectId, 'تم حذف الحلقة بنجاح');
+        window.location.reload();
+      } else {
+        alert("فشل الحذف، الرجاء المحاولة مجدداً.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("حدث خطأ أثناء الحذف.");
+    } finally {
+      setIsDeleting(null);
+    }
   };
 
   // Filter projects
@@ -96,8 +116,9 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
                  
 
                  
-                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-[#1b1d20] text-[10px] font-bold px-3 py-1.5 rounded shadow-sm z-10">
-                   الموسم 3 - حلقة {project.id.slice(-4)}
+                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-[#1b1d20] text-[10px] font-bold px-3 py-1.5 rounded shadow-sm z-10 flex items-center gap-1">
+                   <span className="material-symbols-outlined text-[12px] text-[#a1824a]">mic</span>
+                   حلقة رقم {project.id.slice(-4)}
                  </div>
                  <div className="absolute top-4 left-4 bg-[#a1824a] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm z-10">
                    {project.status === 'ready' ? 'مكتملة' : 'قيد الإعداد'}
@@ -136,7 +157,7 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
                         <span className="material-symbols-outlined text-[#a1824a] text-[14px] mt-0.5">chevron_left</span>
                         <div>
                           <p className="text-[12px] font-bold text-[#1b1d20] mb-1">{chapter.title}</p>
-                          <p className="text-[10px] text-gray-400">المدة المقدرة: 20 دقيقة • {project._count.sources} وثيقة مسجلة</p>
+                          <p className="text-[10px] text-gray-400">المدة المقدرة: {chapter.estimatedMinutes || 15} دقيقة</p>
                         </div>
                       </div>
                     ))}
@@ -159,6 +180,16 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
                   </div>
                   
                   <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => handleDelete(project.id)}
+                      disabled={isDeleting === project.id}
+                      className="w-9 h-9 rounded border border-red-200 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500 hover:border-red-500 transition-all shadow-sm" 
+                      title="حذف المشروع"
+                    >
+                      <span className="material-symbols-outlined text-[14px]">
+                        {isDeleting === project.id ? 'hourglass_empty' : 'delete'}
+                      </span>
+                    </button>
                     <ClientButton 
                       actionType="copy" 
                       copyText={`/research/${project.id}/desk`} 
