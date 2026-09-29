@@ -1,0 +1,137 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function CardsClient({ cards }: { cards: any[] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Handle keyboard navigation for testing (Right/Left arrows)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        nextCard();
+      } else if (e.key === "ArrowRight") {
+        prevCard();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentIndex, cards.length]);
+
+  const nextCard = () => {
+    if (currentIndex < cards.length - 1) setCurrentIndex(currentIndex + 1);
+  };
+
+  const prevCard = () => {
+    if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
+  };
+
+  if (!cards || cards.length === 0) return null;
+
+  const currentCard = cards[currentIndex];
+  const isFirst = currentIndex === 0;
+  const isLast = currentIndex === cards.length - 1;
+
+  return (
+    <div className="w-full max-w-4xl px-8 relative flex items-center justify-center h-full">
+      
+      {/* Previous Button (Right side in RTL) */}
+      <button 
+        onClick={prevCard}
+        disabled={isFirst}
+        className={`absolute right-4 w-16 h-16 flex items-center justify-center rounded-full bg-[#282a2f] hover:bg-[#3f4147] transition-all shadow-xl z-10 ${isFirst ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:scale-105 active:scale-95'}`}
+      >
+        <span className="material-symbols-outlined text-white text-3xl">chevron_right</span>
+      </button>
+
+      {/* Card Container */}
+      <div className="w-full h-[60vh] bg-white rounded-3xl shadow-2xl flex flex-col p-10 transition-transform duration-300 relative overflow-hidden border-4 border-[#e8e6df]">
+        
+        {/* Progress Bar */}
+        <div className="absolute top-0 left-0 right-0 h-2 bg-gray-100">
+          <div 
+            className="h-full bg-[#a1824a] transition-all duration-500"
+            style={{ width: `${((currentIndex + 1) / cards.length) * 100}%` }}
+          />
+        </div>
+
+        {currentCard.type === "chapter_title" ? (
+          <div className="flex-1 flex flex-col items-center justify-center text-center space-y-6">
+            <div className="w-20 h-20 bg-[#a1824a] text-white rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg">
+              {currentCard.index}
+            </div>
+            <h2 className="text-5xl font-bold text-[#1b1d20] leading-tight">
+              {currentCard.title}
+            </h2>
+            <div className="flex items-center gap-2 bg-[#f8f8f5] px-4 py-2 rounded-lg text-gray-500 font-bold text-xl mt-4 border border-[#e8e6df]">
+              <span className="material-symbols-outlined text-2xl">schedule</span>
+              {currentCard.estimatedMinutes} دقيقة
+            </div>
+          </div>
+        ) : (
+          <div className="flex-1 flex flex-col justify-center relative">
+            <div className="flex items-center justify-between mb-8">
+              <span className="text-gray-400 font-bold text-xl">
+                المحور {currentCard.chIndex} • سؤال {currentCard.qIndex}
+              </span>
+              
+              {currentCard.questionType === 'sensitive' && (
+                <span className="bg-red-100 text-red-600 px-4 py-2 rounded-xl flex items-center gap-2 font-bold text-lg shadow-sm border border-red-200">
+                  <span className="material-symbols-outlined">warning</span> نقطة حساسة
+                </span>
+              )}
+              {currentCard.questionType === 'viral' && (
+                <span className="bg-purple-100 text-purple-600 px-4 py-2 rounded-xl flex items-center gap-2 font-bold text-lg shadow-sm border border-purple-200">
+                  <span className="material-symbols-outlined">trending_up</span> فرصة للانتشار
+                </span>
+              )}
+            </div>
+
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1b1d20] leading-[1.4] mb-8">
+              {currentCard.question}
+            </h2>
+
+            {currentCard.whyItMatters && (
+              <div className="bg-[#f8f8f5] border-r-4 border-[#a1824a] p-6 rounded-xl text-[#1b1d20] mb-8 text-xl shadow-sm">
+                <span className="text-[#a1824a] font-bold flex items-center gap-2 mb-3">
+                  <span className="material-symbols-outlined text-2xl">info</span>
+                  الهدف أو التلميح:
+                </span>
+                {currentCard.whyItMatters}
+              </div>
+            )}
+
+            {currentCard.followUps && currentCard.followUps.length > 0 && (
+              <div className="space-y-4">
+                <h3 className="font-bold text-gray-400 text-xl flex items-center gap-2">
+                  <span className="material-symbols-outlined">forum</span> تفرعات محتملة:
+                </h3>
+                {currentCard.followUps.map((fu: any) => (
+                  <div key={fu.id} className="flex items-start gap-3 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <span className="material-symbols-outlined text-gray-400 mt-1">subdirectory_arrow_left</span>
+                    <p className="text-xl text-gray-700 font-medium">{fu.question}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Next Button (Left side in RTL) */}
+      <button 
+        onClick={nextCard}
+        disabled={isLast}
+        className={`absolute left-4 w-16 h-16 flex items-center justify-center rounded-full bg-[#a1824a] hover:bg-[#8b6e3e] transition-all shadow-xl z-10 ${isLast ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:scale-105 active:scale-95'}`}
+      >
+        <span className="material-symbols-outlined text-white text-3xl">chevron_left</span>
+      </button>
+
+      {/* Page indicator */}
+      <div className="absolute bottom-10 text-gray-500 font-bold text-lg bg-[#1b1d20] px-6 py-2 rounded-full shadow-lg border border-[#3f4147]">
+        {currentIndex + 1} / {cards.length}
+      </div>
+
+    </div>
+  );
+}
