@@ -9,8 +9,6 @@ import ClientButton from './ClientButton';
 
 export default function ProjectsList({ initialProjects }: { initialProjects: any[] }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeSeason, setActiveSeason] = useState('الكل');
-  const [activeCategory, setActiveCategory] = useState('الكل');
 
   const hasProcessingProjects = initialProjects.some(p => p.status === 'researching');
 
@@ -34,14 +32,11 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
 
   // Filter projects
   const filteredProjects = initialProjects.filter(project => {
-    const matchesSearch = project.guest.name.includes(searchQuery) || 
-      (project.episodeAngles[0]?.angle || '').includes(searchQuery);
+    const searchLower = searchQuery.toLowerCase();
+    const guestName = (project.guest?.name || '').toLowerCase();
+    const angleText = (project.episodeAngles?.[0]?.angle || '').toLowerCase();
     
-    // Fake filtering for demonstration (since seasons/categories aren't really in DB)
-    const matchesSeason = activeSeason === 'الكل' || true;
-    const matchesCategory = activeCategory === 'الكل' || true;
-
-    return matchesSearch && matchesSeason && matchesCategory;
+    return guestName.includes(searchLower) || angleText.includes(searchLower);
   });
 
   return (
@@ -57,48 +52,16 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
               type="text" 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="ابحث بالاسم، المحور الحواري، أو وسيلة الرواية..." 
+              placeholder="ابحث باسم الضيف، أو المقدمة التعريفية..." 
               className="w-full bg-white border border-[#e8e6df] rounded px-10 py-2.5 text-xs focus:outline-none focus:border-[#a1824a] transition-colors"
             />
           </div>
           
-          <div className="flex items-center bg-[#f8f8f5] rounded p-1">
-            {['الكل', 'المواسم (4)', 'الموسم 3 (حالي)', 'الموسم 2 (حوارات العاصمة)', 'الموسم 1 (البدايات)'].map((season) => (
-              <button 
-                key={season}
-                onClick={() => setActiveSeason(season)}
-                className={`px-4 py-1.5 text-[11px] font-medium rounded transition-all duration-300 active:scale-95 flex items-center gap-2 ${
-                  activeSeason === season ? 'bg-[#1b1d20] text-white shadow-sm' : 'text-gray-500 hover:text-[#1b1d20] hover:bg-white hover:shadow-sm'
-                }`}
-              >
-                {season === 'الكل' && <span className="material-symbols-outlined text-[14px]">grid_view</span>}
-                {season}
-              </button>
-            ))}
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-3 text-xs justify-between">
-          <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-gray-400 text-[11px]">تصنيف السالفة:</span>
-            {['الكل', 'تحولات مدينة', 'توثيق تمدن وتراث', 'إعلام وثقافة', 'تجارة وأنثروبولوجيا'].map((category) => (
-              <button 
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-3 py-1 rounded text-[11px] cursor-pointer transition-all duration-300 active:scale-95 ${
-                  activeCategory === category ? 'bg-[#1b1d20] text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-          
           <Link 
             href="/new"
-            className="px-4 py-1.5 bg-[#a1824a] hover:bg-[#8b6e3e] text-white text-[11px] font-bold rounded flex items-center gap-2 transition-all duration-300 hover:shadow-md active:scale-95 shrink-0"
+            className="px-4 py-2.5 bg-[#a1824a] hover:bg-[#8b6e3e] text-white text-xs font-bold rounded flex items-center gap-2 transition-all duration-300 hover:shadow-md active:scale-95 shrink-0"
           >
-            <span className="material-symbols-outlined text-sm">add</span>
+            <span className="material-symbols-outlined text-[16px]">add</span>
             مشروع جديد
           </Link>
         </div>
