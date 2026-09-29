@@ -37,7 +37,7 @@ export async function POST(
     });
     
     // Re-run pipeline with instructions
-    startResearchPipeline(projectId, instructions).catch(console.error);
+    await startResearchPipeline(projectId, instructions);
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
