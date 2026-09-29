@@ -148,7 +148,7 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
                     <span className="material-symbols-outlined text-[16px]">mic_external_on</span>
                     مقترح جاهز للعرض
                   </div>
-                  <span className="text-[10px] text-gray-400 font-mono">
+                  <span className="text-[10px] text-gray-400 font-mono" suppressHydrationWarning>
                     آخر تحديث: {formatDistanceToNow(new Date(project.updatedAt), { addSuffix: true, locale: ar })}
                   </span>
                 </div>
@@ -198,7 +198,7 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
                   <div className="flex items-center gap-2">
                     <ClientButton 
                       actionType="copy" 
-                      copyText={`${typeof window !== 'undefined' ? window.location.origin : ''}/research/${project.id}/desk`} 
+                      copyText={`/research/${project.id}/desk`} 
                       className="w-9 h-9 rounded border border-[#e8e6df] flex items-center justify-center text-gray-400 hover:text-[#1b1d20] hover:border-[#1b1d20] hover:bg-gray-50 transition-all shadow-sm" 
                       title="مشاركة"
                     >

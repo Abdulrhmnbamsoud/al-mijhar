@@ -23,7 +23,9 @@ export default function ClientButton({ actionType, alertMessage, copyText, child
       window.print();
     } else if (actionType === 'copy') {
       if (copyText) {
-        navigator.clipboard.writeText(copyText);
+        // If copyText is a relative path, make it absolute
+        const textToCopy = copyText.startsWith('/') ? `${window.location.origin}${copyText}` : copyText;
+        navigator.clipboard.writeText(textToCopy);
         showToast('تم النسخ بنجاح!');
       }
     } else if (actionType === 'alert' && alertMessage) {
