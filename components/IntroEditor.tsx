@@ -11,7 +11,7 @@ export default function IntroEditor({
   activeAngle: any;
   allAngles: any[];
 }) {
-  const [introText, setIntroText] = useState(activeAngle?.hostIntro || activeAngle?.angle || "جاري صياغة المقدمة التعريفية...");
+  const [introText, setIntroText] = useState(activeAngle?.hostIntro || activeAngle?.angle || "لم يتم صياغة المقدمة بعد. قم بالضغط على زر (توليد محاور الحلقة) للبدء...");
   
   let metadata: any = {};
   if (activeAngle?.introMetadata) {
