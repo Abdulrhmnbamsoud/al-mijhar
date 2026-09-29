@@ -208,7 +208,7 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
 
             {(!activeAngle?.chapters || activeAngle.chapters.length === 0) && (
               <div className="text-center py-10 bg-white rounded-xl border border-dashed border-[#e8e6df]">
-                <RegenerateButton projectId={project.id} endpoint="/api/ai/generate-chapters" label="توليد محاور الحلقة بالذكاء الاصطناعي" />
+                <RegenerateButton projectId={project.id} label="توليد محاور الحلقة بالذكاء الاصطناعي" />
               </div>
             )}
           </div>
