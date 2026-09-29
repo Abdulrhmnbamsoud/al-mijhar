@@ -8,6 +8,11 @@ export async function POST(
 ) {
   try {
     const { projectId } = await params;
+    let instructions = "";
+    try {
+      const body = await request.json();
+      if (body.instructions) instructions = body.instructions;
+    } catch (e) {}
     
     // Check if project exists
     const project = await prisma.episodeProject.findUnique({
@@ -24,19 +29,14 @@ export async function POST(
       data: { status: "researching" },
     });
 
-    // Delete existing angles to force recreation (this cascades to chapters, questions, etc.)
-    await prisma.episodeAngle.deleteMany({
+    // Deactivate existing angles instead of deleting them to keep history
+    await prisma.episodeAngle.updateMany({
       where: { projectId },
+      data: { isActive: false }
     });
     
-    // We could delete sources, but maybe it's better to keep them and just re-run the Editor?
-    // Let's actually re-run the whole pipeline to get fresh results.
-    await prisma.source.deleteMany({
-      where: { projectId },
-    });
-    
-    // Re-run pipeline
-    startResearchPipeline(projectId).catch(console.error);
+    // Re-run pipeline with instructions
+    startResearchPipeline(projectId, instructions).catch(console.error);
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

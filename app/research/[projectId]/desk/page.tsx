@@ -6,9 +6,20 @@ import { AutoRefresh } from "@/components/AutoRefresh";
 import { RegenerateButton } from "@/components/RegenerateButton";
 import ChapterCard from "@/components/ChapterCard";
 import NoteSender from "@/components/NoteSender";
+import AngleSwitcher from "@/components/AngleSwitcher";
 
-export default async function EpisodeDeskPage({ params }: { params: Promise<{ projectId: string }> }) {
+export default async function EpisodeDeskPage({ 
+  params,
+  searchParams
+}: { 
+  params: Promise<{ projectId: string }>,
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
   const { projectId } = await params;
+  const resolvedSearchParams = await searchParams;
+  const angleId = typeof resolvedSearchParams.angleId === 'string' ? resolvedSearchParams.angleId : undefined;
+  
+  const angleWhere = angleId ? { id: angleId } : { isActive: true };
   const project = await prisma.episodeProject.findUnique({
     where: { id: projectId },
     include: {
@@ -19,7 +30,7 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
         include: { careerHistory: true }
       },
       episodeAngles: {
-        where: { isActive: true },
+        where: angleWhere,
         include: {
           chapters: {
             orderBy: { orderIndex: 'asc' },
@@ -44,7 +55,14 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
 
   if (!project) return <div>Project not found</div>;
 
-  const activeAngle = project.episodeAngles[0];
+  const allAngles = await prisma.episodeAngle.findMany({
+    where: { projectId },
+    select: { id: true, angle: true, createdAt: true, isActive: true },
+    orderBy: { createdAt: 'desc' }
+  });
+
+  // If no angle matches the query, or there are no angles at all, fallback safely
+  const activeAngle = project.episodeAngles.length > 0 ? project.episodeAngles[0] : null;
   let parsedScenarios: { name: string, description: string }[] = [];
   if (project.expectedScenarios) {
     try {
@@ -85,6 +103,7 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
               <p className="text-gray-300 text-sm leading-relaxed font-serif">
                 «{activeAngle?.angle || "جاري صياغة الزاوية التحريرية بناءً على المعطيات..."}»
               </p>
+              <AngleSwitcher angles={allAngles} currentAngleId={activeAngle?.id || ""} />
             </div>
           </div>
 

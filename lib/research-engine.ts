@@ -15,7 +15,7 @@ async function updateRun(runId: string, status: string, error?: string) {
   });
 }
 
-export async function startResearchPipeline(projectId: string) {
+export async function startResearchPipeline(projectId: string, userInstructions: string = "") {
   const project = await prisma.episodeProject.findUnique({
     where: { id: projectId },
     include: { guest: true }
@@ -131,6 +131,7 @@ export async function startResearchPipeline(projectId: string) {
           4. صغ الأسئلة بأسلوب "حواري استقصائي" (Conversational & Investigative)، وكأن المذيع جالس يتحدث مع الضيف بطريقة سلسة، ولكنها حادة، ذكية جداً، ومباغتة أحياناً (لا تقبل الإجابات الدبلوماسية).
           5. تجاهل أي معلومات أو مصادر تتحدث عن أشخاص آخرين يحملون أسماء مشابهة، ركز فقط على الضيف المستهدف وتاريخه الفعلي.
           6. استخدم "تلميح للمذيع" (whyItMatters) لتوجيه المذيع حول كيف يحاصر الضيف إن تهرب من الإجابة، أو ما هي النقطة الحساسة في هذا السؤال.
+          ${userInstructions ? `7. توجيه خاص من المستخدم لنمط هذه المحاور يجب الالتزام به حرفياً: "${userInstructions}"` : ""}
           يجب أن تكون جميع النصوص والمخرجات باللغة العربية الفصحى حصراً (100% Arabic). الرد يجب أن يكون بصيغة JSON حصرية.`
         },
         { role: "user", content: `الضيف: ${project.guest.name}\n\nالمصادر:\n${contextStr}` }

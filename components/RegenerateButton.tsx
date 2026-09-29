@@ -8,11 +8,16 @@ export function RegenerateButton({ projectId, endpoint, label }: { projectId: st
   const router = useRouter();
 
   const handleRegenerate = async () => {
+    const instructions = window.prompt("أدخل التوجيه للذكاء الاصطناعي (مثال: أريد محاور تصادمية، ركز على الجانب الاقتصادي، إلخ). اترك الحقل فارغاً للنمط الافتراضي:");
+    if (instructions === null) return; // User cancelled
+
     setIsLoading(true);
     try {
       const targetEndpoint = endpoint || `/api/projects/${projectId}/regenerate`;
       const res = await fetch(targetEndpoint, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ instructions })
       });
       if (res.ok) {
         router.refresh();
