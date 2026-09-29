@@ -5,6 +5,9 @@ import { useState } from "react";
 export default function ChapterCard({ chapter, index }: { chapter: any, index: number }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const sensitiveCount = chapter.hostQuestions?.filter((hq: any) => hq.type === 'sensitive').length || 0;
+  const viralCount = chapter.hostQuestions?.filter((hq: any) => hq.type === 'viral').length || 0;
+
   return (
     <div className="bg-white border border-[#e8e6df] rounded-xl p-5 shadow-sm relative hover:shadow-lg hover:-translate-y-1 hover:border-[#a1824a] transition-all duration-300">
       
@@ -44,13 +47,27 @@ export default function ChapterCard({ chapter, index }: { chapter: any, index: n
             <h4 className="font-bold text-sm text-[#1b1d20]">بنك التحكم: الأسئلة والتفرعات</h4>
           </div>
           
-          {chapter.hostQuestions.map((hq: any, i: number) => (
-            <div key={hq.id} className="bg-[#f8f8f5] rounded-lg p-4 border border-[#e8e6df]">
+          {chapter.hostQuestions.map((hq: any, i: number) => {
+            let borderColor = "border-[#e8e6df]";
+            let badge = null;
+            if (hq.type === 'sensitive') {
+              borderColor = "border-red-500/30 border-r-4 border-r-red-500 bg-red-50/50";
+              badge = <span className="text-[9px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full flex items-center gap-1 mb-2 font-bold w-fit"><span className="material-symbols-outlined text-[12px]">warning</span> نقطة حساسة</span>;
+            } else if (hq.type === 'viral') {
+              borderColor = "border-purple-500/30 border-r-4 border-r-purple-500 bg-purple-50/50";
+              badge = <span className="text-[9px] bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full flex items-center gap-1 mb-2 font-bold w-fit"><span className="material-symbols-outlined text-[12px]">trending_up</span> فرصة للانتشار (Viral)</span>;
+            } else {
+              borderColor = "border-[#e8e6df] bg-[#f8f8f5]";
+            }
+
+            return (
+            <div key={hq.id} className={`rounded-lg p-4 border ${borderColor}`}>
               <div className="flex items-start gap-3">
                 <div className="bg-[#1b1d20] text-white w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
                   س{i + 1}
                 </div>
                 <div className="flex-1">
+                  {badge}
                   <p className="font-bold text-sm text-[#1b1d20] mb-2">{hq.question}</p>
                   {hq.whyItMatters && (
                     <p className="text-[10px] text-gray-500 mb-3 flex items-center gap-1">
@@ -72,7 +89,7 @@ export default function ChapterCard({ chapter, index }: { chapter: any, index: n
                 </div>
               </div>
             </div>
-          ))}
+          )})}
         </div>
       )}
 
@@ -82,10 +99,18 @@ export default function ChapterCard({ chapter, index }: { chapter: any, index: n
             <span className="material-symbols-outlined text-[14px] text-[#a1824a]">article</span> 
             {chapter.hostQuestions.length} أسئلة وتفرعات
           </span>
-          <span className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-[14px] text-red-500">warning</span> 
-            نقطة حساسة في الطرح
-          </span>
+          {sensitiveCount > 0 && (
+            <span className="flex items-center gap-1 text-red-500 font-bold">
+              <span className="material-symbols-outlined text-[14px]">warning</span> 
+              {sensitiveCount} نقطة حساسة
+            </span>
+          )}
+          {viralCount > 0 && (
+            <span className="flex items-center gap-1 text-purple-600 font-bold">
+              <span className="material-symbols-outlined text-[14px]">trending_up</span> 
+              {viralCount} فرصة للانتشار
+            </span>
+          )}
         </div>
         <button 
           onClick={() => setIsOpen(!isOpen)}

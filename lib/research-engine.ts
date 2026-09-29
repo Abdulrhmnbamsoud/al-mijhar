@@ -200,6 +200,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
                         type: "object",
                         properties: {
                           question: { type: "string", description: "Main question (In Arabic)" },
+                          type: { type: "string", enum: ["normal", "sensitive", "viral"], description: "Type of question: normal (عادي), sensitive (حساس للضيف أو المجتمع), viral (مثيرة للجدل وتجلب مشاهدات عالية)" },
                           whyItMatters: { type: "string", description: "Goal of the question, and tactics to trap/corner the guest if they answer diplomatically (In Arabic)" },
                           followUps: {
                             type: "array",
@@ -213,7 +214,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
                             }
                           }
                         },
-                        required: ["question", "whyItMatters", "followUps"],
+                        required: ["question", "type", "whyItMatters", "followUps"],
                         additionalProperties: false
                       }
                     }
@@ -278,7 +279,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
           let qIdx = 1;
           for (const q of ch.hostQuestions) {
             const hostQuestion = await prisma.hostQuestion.create({
-              data: { chapterId: chapter.id, question: q.question, whyItMatters: q.whyItMatters, orderIndex: qIdx++ }
+              data: { chapterId: chapter.id, question: q.question, type: q.type || "normal", whyItMatters: q.whyItMatters, orderIndex: qIdx++ }
             });
             
             if (q.followUps) {

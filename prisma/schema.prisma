@@ -211,6 +211,7 @@ model Chapter {
 model HostQuestion {
   id             String           @id @default(uuid())
   question       String
+  type           String           @default("normal") // "normal", "sensitive", "viral"
   orderIndex     Int
   whyItMatters   String?
   
