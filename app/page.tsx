@@ -42,19 +42,23 @@ export default async function ProjectsArchive() {
           {/* Stats Boxes */}
           <div className="flex items-center gap-6">
             <div className="flex flex-col border-r border-[#e8e6df] pr-6">
-              <span className="text-[10px] text-gray-400 font-bold mb-1">إجمالي ساعات الحوار</span>
-              <span className="text-2xl font-bold text-[#1b1d20] font-mono">34:30:00</span>
-              <span className="text-[10px] text-[#a1824a] mt-1">320 ساعة قيد الإعداد</span>
+              <span className="text-[10px] text-gray-400 font-bold mb-1">إجمالي الحلقات والمشاريع</span>
+              <span className="text-2xl font-bold text-[#1b1d20] font-mono">{projects.length}</span>
+              <span className="text-[10px] text-[#a1824a] mt-1">
+                {projects.filter(p => p.status === 'researching').length} قيد الإعداد حالياً
+              </span>
             </div>
             <div className="flex flex-col border-r border-[#e8e6df] pr-6">
-              <span className="text-[10px] text-gray-400 font-bold mb-1">المصادر الموثقة والمراجعة</span>
-              <span className="text-2xl font-bold text-[#1b1d20]">{projects.reduce((acc, p) => acc + p._count.sources, 0) + 128} وثيقة</span>
-              <span className="text-[10px] text-[#a1824a] mt-1">88 تسجيلة صوتية</span>
+              <span className="text-[10px] text-gray-400 font-bold mb-1">إجمالي المصادر المرفوعة</span>
+              <span className="text-2xl font-bold text-[#1b1d20]">{projects.reduce((acc, p) => acc + p._count.sources, 0)}</span>
+              <span className="text-[10px] text-[#a1824a] mt-1">تمت قراءتها وتحليلها</span>
             </div>
             <div className="flex flex-col pr-6">
-              <span className="text-[10px] text-gray-400 font-bold mb-1">الموسم النشط الحالي</span>
-              <span className="text-2xl font-bold text-[#1b1d20]">الموسم الثالث</span>
-              <span className="text-[10px] text-gray-400 mt-1">حلقات المكان والناس</span>
+              <span className="text-[10px] text-gray-400 font-bold mb-1">إجمالي الأسئلة المستخرجة</span>
+              <span className="text-2xl font-bold text-[#1b1d20]">
+                {projects.reduce((acc, p) => acc + (p.episodeAngles[0]?.chapters.reduce((cAcc, c) => cAcc + 7, 0) || 0), 0)}
+              </span>
+              <span className="text-[10px] text-gray-400 mt-1">سؤال استقصائي ذكي</span>
             </div>
           </div>
         </div>
