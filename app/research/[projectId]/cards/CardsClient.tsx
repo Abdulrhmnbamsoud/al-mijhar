@@ -33,19 +33,19 @@ export default function CardsClient({ cards }: { cards: any[] }) {
   const isLast = currentIndex === cards.length - 1;
 
   return (
-    <div className="w-full max-w-6xl px-12 relative flex items-center justify-center h-full">
+    <div className="w-full h-full flex items-center justify-center gap-6 px-8">
       
       {/* Previous Button (Right side in RTL) */}
       <button 
         onClick={prevCard}
         disabled={isFirst}
-        className={`absolute right-4 w-16 h-16 flex items-center justify-center rounded-full bg-[#282a2f] hover:bg-[#3f4147] transition-all shadow-xl z-10 ${isFirst ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:scale-105 active:scale-95'}`}
+        className={`w-16 h-16 shrink-0 flex items-center justify-center rounded-full bg-[#282a2f] hover:bg-[#3f4147] transition-all shadow-xl ${isFirst ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:scale-105 active:scale-95'}`}
       >
         <span className="material-symbols-outlined text-white text-3xl">chevron_right</span>
       </button>
 
       {/* Card Container */}
-      <div className="w-full h-[85vh] bg-white rounded-3xl shadow-2xl flex flex-col p-12 transition-transform duration-300 relative overflow-y-auto border-4 border-[#e8e6df]">
+      <div className="flex-1 max-w-5xl h-[85vh] bg-white rounded-3xl shadow-2xl flex flex-col p-12 transition-transform duration-300 relative overflow-y-auto border-4 border-[#e8e6df]">
         
         {/* Progress Bar */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-gray-100">
@@ -122,13 +122,13 @@ export default function CardsClient({ cards }: { cards: any[] }) {
       <button 
         onClick={nextCard}
         disabled={isLast}
-        className={`absolute left-4 w-16 h-16 flex items-center justify-center rounded-full bg-[#a1824a] hover:bg-[#8b6e3e] transition-all shadow-xl z-10 ${isLast ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:scale-105 active:scale-95'}`}
+        className={`w-16 h-16 shrink-0 flex items-center justify-center rounded-full bg-[#a1824a] hover:bg-[#8b6e3e] transition-all shadow-xl ${isLast ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:scale-105 active:scale-95'}`}
       >
         <span className="material-symbols-outlined text-white text-3xl">chevron_left</span>
       </button>
 
       {/* Page indicator */}
-      <div className="absolute bottom-10 text-gray-500 font-bold text-lg bg-[#1b1d20] px-6 py-2 rounded-full shadow-lg border border-[#3f4147]">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 font-bold text-sm bg-[#1b1d20] px-4 py-1.5 rounded-full shadow-lg border border-[#3f4147]">
         {currentIndex + 1} / {cards.length}
       </div>
 
