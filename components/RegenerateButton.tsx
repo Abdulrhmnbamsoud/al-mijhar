@@ -35,11 +35,12 @@ export function RegenerateButton({ projectId, endpoint, label }: { projectId: st
       if (res.ok) {
         router.refresh();
       } else {
-        alert("فشلت العملية");
+        const errorData = await res.json().catch(() => ({}));
+        alert(`فشلت العملية: ${errorData.error || "تأكد من صحة المفاتيح (API Keys) والاتصال"}`);
       }
     } catch (e) {
       console.error(e);
-      alert("حدث خطأ");
+      alert("حدث خطأ في الاتصال");
     } finally {
       setIsLoading(false);
     }

@@ -33,7 +33,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
 
   if (!tvlyClient || !openai) {
     await updateRun(researchRun.id, "failed", "Missing API Keys. Please provide TAVILY_API_KEY and OPENAI_API_KEY.");
-    return;
+    throw new Error("Missing API Keys: TAVILY_API_KEY or OPENAI_API_KEY");
   }
 
   try {
@@ -105,7 +105,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
     await updateRun(researchRun.id, "completed");
   } catch (error: any) {
     await updateRun(researchRun.id, "failed", error.message);
-    return;
+    throw new Error(`Research phase failed: ${error.message}`);
   }
 
   // 4. Editor Agent (محرر الحلقة) - Skipped 2 & 3 for demo brevity
@@ -320,6 +320,6 @@ export async function startResearchPipeline(projectId: string, userInstructions:
 
   } catch (error: any) {
     await updateRun(editorRun.id, "failed", error.message);
-    return;
+    throw new Error(`Generation phase failed: ${error.message}`);
   }
 }
