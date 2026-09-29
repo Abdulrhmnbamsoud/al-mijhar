@@ -4,6 +4,7 @@ import ClientButton from "@/components/ClientButton";
 import ClientImage from "@/components/ClientImage";
 import { AutoRefresh } from "@/components/AutoRefresh";
 import { RegenerateButton } from "@/components/RegenerateButton";
+import ChapterCard from "@/components/ChapterCard";
 import NoteSender from "@/components/NoteSender";
 
 export default async function EpisodeDeskPage({ params }: { params: Promise<{ projectId: string }> }) {
@@ -165,45 +166,7 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
 
           <div className="space-y-4">
             {activeAngle?.chapters.map((chapter, index) => (
-              <div key={chapter.id} className="bg-white border border-[#e8e6df] rounded-xl p-5 shadow-sm relative hover:shadow-lg hover:-translate-y-1 hover:border-[#a1824a] transition-all duration-300">
-                
-                {/* Chapter Number Badge */}
-                <div className="absolute -right-4 top-5 w-8 h-8 rounded-full bg-[#1b1d20] text-white flex items-center justify-center text-xs font-bold shadow-md">
-                  {String(index + 1).padStart(2, '0')}
-                </div>
-
-                <div className="flex justify-between items-start mb-4 pr-6">
-                  <div>
-                    <div className="text-[10px] text-gray-500 font-bold mb-1">المحور {index + 1} • {chapter.title}</div>
-                    <h3 className="text-lg font-bold text-[#1b1d20]">{chapter.hostQuestions[0]?.question || "جاري تجهيز السؤال..."}</h3>
-                  </div>
-                  <div className="flex items-center gap-2 bg-[#f8f8f5] border border-[#e8e6df] px-2 py-1 rounded text-[10px] text-gray-500 font-medium">
-                    <span className="material-symbols-outlined text-[14px]">schedule</span>
-                    15 دقيقة
-                  </div>
-                </div>
-
-                {chapter.hostQuestions[0]?.whyItMatters && (
-                  <div className="bg-[#f8f8f5] border-r-2 border-[#a1824a] p-3 rounded text-[11px] text-[#1b1d20] mb-4">
-                    <span className="text-[#a1824a] font-bold block mb-1 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[14px]">campaign</span>
-                      تلميح للمذيع:
-                    </span>
-                    {chapter.hostQuestions[0].whyItMatters}
-                  </div>
-                )}
-
-                <div className="flex items-center justify-between pt-3 border-t border-[#e8e6df] text-[10px] text-gray-500 font-medium">
-                  <div className="flex items-center gap-4">
-                    <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px] text-[#a1824a]">article</span> {chapter.hostQuestions.length} أسئلة وتفرعات</span>
-                    <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px] text-red-500">warning</span> نقطة حساسة في الطرح</span>
-                  </div>
-                  <ClientButton actionType="alert" alertMessage="فتح بنك التحكم للمحور..." className="text-[#a1824a] hover:text-[#8b6e3e] flex items-center gap-1 transition-colors">
-                    عرض بنك التحكم لهذا المحور
-                    <span className="material-symbols-outlined text-[14px]">arrow_back</span>
-                  </ClientButton>
-                </div>
-              </div>
+              <ChapterCard key={chapter.id} chapter={chapter} index={index} />
             ))}
 
             {(!activeAngle?.chapters || activeAngle.chapters.length === 0) && (
