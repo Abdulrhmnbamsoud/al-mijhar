@@ -33,7 +33,7 @@ export default function CardsClient({ cards }: { cards: any[] }) {
   const isLast = currentIndex === cards.length - 1;
 
   return (
-    <div className="w-full max-w-4xl px-8 relative flex items-center justify-center h-full">
+    <div className="w-full max-w-6xl px-12 relative flex items-center justify-center h-full">
       
       {/* Previous Button (Right side in RTL) */}
       <button 
@@ -45,7 +45,7 @@ export default function CardsClient({ cards }: { cards: any[] }) {
       </button>
 
       {/* Card Container */}
-      <div className="w-full h-[60vh] bg-white rounded-3xl shadow-2xl flex flex-col p-10 transition-transform duration-300 relative overflow-hidden border-4 border-[#e8e6df]">
+      <div className="w-full h-[85vh] bg-white rounded-3xl shadow-2xl flex flex-col p-12 transition-transform duration-300 relative overflow-y-auto border-4 border-[#e8e6df]">
         
         {/* Progress Bar */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-gray-100">
@@ -60,7 +60,7 @@ export default function CardsClient({ cards }: { cards: any[] }) {
             <div className="w-20 h-20 bg-[#a1824a] text-white rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg">
               {currentCard.index}
             </div>
-            <h2 className="text-5xl font-bold text-[#1b1d20] leading-tight">
+            <h2 className="text-6xl md:text-7xl font-bold text-[#1b1d20] leading-tight">
               {currentCard.title}
             </h2>
             <div className="flex items-center gap-2 bg-[#f8f8f5] px-4 py-2 rounded-lg text-gray-500 font-bold text-xl mt-4 border border-[#e8e6df]">
@@ -87,7 +87,7 @@ export default function CardsClient({ cards }: { cards: any[] }) {
               )}
             </div>
 
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1b1d20] leading-[1.4] mb-8">
+            <h2 className="text-5xl md:text-6xl font-bold text-[#1b1d20] leading-[1.5] mb-8">
               {currentCard.question}
             </h2>
 
