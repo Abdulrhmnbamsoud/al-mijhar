@@ -95,7 +95,7 @@ export default async function EpisodeDeskPage({
               {project.guest.role} {project.guest.organization && `في ${project.guest.organization}`}
             </p>
 
-            <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-5">
+            <div id="intro" className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-5 scroll-mt-20">
               <div className="flex items-center gap-2 text-[#a1824a] text-xs font-bold mb-2">
                 <span className="material-symbols-outlined text-[16px]">record_voice_over</span>
                 مقدمة تعريفية للضيف (للقراءة على الهواء)
@@ -171,7 +171,7 @@ export default async function EpisodeDeskPage({
       </section>
 
       {/* Main Content Area */}
-      <section className="max-w-7xl mx-auto p-6 lg:p-10 flex flex-col lg:flex-row gap-8 items-start">
+      <section id="chapters" className="max-w-7xl mx-auto p-6 lg:p-10 flex flex-col lg:flex-row gap-8 items-start scroll-mt-20">
         
         {/* Right Column (Chapters Flow) */}
         <div className="flex-1 w-full">
@@ -206,7 +206,7 @@ export default async function EpisodeDeskPage({
         <div className="w-full lg:w-80 space-y-6">
           
           {/* Evidences Box */}
-          <div className="bg-[#fcfbf9] border border-[#a1824a]/30 rounded-xl overflow-hidden shadow-sm">
+          <div id="sources" className="bg-[#fcfbf9] border border-[#a1824a]/30 rounded-xl overflow-hidden shadow-sm scroll-mt-20">
             <div className="bg-white border-b border-[#a1824a]/30 p-4 flex justify-between items-center">
               <div className="flex items-center gap-2 text-[#a1824a] font-bold text-sm">
                 <span className="material-symbols-outlined text-[18px]">verified_user</span>
@@ -260,7 +260,7 @@ export default async function EpisodeDeskPage({
           </div>
 
           {/* Alternative Questions Box */}
-          <div className="bg-[#1b1d20] rounded-xl overflow-hidden shadow-md">
+          <div id="scenarios" className="bg-[#1b1d20] rounded-xl overflow-hidden shadow-md scroll-mt-20">
             <div className="p-4 border-b border-[#282a2f] flex justify-between items-center">
               <div className="flex items-center gap-2 text-[#a1824a] font-bold text-sm">
                 <span className="material-symbols-outlined text-[18px]">alt_route</span>

@@ -17,11 +17,12 @@ export default function GlobalAppLayout({ children }: { children: React.ReactNod
   };
 
   const navItems = [
-    { name: 'بث مباشر - استوديو العزل', href: getHref('/studio'), activePath: '/studio' },
-    { name: 'مفكرة المحاور والتلقين', href: getHref('/desk'), activePath: '/desk' }, // using desk as teleprompter for now
-    { name: 'إعداد الحلقة والمصادر', href: getHref('/desk'), activePath: '/desk' },
-    { name: 'مشغل الفصول الصوتية', href: getHref('/player'), activePath: '/player' },
-    { name: 'أرشيف الحلقات', href: '/', activePath: '/', exact: true },
+    { name: 'العودة للرئيسية', href: '/', activePath: '/', exact: true },
+    { name: 'هيكل الحوار (المحاور)', href: getHref('/desk#chapters'), activePath: '/desk#chapters' },
+    { name: 'المقدمة التعريفية', href: getHref('/desk#intro'), activePath: '/desk#intro' },
+    { name: 'الأدلة والمصادر', href: getHref('/desk#sources'), activePath: '/desk#sources' },
+    { name: 'بنك أسئلة الطوارئ', href: getHref('/desk#scenarios'), activePath: '/desk#scenarios' },
+    { name: 'بث استوديو العزل', href: getHref('/studio'), activePath: '/studio' },
   ];
 
   if (pathname.includes('/studio')) {
