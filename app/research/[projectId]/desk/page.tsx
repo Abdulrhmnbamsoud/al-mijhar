@@ -161,9 +161,12 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
               <span className="text-[10px] text-gray-500 font-bold mb-1 block">هيكل الحوار التفصيلي</span>
               <h2 className="text-2xl font-bold text-[#1b1d20]">تسلسل المحاور الخمسة وسوالف الحلقة</h2>
             </div>
-            <div className="flex items-center gap-2 text-[10px] text-gray-400 bg-white border border-[#e8e6df] px-3 py-1.5 rounded-full shadow-sm">
-              <span className="material-symbols-outlined text-[14px]">drag_indicator</span>
-              اسحب المحور لإعادة ترتيب تدفق الحوار
+            <div className="flex items-center gap-3">
+              <RegenerateButton projectId={project.id} label="إعادة توليد بنمط آخر" />
+              <div className="flex items-center gap-2 text-[10px] text-gray-400 bg-white border border-[#e8e6df] px-3 py-1.5 rounded-full shadow-sm hidden md:flex">
+                <span className="material-symbols-outlined text-[14px]">drag_indicator</span>
+                اسحب المحور للترتيب
+              </div>
             </div>
           </div>
 
