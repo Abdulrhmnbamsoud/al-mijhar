@@ -72,7 +72,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
 
     let allResults: any[] = [];
     for (const q of queries) {
-      const res = await tvlyClient.search(q, { searchDepth: "advanced", maxResults: 10 });
+      const res = await tvlyClient.search(q, { searchDepth: "advanced", maxResults: 25 });
       allResults = allResults.concat(res.results);
     }
 
