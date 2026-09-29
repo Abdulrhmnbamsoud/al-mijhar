@@ -12,6 +12,9 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
   const project = await prisma.episodeProject.findUnique({
     where: { id: projectId },
     include: {
+      sources: {
+        orderBy: { createdAt: 'desc' }
+      },
       guest: {
         include: { careerHistory: true }
       },
@@ -185,48 +188,51 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
             <div className="bg-white border-b border-[#a1824a]/30 p-4 flex justify-between items-center">
               <div className="flex items-center gap-2 text-[#a1824a] font-bold text-sm">
                 <span className="material-symbols-outlined text-[18px]">verified_user</span>
-                أدلة ومصادر المحور الثاني
+                أدلة ومصادر البحث
               </div>
-              <span className="text-[9px] bg-[#f8f8f5] text-[#a1824a] px-2 py-0.5 rounded border border-[#a1824a]/20">مرتبط بـ المحور 02</span>
+              <span className="text-[9px] bg-[#f8f8f5] text-[#a1824a] px-2 py-0.5 rounded border border-[#a1824a]/20">المشروع كاملاً</span>
             </div>
             
-            <div className="p-4 space-y-3">
+            <div className="p-4 space-y-3 max-h-[500px] overflow-y-auto custom-scrollbar">
               <p className="text-[10px] text-gray-500 leading-relaxed">
-                الأدلة المستندة لهذا المحور مصنفة حسب درجة الموثوقية لتسهيل استخدامها على الهواء:
+                الأدلة والمصادر التي تم جمعها بواسطة محرك البحث الذكي:
               </p>
 
-              {/* Source Card */}
-              <div className="bg-white border border-[#e8e6df] rounded p-3 text-[10px]">
-                <div className="flex justify-between items-center text-gray-400 font-bold mb-2 pb-2 border-b border-[#e8e6df]">
-                  <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[12px] text-[#1b1d20]">description</span> منشور ومعلومة رسمي</span>
-                  <span>صحيفة عكاظ • 2021</span>
+              {project.sources && project.sources.length > 0 ? (
+                project.sources.map((source: any) => (
+                  <div key={source.id} className="bg-white border border-[#e8e6df] rounded p-3 text-[10px]">
+                    <div className="flex justify-between items-center text-gray-400 font-bold mb-2 pb-2 border-b border-[#e8e6df]">
+                      <span className="flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[12px] text-[#1b1d20]">description</span> 
+                        {source.publisher || 'مصدر بحث'}
+                      </span>
+                      <span>{source.publishedAt ? new Date(source.publishedAt).getFullYear() : ''}</span>
+                    </div>
+                    <p className="text-[#1b1d20] leading-relaxed mb-2 font-serif font-bold line-clamp-3">
+                      «{source.title}»
+                    </p>
+                    <div className="flex justify-between items-center text-gray-400 mt-2 pt-2 border-t border-dashed border-gray-100">
+                      {source.originalUrl ? (
+                        <a href={source.originalUrl} target="_blank" rel="noopener noreferrer" className="text-[#a1824a] hover:underline flex items-center gap-1 text-[9px]">
+                          <span className="material-symbols-outlined text-[11px]">link</span>
+                          زيارة المصدر
+                        </a>
+                      ) : (
+                        <span></span>
+                      )}
+                      <span className="text-[#10B981] bg-green-50 px-1.5 py-0.5 rounded">{source.type}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center text-gray-400 py-6 text-xs border border-dashed border-[#e8e6df] rounded bg-white">
+                  لا توجد مصادر مدخلة حالياً
                 </div>
-                <p className="text-[#1b1d20] leading-relaxed mb-2 font-serif font-bold">
-                  «تصريح رسمي لنورة: بدأنا بمبادرة توثيق 120 مسنة في الشمال، وواجهنا صعوبة تقبل العائلات لتسجيل أصوات النساء في البداية.»
-                </p>
-                <div className="flex justify-between items-center text-gray-400">
-                  <a href="#" className="hover:text-[#a1824a] underline">رابط المقال الأصلي</a>
-                  <span className="text-[#10B981]">تستخدم كمدخل لإثبات جديتها</span>
-                </div>
-              </div>
-              
-              {/* Alert Card */}
-              <div className="bg-red-50/50 border border-red-100 rounded p-3 text-[10px]">
-                <div className="flex justify-between items-center text-red-700 font-bold mb-2 pb-2 border-b border-red-100">
-                  <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[12px]">gavel</span> يحتاج تأكيد بتدقيق قبل الطرح</span>
-                  <span>غير مؤكد</span>
-                </div>
-                <p className="text-[#1b1d20] leading-relaxed mb-2 font-serif font-bold">
-                  شائعة متداولة على X (تويتر) أن التسجيل الصوتي لجدتها تم بيعه في مزاد تراثي لاحقاً دون إذنها.
-                </p>
-                <div className="text-red-600 bg-red-100/50 p-1.5 rounded">
-                  <span className="font-bold">توجيه للإعداد:</span> نورة نفت هذا الأمر مراراً، تجنب ذكر المزاد إلا إذا فتحت هي سالفة التفريط بالأرشيف.
-                </div>
-              </div>
+              )}
 
-              <ClientButton actionType="alert" alertMessage="جاري فتح نافذة رفع الملفات..." className="w-full py-2 bg-white border border-[#e8e6df] hover:border-[#a1824a] hover:text-[#a1824a] text-[#1b1d20] rounded text-[10px] font-bold flex items-center justify-center gap-2 transition-colors">
+              <ClientButton actionType="alert" alertMessage="جاري فتح نافذة رفع الملفات..." className="w-full py-2 bg-white border border-[#e8e6df] hover:border-[#a1824a] hover:text-[#a1824a] text-[#1b1d20] rounded text-[10px] font-bold flex items-center justify-center gap-2 transition-colors mt-2">
                 <span className="material-symbols-outlined text-[14px]">add</span>
-                إرفاق وثيقة أو تسجيل صوتي جديد
+                إرفاق وثيقة أو تسجيل جديد
               </ClientButton>
             </div>
           </div>

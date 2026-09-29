@@ -116,7 +116,7 @@ export default async function AudioPlayerPage({ params }: { params: Promise<{ pr
                 <span className="material-symbols-outlined text-[14px]">format_list_bulleted</span>
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
-                    <div key={i} className="w-1 bg-[#a1824a] rounded-full" style={{ height: `${Math.random() * 16 + 4}px` }}></div>
+                    <div key={i} className="w-1 bg-[#a1824a] rounded-full" style={{ height: `${[8, 16, 12, 6, 14][i]}px` }}></div>
                   ))}
                 </div>
                 موجة الاستوديو 2-CH
