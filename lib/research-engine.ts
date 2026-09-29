@@ -71,15 +71,9 @@ export async function startResearchPipeline(projectId: string, userInstructions:
     }
 
     let allResults: any[] = [];
-    const searchPromises = queries.map(q => 
-      tvlyClient.search(q, { searchDepth: "basic", maxResults: 5 })
-        .catch(e => { console.error("Tavily search failed for query", q, e); return { results: [] }; })
-    );
-    const resultsArray = await Promise.all(searchPromises);
-    for (const res of resultsArray) {
-      if (res && res.results) {
-        allResults = allResults.concat(res.results);
-      }
+    for (const q of queries) {
+      const res = await tvlyClient.search(q, { searchDepth: "advanced", maxResults: 10 });
+      allResults = allResults.concat(res.results);
     }
 
     const guestNameWords = guest.name.trim().split(" ");
@@ -125,7 +119,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
     const contextStr = sources.map(s => s.extractedText).join("\n\n").slice(0, 10000);
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",

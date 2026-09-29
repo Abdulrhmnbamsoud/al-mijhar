@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     });
 
     // 3. Trigger the background pipeline
-    await startResearchPipeline(project.id);
+    startResearchPipeline(project.id).catch(console.error);
 
     return NextResponse.json({ projectId: project.id });
   } catch (error: any) {
