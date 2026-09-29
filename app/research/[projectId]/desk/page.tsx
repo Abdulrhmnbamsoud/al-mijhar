@@ -249,7 +249,7 @@ export default async function EpisodeDeskPage({ params }: { params: Promise<{ pr
             
             <div className="p-4 space-y-3">
               <p className="text-[10px] text-gray-400 leading-relaxed mb-4">
-                إذا أفلتت نورة بسؤال متشعب، أو تشعبت بمبالغة خارج السياق، استخدم هذه الجسور للعودة:
+                إذا أفلت(ت) {project.guest.name.split(' ')[0]} بسؤال متشعب، أو تشعبت بمبالغة خارج السياق، استخدم هذه الجسور للعودة:
               </p>
 
               {parsedScenarios.map((scenario, i) => (
