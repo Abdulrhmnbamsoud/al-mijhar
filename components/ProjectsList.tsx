@@ -118,7 +118,7 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
                  
                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-[#1b1d20] text-[10px] font-bold px-3 py-1.5 rounded shadow-sm z-10 flex items-center gap-1">
                    <span className="material-symbols-outlined text-[12px] text-[#a1824a]">mic</span>
-                   حلقة رقم {project.id.slice(-4)}
+                   بودكاست المجهر
                  </div>
                  <div className="absolute top-4 left-4 bg-[#a1824a] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm z-10">
                    {project.status === 'ready' ? 'مكتملة' : 'قيد الإعداد'}
