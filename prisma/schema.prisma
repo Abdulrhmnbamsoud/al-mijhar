@@ -181,6 +181,8 @@ model OpenQuestion {
 model EpisodeAngle {
   id             String           @id @default(uuid())
   angle          String           // "زاوية الحلقة في جملة واحدة"
+  hostIntro      String?          // "مقدمة المقدّم - جاهزة للقراءة"
+  introMetadata  String?          // JSON for duration and warnings
   isActive       Boolean          @default(false)
   
   projectId      String

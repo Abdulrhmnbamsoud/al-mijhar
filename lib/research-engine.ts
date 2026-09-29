@@ -131,8 +131,10 @@ export async function startResearchPipeline(projectId: string, userInstructions:
           4. صغ الأسئلة بأسلوب "حواري استقصائي" (Conversational & Investigative)، وكأن المذيع جالس يتحدث مع الضيف بطريقة سلسة، ولكنها حادة، ذكية جداً، ومباغتة أحياناً (لا تقبل الإجابات الدبلوماسية).
           5. تجاهل أي معلومات أو مصادر تتحدث عن أشخاص آخرين يحملون أسماء مشابهة، ركز فقط على الضيف المستهدف وتاريخه الفعلي.
           6. استخدم "تلميح للمذيع" (whyItMatters) لتوجيه المذيع حول كيف يحاصر الضيف إن تهرب من الإجابة، أو ما هي النقطة الحساسة في هذا السؤال.
-          7. حقل "angle": يجب أن يكون "مقدمة تعريفية قوية جداً" (Introduction Script) مكتوبة بأسلوب المذيع ليقرأها على الهواء مباشرة في بداية الحلقة. يجب أن تعرف بالضيف، إنجازاته، وسبب استضافته اليوم بأسلوب مشوق وجذاب للمشاهد.
-          ${userInstructions ? `8. توجيه خاص من المستخدم لنمط هذه المحاور يجب الالتزام به حرفياً: "${userInstructions}"` : ""}
+          7. حقل "angle": زاوية الحلقة. جملة تحريرية تساعد فريق الإعداد على تحديد موضوع اللقاء. لا تظهر للمقدّم بوصفها مقدمة جاهزة.
+          8. حقل "hostIntro": مقدمة المقدّم. نص حواري كامل، يُقال بصوت عالٍ أمام الجمهور قبل الترحيب بالضيف، مبني على خبرته الفعلية والمعلومات المؤكدة عنه. مدتها نحو 30 إلى 45 ثانية، باللغة العربية السعودية الطبيعية، وبأسلوب تقديم حيّ يليق ببرنامج حواري. تجنب العبارات العامة، ولا تخترع إنجازات أو مناصب.
+          9. حقل "introWarnings": ضع فيه أي تنبيه للمحرر إذا كانت معلومات الضيف أو مناصبه غير مؤكدة تماماً، ولا تضعها كحقيقة في نص المقدمة.
+          ${userInstructions ? `10. توجيه خاص من المستخدم لنمط هذه المحاور يجب الالتزام به حرفياً: "${userInstructions}"` : ""}
           يجب أن تكون جميع النصوص والمخرجات باللغة العربية الفصحى حصراً (100% Arabic). الرد يجب أن يكون بصيغة JSON حصرية.`
         },
         { role: "user", content: `الضيف: ${project.guest.name}\n\nالمصادر:\n${contextStr}` }
@@ -172,7 +174,10 @@ export async function startResearchPipeline(projectId: string, userInstructions:
                   additionalProperties: false
                 }
               },
-              angle: { type: "string", description: "A compelling, broadcast-ready introduction script for the host to read to the audience at the start of the episode, introducing who the guest is and why they are here today (In Arabic)" },
+              angle: { type: "string", description: "زاوية الحلقة: جملة تحريرية تساعد فريق الإعداد على تحديد موضوع اللقاء" },
+              hostIntro: { type: "string", description: "مقدمة المقدّم: نص حواري كامل جاهز للقراءة على الهواء، 30-45 ثانية" },
+              introEstimatedTime: { type: "string", description: "المدة التقديرية للقراءة (مثلاً: 40 ثانية)" },
+              introWarnings: { type: "string", description: "تنبيهات للمحرر إذا كانت بعض تفاصيل الضيف غير مؤكدة" },
               chapters: {
                 type: "array",
                 items: {
@@ -238,8 +243,19 @@ export async function startResearchPipeline(projectId: string, userInstructions:
         });
       }
 
+      const introMetadataObj = {
+        time: parsed.introEstimatedTime || null,
+        warnings: parsed.introWarnings || null
+      };
+
       const angle = await prisma.episodeAngle.create({
-        data: { projectId, angle: parsed.angle, isActive: true }
+        data: { 
+          projectId, 
+          angle: parsed.angle, 
+          hostIntro: parsed.hostIntro || null,
+          introMetadata: JSON.stringify(introMetadataObj),
+          isActive: true 
+        }
       });
       
       let index = 1;

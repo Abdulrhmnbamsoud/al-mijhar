@@ -6,7 +6,7 @@ export default function AngleSwitcher({
   angles, 
   currentAngleId 
 }: { 
-  angles: { id: string, angle: string, createdAt: Date, isActive: boolean }[],
+  angles: { id: string, angle: string, hostIntro?: string | null, createdAt: Date, isActive: boolean }[],
   currentAngleId: string
 }) {
   const router = useRouter();
@@ -36,7 +36,9 @@ export default function AngleSwitcher({
               className={`text-right w-full p-3 rounded-lg border transition-colors ${isSelected ? 'bg-[#a1824a]/10 border-[#a1824a]/50 text-[#a1824a]' : 'bg-[#282a2f] border-[#282a2f] text-gray-400 hover:bg-gray-800'}`}
             >
               <div className="text-[10px] font-bold mb-1 opacity-80">{label}</div>
-              <div className="text-xs font-serif leading-relaxed line-clamp-2">«{a.angle}»</div>
+              <div className="text-xs font-serif leading-relaxed line-clamp-2">
+                {a.hostIntro ? `«${a.hostIntro}»` : <span className="text-gray-500 italic">«{a.angle}» (زاوية فقط - بدون مقدمة)</span>}
+              </div>
             </button>
           );
         })}
