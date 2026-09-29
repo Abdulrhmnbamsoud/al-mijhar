@@ -3,6 +3,8 @@ import { formatDistanceToNow } from "date-fns";
 import { ar } from "date-fns/locale";
 import ProjectsList from "@/components/ProjectsList";
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProjectsArchive() {
   const projects = await prisma.episodeProject.findMany({
     include: {
