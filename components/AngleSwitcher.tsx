@@ -28,7 +28,7 @@ export default function AngleSwitcher({
         {angles.map((a, i) => {
           const isSelected = a.id === currentAngleId;
           const dateStr = new Date(a.createdAt).toISOString().split('T')[0];
-          const label = i === 0 ? "أحدث محاولة" : \`محاولة أقدم (\${dateStr})\`;
+          const label = i === 0 ? "أحدث محاولة" : `محاولة أقدم (${dateStr})`;
           return (
             <button
               key={a.id}
