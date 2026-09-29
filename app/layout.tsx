@@ -3,7 +3,7 @@ import "./globals.css";
 import GlobalAppLayout from "@/components/GlobalAppLayout";
 
 export const metadata: Metadata = {
-  title: "المِجهر - بحث وتحليل للشخصيات",
+  title: "ضيف الأسبوع - بحث وتحليل للشخصيات",
   description: "تطبيق متقدم للبحث والتحليل لإعداد المقابلات الشخصية.",
 };
 
