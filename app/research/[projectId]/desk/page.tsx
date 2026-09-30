@@ -159,8 +159,8 @@ export default async function EpisodeDeskPage({
       {/* Main Content Area */}
       <section id="chapters" className="max-w-7xl mx-auto p-6 lg:p-10 flex flex-col lg:flex-row gap-8 items-start scroll-mt-20">
         
-        {/* Right Column (Chapters Flow) */}
-        <div className="flex-1 w-full">
+        {/* Right Column (Chapters Flow) - Appears Second on Mobile */}
+        <div className="flex-1 w-full order-2 lg:order-1">
           <div className="flex justify-between items-center mb-6">
             <div>
               <span className="text-[10px] text-gray-500 font-bold mb-1 block">هيكل الحوار التفصيلي</span>
@@ -199,8 +199,8 @@ export default async function EpisodeDeskPage({
           </div>
         </div>
 
-        {/* Left Column (Sidebar Tools) */}
-        <div className="w-full lg:w-80 space-y-6">
+        {/* Left Column (Sidebar Tools) - Appears First on Mobile */}
+        <div className="w-full lg:w-80 space-y-6 order-1 lg:order-2">
           
           {/* Evidences Box */}
           <div id="sources" className="bg-[#fcfbf9] border border-[#a1824a]/30 rounded-xl overflow-hidden shadow-sm scroll-mt-20">
