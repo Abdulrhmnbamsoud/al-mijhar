@@ -41,13 +41,13 @@ export async function startResearchPipeline(projectId: string, userInstructions:
     const queries: string[] = [];
     
     // 1. Exact match with context
-    queries.push(`"${guest.name}" ${guest.role || ""} ${guest.organization || ""} ${guest.country || ""}`.trim());
+    queries.push(`${guest.name} ${guest.role || ""} ${guest.organization || ""} ${guest.country || ""}`.trim());
     
     // 2. Exact match in media context
-    queries.push(`"${guest.name}" ("لقاء" OR "بودكاست" OR "حوار" OR "تصريح" OR "برنامج")`);
+    queries.push(`${guest.name} (لقاء OR بودكاست OR حوار OR تصريح OR برنامج)`);
     
     // 3. Exact match for professional shifts / controversies
-    queries.push(`"${guest.name}" ("خلاف" OR "رأي" OR "موقف" OR "استقالة" OR "تعيين" OR "انتقاد")`);
+    queries.push(`${guest.name} (خلاف OR رأي OR موقف OR استقالة OR تعيين OR انتقاد)`);
 
     // 4. Domain specific searches if URL was provided
     if (guest.url) {
@@ -61,13 +61,13 @@ export async function startResearchPipeline(projectId: string, userInstructions:
     
     // 5. LinkedIn specific
     if (guest.linkedinUrl) {
-      queries.push(`site:linkedin.com/in "${guest.name}"`);
+      queries.push(`site:linkedin.com/in ${guest.name}`);
     }
 
     // 6. Deep OSINT by Phone Number
     if (guest.phone) {
       // Searching the exact phone number, or the phone number with the name
-      queries.push(`"${guest.phone}" ("${guest.name}" OR "PDF" OR "contact" OR "directory" OR "دليل")`);
+      queries.push(`"${guest.phone}" (${guest.name} OR PDF OR contact OR directory OR دليل)`);
     }
 
     let allResults: any[] = [];
@@ -76,17 +76,9 @@ export async function startResearchPipeline(projectId: string, userInstructions:
       allResults = allResults.concat(res.results);
     }
 
-    const guestNameWords = guest.name.trim().split(" ");
-    const uniqueResults = Array.from(new Map(allResults.map(r => [r.url, r])).values()).filter(r => {
-      const text = (r.title + " " + r.content).toLowerCase();
-      const name = guest.name.toLowerCase();
-      if (text.includes(name)) return true;
-      if (guestNameWords.length > 1) {
-        const firstAndLast = guestNameWords[0].toLowerCase() + " " + guestNameWords[guestNameWords.length - 1].toLowerCase();
-        if (text.includes(firstAndLast)) return true;
-      }
-      return false;
-    });
+    // Remove strict text matching as it fails with Arabic formatting (أ/ا, ي/ى)
+    // Tavily already filters for relevance based on the query.
+    const uniqueResults = Array.from(new Map(allResults.map(r => [r.url, r])).values());
 
     for (const r of uniqueResults) {
       const source = await prisma.source.create({
