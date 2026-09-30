@@ -129,7 +129,19 @@ export async function startResearchPipeline(projectId: string, userInstructions:
           ${userInstructions ? `10. توجيه خاص من المستخدم لنمط هذه المحاور يجب الالتزام به حرفياً: "${userInstructions}"` : ""}
           يجب أن تكون جميع النصوص والمخرجات باللغة العربية الفصحى حصراً (100% Arabic). الرد يجب أن يكون بصيغة JSON حصرية.`
         },
-        { role: "user", content: `الضيف: ${project.guest.name}\n\nالمصادر:\n${contextStr}` }
+        { 
+          role: "user", 
+          content: `الضيف: ${project.guest.name}
+${project.guest.role ? `المنصب/الدور: ${project.guest.role}` : ""}
+${project.guest.organization ? `الجهة/المؤسسة: ${project.guest.organization}` : ""}
+${project.guest.country ? `البلد: ${project.guest.country}` : ""}
+${project.guest.linkedinUrl ? `رابط لينكد إن: ${project.guest.linkedinUrl}` : ""}
+${project.guest.url ? `رابط إضافي: ${project.guest.url}` : ""}
+${project.guest.phone ? `رقم الجوال: ${project.guest.phone}` : ""}
+
+المصادر:
+${contextStr || "لا توجد مصادر محددة، اعتمد على معلوماتك العامة عن الضيف ومسيرته بالإضافة للمعلومات المذكورة أعلاه."}`
+        }
       ],
       response_format: {
         type: "json_schema",
