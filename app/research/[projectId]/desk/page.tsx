@@ -7,6 +7,7 @@ import { RegenerateButton } from "@/components/RegenerateButton";
 import ChapterCard from "@/components/ChapterCard";
 import NoteSender from "@/components/NoteSender";
 import IntroEditor from "@/components/IntroEditor";
+import AddSourceModal from "@/components/AddSourceModal";
 
 export default async function EpisodeDeskPage({ 
   params,
@@ -248,10 +249,7 @@ export default async function EpisodeDeskPage({
                 </div>
               )}
 
-              <ClientButton actionType="alert" alertMessage="جاري فتح نافذة رفع الملفات..." className="w-full py-2 bg-white border border-[#e8e6df] hover:border-[#a1824a] hover:text-[#a1824a] text-[#1b1d20] rounded text-[10px] font-bold flex items-center justify-center gap-2 transition-colors mt-2">
-                <span className="material-symbols-outlined text-[14px]">add</span>
-                إرفاق وثيقة أو تسجيل جديد
-              </ClientButton>
+              <AddSourceModal projectId={project.id} />
             </div>
           </div>
 
