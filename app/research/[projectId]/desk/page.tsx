@@ -8,6 +8,7 @@ import ChapterCard from "@/components/ChapterCard";
 import NoteSender from "@/components/NoteSender";
 import IntroEditor from "@/components/IntroEditor";
 import AddSourceModal from "@/components/AddSourceModal";
+import ResearchTimer from "@/components/ResearchTimer";
 
 export default async function EpisodeDeskPage({ 
   params,
@@ -187,11 +188,15 @@ export default async function EpisodeDeskPage({
               </div>
             )}
 
-            {activeAngle?.chapters.map((chapter, index) => (
+            {project.status === 'researching' && (
+              <ResearchTimer />
+            )}
+
+            {project.status !== 'researching' && activeAngle?.chapters.map((chapter, index) => (
               <ChapterCard key={chapter.id} chapter={chapter} index={index} />
             ))}
 
-            {(!activeAngle?.chapters || activeAngle.chapters.length === 0) && (
+            {project.status !== 'researching' && (!activeAngle?.chapters || activeAngle.chapters.length === 0) && (
               <div className="text-center py-10 bg-white rounded-xl border border-dashed border-[#e8e6df]">
                 <RegenerateButton projectId={project.id} label="توليد محاور الحلقة بالذكاء الاصطناعي" />
               </div>
