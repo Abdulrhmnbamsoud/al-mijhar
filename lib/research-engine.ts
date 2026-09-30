@@ -71,6 +71,29 @@ export async function startResearchPipeline(projectId: string, userInstructions:
     }
 
     let allResults: any[] = [];
+    
+    // Extract exact provided URLs directly
+    const urlsToExtract = [];
+    if (guest.linkedinUrl) urlsToExtract.push(guest.linkedinUrl);
+    if (guest.url) urlsToExtract.push(guest.url);
+    
+    if (urlsToExtract.length > 0) {
+      try {
+        const extractRes = await tvlyClient.extract(urlsToExtract);
+        if (extractRes && extractRes.results) {
+          for (const ext of extractRes.results) {
+            allResults.push({
+              title: "مصدر مباشر (معلومات المستخدم)",
+              url: ext.url,
+              content: ext.rawContent || ext.content || "لا يوجد نص"
+            });
+          }
+        }
+      } catch (e) {
+        console.error("Direct URL extraction failed:", e);
+      }
+    }
+
     for (const q of queries) {
       const res = await tvlyClient.search(q, { searchDepth: "advanced", maxResults: 25 });
       allResults = allResults.concat(res.results);
