@@ -85,7 +85,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
             allResults.push({
               title: "مصدر مباشر (معلومات المستخدم)",
               url: ext.url,
-              content: ext.rawContent || ext.content || "لا يوجد نص"
+              content: ext.rawContent || "لا يوجد نص"
             });
           }
         }
