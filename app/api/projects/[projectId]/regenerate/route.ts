@@ -39,8 +39,12 @@ export async function POST(
     after(async () => {
       try {
         await startResearchPipeline(projectId, instructions);
-      } catch (e) {
+      } catch (e: any) {
         console.error("Background research pipeline failed:", e);
+        await prisma.episodeProject.update({
+          where: { id: projectId },
+          data: { status: "failed" }
+        });
       }
     });
 

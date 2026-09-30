@@ -40,8 +40,13 @@ export async function POST(request: Request) {
     after(async () => {
       try {
         await startResearchPipeline(project.id);
-      } catch (e) {
+      } catch (e: any) {
         console.error("Background research pipeline failed:", e);
+        // Fallback update to prevent infinite loading state
+        await prisma.episodeProject.update({
+          where: { id: project.id },
+          data: { status: "failed", notes: project.notes ? project.notes + `\nخطأ في التوليد: ${e.message}` : `خطأ في التوليد: ${e.message}` }
+        });
       }
     });
 

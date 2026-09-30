@@ -175,6 +175,17 @@ export default async function EpisodeDeskPage({
           </div>
 
           <div className="space-y-4">
+            {project.status === 'failed' && (
+              <div className="bg-red-50 text-red-700 p-4 rounded-xl border border-red-200 mb-6 shadow-sm">
+                <div className="flex items-center gap-2 font-bold mb-1">
+                  <span className="material-symbols-outlined text-[20px]">error</span>
+                  فشل في توليد المشروع
+                </div>
+                <p className="text-xs mb-3">{project.notes || 'حدث خطأ غير متوقع أثناء استخراج المصادر أو توليد المحاور عبر الذكاء الاصطناعي.'}</p>
+                <RegenerateButton projectId={project.id} label="حاول مرة أخرى (إعادة توليد)" />
+              </div>
+            )}
+
             {activeAngle?.chapters.map((chapter, index) => (
               <ChapterCard key={chapter.id} chapter={chapter} index={index} />
             ))}
