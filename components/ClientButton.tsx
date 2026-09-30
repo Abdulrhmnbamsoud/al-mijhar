@@ -29,7 +29,7 @@ export default function ClientButton({ actionType, alertMessage, copyText, child
         showToast('تم النسخ بنجاح!');
       }
     } else if (actionType === 'alert' && alertMessage) {
-      showToast(alertMessage);
+      alert(alertMessage);
     } else if (actionType === 'cast') {
       showToast('جاري البحث عن شاشات العرض القريبة للربط...');
     }

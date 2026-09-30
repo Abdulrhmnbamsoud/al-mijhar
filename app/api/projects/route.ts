@@ -1,5 +1,5 @@
 export const maxDuration = 60;
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import prisma from "@/lib/prisma";
 
 import { startResearchPipeline } from "@/lib/research-engine";
@@ -37,7 +37,13 @@ export async function POST(request: Request) {
     });
 
     // 3. Trigger the background pipeline
-    await startResearchPipeline(project.id);
+    after(async () => {
+      try {
+        await startResearchPipeline(project.id);
+      } catch (e) {
+        console.error("Background research pipeline failed:", e);
+      }
+    });
 
     return NextResponse.json({ projectId: project.id });
   } catch (error: any) {
