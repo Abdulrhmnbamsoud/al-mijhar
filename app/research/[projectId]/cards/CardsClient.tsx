@@ -145,9 +145,9 @@ export default function CardsClient({ cards }: { cards: any[] }) {
     </div>
 
     {/* Print View (Hidden on Screen, Visible on Print) */}
-    <div className="hidden print:block w-full bg-white" dir="rtl">
+    <div className="hidden print:block w-full bg-white text-black" dir="rtl">
       {cards.map((card, idx) => (
-        <div key={idx} className="w-full h-screen flex flex-col items-center justify-center p-12 break-after-page bg-white">
+        <div key={idx} style={{ pageBreakAfter: 'always', minHeight: '100vh', paddingTop: '4rem' }} className="w-full flex flex-col items-center justify-center p-12 bg-white">
           {card.type === "chapter_title" ? (
             <div className="text-center space-y-6">
               <div className="w-20 h-20 bg-[#a1824a] text-white rounded-2xl flex items-center justify-center text-3xl font-bold mx-auto border-2 border-[#1b1d20]">
@@ -161,7 +161,7 @@ export default function CardsClient({ cards }: { cards: any[] }) {
               </div>
             </div>
           ) : (
-            <div className="w-full max-w-4xl">
+            <div className="w-full max-w-4xl mx-auto">
               <div className="flex items-center justify-between mb-8 border-b-2 border-gray-100 pb-4">
                 <span className="text-gray-500 font-bold text-xl">
                   المحور {card.chIndex} • سؤال {card.qIndex}

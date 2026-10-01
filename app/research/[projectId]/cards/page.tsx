@@ -64,9 +64,9 @@ export default async function CardsPage({
   });
 
   return (
-    <div className="w-full h-screen bg-[#111214] font-sans flex flex-col overflow-hidden" dir="rtl">
+    <div className="w-full h-screen print:h-auto bg-[#111214] print:bg-white font-sans flex flex-col print:block overflow-hidden print:overflow-visible" dir="rtl">
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 bg-[#1b1d20] border-b border-[#282a2f] shrink-0">
+      <header className="flex items-center justify-between px-6 py-4 bg-[#1b1d20] border-b border-[#282a2f] shrink-0 print:hidden">
         <div>
           <h1 className="text-xl font-bold text-white tracking-tight">كروت الأسئلة - وضع الآيباد</h1>
           <p className="text-sm text-gray-400 mt-1">{activeAngle.angle}</p>
@@ -77,7 +77,7 @@ export default async function CardsPage({
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-hidden flex items-center justify-center relative">
+      <main className="flex-1 overflow-hidden print:overflow-visible flex print:block items-center justify-center relative">
         <CardsClient cards={allCards} />
       </main>
     </div>
