@@ -33,8 +33,18 @@ export default function CardsClient({ cards }: { cards: any[] }) {
   const isLast = currentIndex === cards.length - 1;
 
   return (
-    <div className="w-full h-full flex items-center justify-center gap-6 px-8">
+    <>
+    <div className="w-full h-full flex items-center justify-center gap-6 px-8 print:hidden">
       
+      {/* Print / PDF Button */}
+      <button 
+        onClick={() => window.print()}
+        className="absolute top-6 left-6 z-50 bg-[#282a2f] hover:bg-gray-700 text-white px-4 py-2 rounded-full transition-colors flex items-center gap-2 font-bold shadow-lg border border-[#3f4147]"
+      >
+        <span className="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+        تصدير PDF
+      </button>
+
       {/* Previous Button (Right side in RTL) */}
       <button 
         onClick={prevCard}
@@ -133,5 +143,64 @@ export default function CardsClient({ cards }: { cards: any[] }) {
       </div>
 
     </div>
+
+    {/* Print View (Hidden on Screen, Visible on Print) */}
+    <div className="hidden print:block w-full bg-white" dir="rtl">
+      {cards.map((card, idx) => (
+        <div key={idx} className="w-full h-screen flex flex-col items-center justify-center p-12 break-after-page bg-white">
+          {card.type === "chapter_title" ? (
+            <div className="text-center space-y-6">
+              <div className="w-20 h-20 bg-[#a1824a] text-white rounded-2xl flex items-center justify-center text-3xl font-bold mx-auto border-2 border-[#1b1d20]">
+                {card.index}
+              </div>
+              <h2 className="text-6xl font-bold text-[#1b1d20] leading-tight">
+                {card.title}
+              </h2>
+              <div className="text-gray-500 font-bold text-xl mt-4">
+                الوقت المقدر: {card.estimatedMinutes} دقيقة
+              </div>
+            </div>
+          ) : (
+            <div className="w-full max-w-4xl">
+              <div className="flex items-center justify-between mb-8 border-b-2 border-gray-100 pb-4">
+                <span className="text-gray-500 font-bold text-xl">
+                  المحور {card.chIndex} • سؤال {card.qIndex}
+                </span>
+                {card.questionType === 'sensitive' && (
+                  <span className="text-red-600 font-bold text-lg border-2 border-red-200 px-3 py-1 rounded-xl">نقطة حساسة</span>
+                )}
+                {card.questionType === 'viral' && (
+                  <span className="text-purple-600 font-bold text-lg border-2 border-purple-200 px-3 py-1 rounded-xl">فرصة انتشار</span>
+                )}
+              </div>
+
+              <h2 className="text-5xl font-bold text-[#1b1d20] leading-[1.5] mb-8">
+                {card.question}
+              </h2>
+
+              {card.whyItMatters && (
+                <div className="bg-gray-50 border-r-4 border-[#a1824a] p-6 rounded-xl text-[#1b1d20] mb-8 text-xl">
+                  <span className="text-[#a1824a] font-bold block mb-2">توجيه سري (تكتيك):</span>
+                  {card.whyItMatters}
+                </div>
+              )}
+
+              {card.followUps && card.followUps.length > 0 && (
+                <div className="space-y-4 mt-8 pt-8 border-t-2 border-dashed border-gray-200">
+                  <h3 className="font-bold text-gray-400 text-xl">تفرعات محتملة:</h3>
+                  {card.followUps.map((fu: any, fIdx: number) => (
+                    <div key={fIdx} className="flex items-start gap-3 pl-4">
+                      <span className="text-gray-400 font-bold">-</span>
+                      <p className="text-xl text-gray-700 font-medium">{fu.question}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+    </>
   );
 }
