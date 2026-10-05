@@ -4,27 +4,46 @@ import prisma from "@/lib/prisma";
 
 import { startResearchPipeline } from "@/lib/research-engine";
 
+export async function GET() {
+  try {
+    const projects = await prisma.episodeProject.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { guest: true },
+    });
+    return NextResponse.json({ projects });
+  } catch (error: any) {
+    console.error("Error fetching projects:", error);
+    return NextResponse.json({ error: "حدث خطأ أثناء جلب المشاريع" }, { status: 500 });
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { guestName, role, organization, country, url, linkedinUrl, phone } = body;
 
-    if (!guestName) {
-      return NextResponse.json({ error: "اسم الضيف مطلوب" }, { status: 400 });
+    if (!guestName || typeof guestName !== "string" || guestName.trim().length === 0) {
+      return NextResponse.json({ error: "اسم الضيف مطلوب وصحيح" }, { status: 400 });
     }
 
-    // 1. Create Guest
-    const guest = await prisma.guest.create({
-      data: {
-        name: guestName,
-        role: role || null,
-        organization: organization || null,
-        country: country || null,
-        url: url || null,
-        linkedinUrl: linkedinUrl || null,
-        phone: phone || null,
-      },
+    // 1. Find or Create Guest
+    let guest = await prisma.guest.findFirst({
+      where: { name: guestName.trim() },
     });
+
+    if (!guest) {
+      guest = await prisma.guest.create({
+        data: {
+          name: guestName.trim(),
+          role: role?.trim() || null,
+          organization: organization?.trim() || null,
+          country: country?.trim() || null,
+          url: url?.trim() || null,
+          linkedinUrl: linkedinUrl?.trim() || null,
+          phone: phone?.trim() || null,
+        },
+      });
+    }
 
     // 2. Create Project
     const project = await prisma.episodeProject.create({
