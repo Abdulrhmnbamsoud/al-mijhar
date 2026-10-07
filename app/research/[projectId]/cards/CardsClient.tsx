@@ -102,10 +102,10 @@ export default function CardsClient({ cards }: { cards: any[] }) {
             </h2>
 
             {currentCard.whyItMatters && (
-              <div className="bg-[#f8f8f5] border-r-4 border-[#a1824a] p-6 rounded-xl text-[#1b1d20] mb-8 text-xl shadow-sm">
+              <div className="bg-[#f8f8f5] border-r-4 border-[#a1824a] p-6 rounded-xl text-[#1b1d20] mb-8 text-xl shadow-sm whitespace-pre-wrap">
                 <span className="text-[#a1824a] font-bold flex items-center gap-2 mb-3">
                   <span className="material-symbols-outlined text-2xl">psychology</span>
-                  توجيه سري للمذيع (تكتيك):
+                  توجيه للمذيع (بطاقة السؤال):
                 </span>
                 {currentCard.whyItMatters}
               </div>
@@ -179,8 +179,8 @@ export default function CardsClient({ cards }: { cards: any[] }) {
               </h2>
 
               {card.whyItMatters && (
-                <div className="bg-gray-50 border-r-4 border-[#a1824a] p-6 rounded-xl text-[#1b1d20] mb-8 text-xl">
-                  <span className="text-[#a1824a] font-bold block mb-2">توجيه سري (تكتيك):</span>
+                <div className="bg-gray-50 border-r-4 border-[#a1824a] p-6 rounded-xl text-[#1b1d20] mb-8 text-xl whitespace-pre-wrap">
+                  <span className="text-[#a1824a] font-bold block mb-2">توجيه للمذيع (بطاقة السؤال):</span>
                   {card.whyItMatters}
                 </div>
               )}

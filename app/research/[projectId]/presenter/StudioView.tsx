@@ -129,7 +129,7 @@ export default function StudioView({ project, angle }: { project: any, angle: an
                       {hq.whyItMatters && (
                         <div className="bg-white rounded-lg p-4 mb-6 flex gap-3 text-sm text-gray-600 border border-gray-100 shadow-sm">
                           <span className="material-symbols-outlined text-[#a1824a]">track_changes</span>
-                          <p><strong className="text-[#1b1d20]">الهدف:</strong> {hq.whyItMatters}</p>
+                          <p className="whitespace-pre-wrap"><strong className="text-[#1b1d20] block mb-1">بطاقة السؤال:</strong> {hq.whyItMatters}</p>
                         </div>
                       )}
 
