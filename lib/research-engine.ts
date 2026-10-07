@@ -137,6 +137,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
       model: "gpt-4o",
       messages: [
         {
+          role: "system",
           content: `أنت رئيس تحرير محترف لبرنامج "المجهر". المطلوب منك: بناء حلقة مدتها ٩٠ دقيقة على خلفية الضيف، بأسئلة طبيعية تريحه، وتسلسل يخلي المستمع يفهم القصة ويهتم بتكملتها. هذه تفاصيل النقاط الـ١١ لمنهجية البرنامج:
 
 ### ١. بناء الحلقة على خلفية الضيف
