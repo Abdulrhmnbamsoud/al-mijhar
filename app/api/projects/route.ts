@@ -1,5 +1,5 @@
 export const maxDuration = 60;
-import { NextResponse, after } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 import { startResearchPipeline } from "@/lib/research-engine";
@@ -56,17 +56,13 @@ export async function POST(request: Request) {
     });
 
     // 3. Trigger the background pipeline
-    after(async () => {
-      try {
-        await startResearchPipeline(project.id);
-      } catch (e: any) {
-        console.error("Background research pipeline failed:", e);
-        // Fallback update to prevent infinite loading state
-        await prisma.episodeProject.update({
-          where: { id: project.id },
-          data: { status: "failed", notes: project.notes ? project.notes + `\nخطأ في التوليد: ${e.message}` : `خطأ في التوليد: ${e.message}` }
-        });
-      }
+    startResearchPipeline(project.id).catch(async (e: any) => {
+      console.error("Background research pipeline failed:", e);
+      // Fallback update to prevent infinite loading state
+      await prisma.episodeProject.update({
+        where: { id: project.id },
+        data: { status: "failed", notes: project.notes ? project.notes + `\nخطأ في التوليد: ${e.message}` : `خطأ في التوليد: ${e.message}` }
+      });
     });
 
     return NextResponse.json({ projectId: project.id });

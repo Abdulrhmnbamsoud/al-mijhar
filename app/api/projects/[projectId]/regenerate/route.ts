@@ -1,5 +1,5 @@
 export const maxDuration = 60;
-import { NextResponse, after } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { startResearchPipeline } from "@/lib/research-engine";
 
@@ -35,17 +35,13 @@ export async function POST(
       where: { projectId },
       data: { isActive: false }
     });
-    // Run pipeline in the background using Next.js after() to prevent connection timeouts
-    after(async () => {
-      try {
-        await startResearchPipeline(projectId, instructions);
-      } catch (e: any) {
-        console.error("Background research pipeline failed:", e);
-        await prisma.episodeProject.update({
-          where: { id: projectId },
-          data: { status: "failed" }
-        });
-      }
+    // Run pipeline in the background using floating promise to prevent connection timeouts
+    startResearchPipeline(projectId, instructions).catch(async (e: any) => {
+      console.error("Background research pipeline failed:", e);
+      await prisma.episodeProject.update({
+        where: { id: projectId },
+        data: { status: "failed" }
+      });
     });
 
     return NextResponse.json({ success: true });
