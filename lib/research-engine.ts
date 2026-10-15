@@ -24,7 +24,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
   if (!project) return;
 
   const tvlyClient = process.env.TAVILY_API_KEY ? tavily({ apiKey: process.env.TAVILY_API_KEY }) : null;
-  const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
+  const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: 75000, maxRetries: 2 }) : null;
 
   // 1. Researcher Agent (الباحث)
   const researchRun = await prisma.generationRun.create({

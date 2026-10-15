@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import ClientButton from "@/components/ClientButton";
@@ -190,7 +193,7 @@ export default async function EpisodeDeskPage({
             )}
 
             {project.status === 'researching' && (
-              <ResearchTimer />
+              <ResearchTimer projectId={project.id} />
             )}
 
             {project.status !== 'researching' && activeAngle?.chapters.map((chapter, index) => (
