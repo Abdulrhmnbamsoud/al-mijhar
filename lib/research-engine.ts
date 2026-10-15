@@ -94,27 +94,32 @@ export async function startResearchPipeline(projectId: string, userInstructions:
       }
     }
 
-    for (const q of queries) {
-      const res = await tvlyClient.search(q, { searchDepth: "advanced", maxResults: 25 });
-      allResults = allResults.concat(res.results);
+    // Run search queries in parallel for high speed (takes 2-3 seconds instead of minutes)
+    const searchPromises = queries.map(q => 
+      tvlyClient.search(q, { searchDepth: "basic", maxResults: 10 }).catch(() => ({ results: [] }))
+    );
+    const searchResults = await Promise.all(searchPromises);
+    for (const res of searchResults) {
+      if (res && res.results) {
+        allResults = allResults.concat(res.results);
+      }
     }
 
-    // Remove strict text matching as it fails with Arabic formatting (أ/ا, ي/ى)
-    // Tavily already filters for relevance based on the query.
-    const uniqueResults = Array.from(new Map(allResults.map(r => [r.url, r])).values());
+    // Remove duplicates and pick top 30 relevant sources
+    const uniqueResults = Array.from(new Map(allResults.map(r => [r.url, r])).values()).slice(0, 30);
 
-    for (const r of uniqueResults) {
-      const source = await prisma.source.create({
-        data: {
+    if (uniqueResults.length > 0) {
+      await prisma.source.createMany({
+        data: uniqueResults.map(r => ({
           projectId,
           title: r.title || "مادة مبدئية",
           originalUrl: r.url,
           type: "article",
-          extractedText: r.content,
+          extractedText: r.content || "",
           processingStatus: "completed"
-        }
+        }))
       });
-      await logAudit(projectId, "create", "Source", source.id, "Researcher agent collected source");
+      await logAudit(projectId, "create", "Source", projectId, `Collected ${uniqueResults.length} sources in bulk`);
     }
 
     await updateRun(researchRun.id, "completed");
@@ -184,6 +189,7 @@ export async function startResearchPipeline(projectId: string, userInstructions:
 «متى تشوف إن هالطريقة ما تناسب الشخص؟» لا تجعل نجاح ضيف قاعدة للجميع.
 
 ### ٩. توزيع مرن لـ٩٠ دقيقة وكثافة أسئلة عالية ودسمة (شرط إلزامي ورئيسي):
+- **مدة الحلقة وتوزيع الوقت (شرط صارم):** مدة الحلقة الإجمالية ٩٠ دقيقة كاملة. يجب أن تكون المدة التقديرية (estimatedMinutes) لكل محور بين ١٢ إلى ١٨ دقيقة بحيث يكون مجموع مدد المحاور مساوياً لـ ٩٠ دقيقة بالتمام (مثال: ١٥، ١٥، ٢٠، ١٥، ١٥، ١٠ دقائق). إياك وتوليد مدد قصيرة للحلقة مثل ١٣ دقيقة أو أرقام صغيرة!
 - **عدد المحاور:** يجب أن تولّد دائماً بين ٥ إلى ٦ محاور رئيسية لتغطية الـ ٩٠ دقيقة كاملة بتسلسل منطقي.
 - **كثافة الأسئلة لكل محور:** في كل محور بدون استثناء، يجب أن تولّد من ٤ إلى ٥ أسئلة أساسية دسمة وعميقة ومبنية على خلفية الضيف (ممنوع توليد سؤالين أو ثلاثة فقط!).
 - **إجمالي الأسئلة الأساسية للحلقة:** يجب أن يكون بين ٢٠ إلى ٢٥ سؤالاً أساسياً كحد أدنى موزعة على المحاور.

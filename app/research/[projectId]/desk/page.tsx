@@ -75,6 +75,7 @@ export default async function EpisodeDeskPage({
   // Calculate some stats
   const totalChapters = activeAngle?.chapters?.length || 0;
   const totalQuestions = activeAngle?.chapters?.reduce((acc, ch) => acc + ch.hostQuestions.length, 0) || 0;
+  const totalDuration = activeAngle?.chapters?.reduce((acc, ch) => acc + (ch.estimatedMinutes || 15), 0) || 90;
 
   return (
     <div className="w-full bg-[#f8f8f5] font-sans" dir="rtl">
@@ -88,8 +89,8 @@ export default async function EpisodeDeskPage({
           <div className="flex-1 space-y-4">
             <div className="flex items-center gap-3 text-xs font-medium text-gray-400">
               <span className="bg-[#282a2f] text-white px-2 py-1 rounded text-[10px]">ضيف الأسبوع</span>
-              <span>• طولة الإعداد المبني للمقترح والقصة</span>
-              <span>• <span className="material-symbols-outlined text-[14px] align-middle">schedule</span> تقدير التسجيل: 58 دقيقة</span>
+              <span>• طاولة الإعداد المبني للمقترح والقصة</span>
+              <span>• <span className="material-symbols-outlined text-[14px] align-middle">schedule</span> تقدير التسجيل: {totalDuration} دقيقة</span>
             </div>
             
             <h1 className="text-4xl lg:text-5xl font-bold tracking-tight text-white mb-2">{project.guest.name}</h1>

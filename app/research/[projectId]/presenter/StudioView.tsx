@@ -110,7 +110,7 @@ export default function StudioView({ project, angle }: { project: any, angle: an
                   </div>
                   <span className="text-xs text-gray-500 flex items-center gap-1">
                     <span className="material-symbols-outlined text-sm">schedule</span>
-                    وقت النقاش المقترح: ٢٠ دقيقة
+                    وقت النقاش المقترح: {activeChapter.estimatedMinutes || 15} دقيقة
                   </span>
                 </div>
 
