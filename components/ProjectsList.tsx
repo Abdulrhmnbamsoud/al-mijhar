@@ -1,17 +1,43 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
-import { AutoRefresh } from './AutoRefresh';
 import ClientButton from './ClientButton';
 
 export default function ProjectsList({ initialProjects }: { initialProjects: any[] }) {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   const hasProcessingProjects = initialProjects.some(p => p.status === 'researching');
+
+  // Safely poll processing projects without calling router.refresh() repeatedly
+  useEffect(() => {
+    if (!hasProcessingProjects) return;
+
+    const interval = setInterval(async () => {
+      try {
+        const processing = initialProjects.filter(p => p.status === 'researching');
+        for (const p of processing) {
+          const res = await fetch(`/api/projects/${p.id}`, { cache: 'no-store' });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.status && data.status !== 'researching') {
+              router.refresh();
+              break;
+            }
+          }
+        }
+      } catch (err) {
+        // network silent catch
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [hasProcessingProjects, initialProjects, router]);
 
   const [toastMsg, setToastMsg] = useState<{ id: string, msg: string } | null>(null);
 
@@ -62,7 +88,6 @@ export default function ProjectsList({ initialProjects }: { initialProjects: any
 
   return (
     <>
-      {hasProcessingProjects && <AutoRefresh intervalMs={3000} />}
       {/* Filter Bar */}
       <div className="flex flex-col space-y-4">
         <div className="flex flex-wrap gap-4 items-center justify-between border-b border-[#e8e6df] pb-4">

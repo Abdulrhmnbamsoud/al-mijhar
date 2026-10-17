@@ -9,21 +9,21 @@ export default function ChapterCard({ chapter, index }: { chapter: any, index: n
   const viralCount = chapter.hostQuestions?.filter((hq: any) => hq.type === 'viral').length || 0;
 
   return (
-    <div className="bg-white border border-[#e8e6df] rounded-xl p-5 shadow-sm relative hover:shadow-lg hover:-translate-y-1 hover:border-[#a1824a] transition-all duration-300">
+    <div className="bg-white border border-[#e8e6df] rounded-xl p-4 sm:p-5 shadow-sm relative hover:shadow-lg hover:border-[#a1824a] transition-all duration-300 mr-2 sm:mr-0">
       
       {/* Chapter Number Badge */}
-      <div className="absolute -right-4 top-5 w-8 h-8 rounded-full bg-[#1b1d20] text-white flex items-center justify-center text-xs font-bold shadow-md">
+      <div className="absolute -right-3 sm:-right-4 top-4 sm:top-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1b1d20] text-white flex items-center justify-center text-xs font-bold shadow-md">
         {String(index + 1).padStart(2, '0')}
       </div>
 
-      <div className="flex justify-between items-start mb-4 pr-6">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-2 mb-4 pr-3 sm:pr-6">
         <div>
           <div className="text-[10px] text-gray-500 font-bold mb-1">المحور {index + 1} • {chapter.title}</div>
-          <h3 className="text-lg font-bold text-[#1b1d20]">
+          <h3 className="text-base sm:text-lg font-bold text-[#1b1d20]">
             {chapter.hostQuestions[0]?.question || "جاري تجهيز السؤال..."}
           </h3>
         </div>
-        <div className="flex items-center gap-2 bg-[#f8f8f5] border border-[#e8e6df] px-2 py-1 rounded text-[10px] text-gray-500 font-medium shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 bg-[#f8f8f5] border border-[#e8e6df] px-2 py-1 rounded text-[10px] text-gray-500 font-medium shrink-0 self-start sm:self-auto">
           <span className="material-symbols-outlined text-[14px]">schedule</span>
           {chapter.estimatedMinutes || 15} دقيقة
         </div>

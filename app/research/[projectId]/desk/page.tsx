@@ -5,7 +5,6 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 import ClientButton from "@/components/ClientButton";
 import ClientImage from "@/components/ClientImage";
-import { AutoRefresh } from "@/components/AutoRefresh";
 import { RegenerateButton } from "@/components/RegenerateButton";
 import ChapterCard from "@/components/ChapterCard";
 import NoteSender from "@/components/NoteSender";
@@ -82,22 +81,21 @@ export default async function EpisodeDeskPage({
 
   return (
     <div className="w-full bg-[#f8f8f5] font-sans" dir="rtl">
-      <AutoRefresh intervalMs={5000} />
       
       {/* Top Banner (Dark) */}
-      <section className="bg-[#1b1d20] text-white border-b border-[#282a2f] p-8 lg:p-10">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 justify-between items-start">
+      <section className="bg-[#1b1d20] text-white border-b border-[#282a2f] p-4 sm:p-8 lg:p-10">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 lg:gap-10 justify-between items-start">
           
           {/* Right Side - Info */}
-          <div className="flex-1 space-y-4">
-            <div className="flex items-center gap-3 text-xs font-medium text-gray-400">
+          <div className="flex-1 w-full space-y-4">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-medium text-gray-400">
               <span className="bg-[#282a2f] text-white px-2 py-1 rounded text-[10px]">ضيف الأسبوع</span>
-              <span>• طاولة الإعداد المبني للمقترح والقصة</span>
-              <span>• <span className="material-symbols-outlined text-[14px] align-middle">schedule</span> تقدير التسجيل: {totalDuration} دقيقة</span>
+              <span>• طاولة الإعداد والقصة</span>
+              <span>• <span className="material-symbols-outlined text-[14px] align-middle">schedule</span> التسجيل: {totalDuration} دقيقة</span>
             </div>
             
-            <h1 className="text-4xl lg:text-5xl font-bold tracking-tight text-white mb-2">{project.guest.name}</h1>
-            <p className="text-[#a1824a] text-sm lg:text-base font-bold mb-6">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-1 sm:mb-2">{project.guest.name}</h1>
+            <p className="text-[#a1824a] text-xs sm:text-base font-bold mb-4 sm:mb-6">
               {project.guest.role} {project.guest.organization && `في ${project.guest.organization}`}
             </p>
 
@@ -109,7 +107,7 @@ export default async function EpisodeDeskPage({
             
             {/* Call Card */}
             <div className="bg-[#1b1d20] border border-[#282a2f] rounded-lg overflow-hidden flex flex-col">
-              <div className="p-4 flex gap-4 items-center border-b border-[#282a2f]">
+              <div className="p-3 sm:p-4 flex gap-4 items-center border-b border-[#282a2f]">
                 <div className="w-12 h-12 bg-gray-700 rounded overflow-hidden flex-shrink-0 relative">
                    <ClientImage
                      src={
@@ -135,25 +133,29 @@ export default async function EpisodeDeskPage({
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-2">
-              <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-3 text-center flex flex-col justify-center">
-                <span className="text-xl font-bold text-white">{totalChapters}</span>
-                <span className="text-[9px] text-gray-400 mt-1">محاور مسارات</span>
+              <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-2.5 sm:p-3 text-center flex flex-col justify-center">
+                <span className="text-lg sm:text-xl font-bold text-white">{totalChapters}</span>
+                <span className="text-[9px] text-gray-400 mt-0.5 sm:mt-1">محاور مسارات</span>
               </div>
-              <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-3 text-center flex flex-col justify-center">
-                <span className="text-xl font-bold text-[#a1824a]">12</span>
-                <span className="text-[9px] text-gray-400 mt-1">وثيقة ومصادر</span>
+              <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-2.5 sm:p-3 text-center flex flex-col justify-center">
+                <span className="text-lg sm:text-xl font-bold text-[#a1824a]">12</span>
+                <span className="text-[9px] text-gray-400 mt-0.5 sm:mt-1">وثيقة ومصادر</span>
               </div>
-              <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-3 text-center flex flex-col justify-center">
-                <span className="text-xl font-bold text-white">{totalQuestions}</span>
-                <span className="text-[9px] text-gray-400 mt-1">أسئلة استرجاعية</span>
+              <div className="bg-[#282a2f]/50 border border-[#282a2f] rounded-lg p-2.5 sm:p-3 text-center flex flex-col justify-center">
+                <span className="text-lg sm:text-xl font-bold text-white">{totalQuestions}</span>
+                <span className="text-[9px] text-gray-400 mt-0.5 sm:mt-1">أسئلة استرجاعية</span>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-2 mt-4">
-              <Link href={`/research/${project.id}/cards`} target="_blank" className="flex-1 bg-[#282a2f] hover:bg-gray-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors border border-[#3f4147]">
-                <span className="material-symbols-outlined">tablet_mac</span>
-                كروت الأسئلة (للآيباد)
+            <div className="grid grid-cols-2 gap-2 mt-2 sm:mt-4">
+              <Link href={`/research/${project.id}/presenter`} target="_blank" className="bg-[#a1824a] hover:bg-[#8c6f3d] text-white font-bold py-2.5 sm:py-3 px-3 rounded-lg flex items-center justify-center gap-1.5 sm:gap-2 transition-colors text-xs sm:text-sm text-center shadow-md">
+                <span className="material-symbols-outlined text-[18px]">mic</span>
+                استوديو البث
+              </Link>
+              <Link href={`/research/${project.id}/cards`} target="_blank" className="bg-[#282a2f] hover:bg-gray-700 text-white font-bold py-2.5 sm:py-3 px-3 rounded-lg flex items-center justify-center gap-1.5 sm:gap-2 transition-colors border border-[#3f4147] text-xs sm:text-sm text-center">
+                <span className="material-symbols-outlined text-[18px]">tablet_mac</span>
+                كروت الآيباد
               </Link>
             </div>
 
@@ -162,14 +164,14 @@ export default async function EpisodeDeskPage({
       </section>
 
       {/* Main Content Area */}
-      <section id="chapters" className="max-w-7xl mx-auto p-6 lg:p-10 flex flex-col lg:flex-row gap-8 items-start scroll-mt-20">
+      <section id="chapters" className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-10 flex flex-col lg:flex-row gap-6 lg:gap-8 items-start scroll-mt-20">
         
-        {/* Right Column (Chapters Flow) - Appears Second on Mobile */}
-        <div className="flex-1 w-full order-2 lg:order-1">
-          <div className="flex justify-between items-center mb-6">
+        {/* Chapters Flow (Appears First on Mobile) */}
+        <div className="flex-1 w-full order-1 lg:order-1">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
             <div>
-              <span className="text-[10px] text-gray-500 font-bold mb-1 block">هيكل الحوار التفصيلي</span>
-              <h2 className="text-2xl font-bold text-[#1b1d20]">تسلسل المحاور الخمسة وسوالف الحلقة</h2>
+              <span className="text-[10px] text-gray-500 font-bold mb-0.5 block">هيكل الحوار التفصيلي</span>
+              <h2 className="text-xl sm:text-2xl font-bold text-[#1b1d20]">تسلسل المحاور وسوالف الحلقة</h2>
             </div>
             <div className="flex items-center gap-3">
               <RegenerateButton projectId={project.id} label="إعادة توليد بنمط آخر" />
@@ -208,8 +210,8 @@ export default async function EpisodeDeskPage({
           </div>
         </div>
 
-        {/* Left Column (Sidebar Tools) - Appears First on Mobile */}
-        <div className="w-full lg:w-80 space-y-6 order-1 lg:order-2">
+        {/* Left Column (Sidebar Tools) - Appears Second on Mobile */}
+        <div className="w-full lg:w-80 space-y-6 order-2 lg:order-2">
           
           {/* Evidences Box */}
           <div id="sources" className="bg-[#fcfbf9] border border-[#a1824a]/30 rounded-xl overflow-hidden shadow-sm scroll-mt-20">
